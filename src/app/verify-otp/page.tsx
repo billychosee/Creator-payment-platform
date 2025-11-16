@@ -3,7 +3,6 @@
 import { Suspense } from "react";
 import VerifyOTPClient from "./verify-otp-client.tsx";
 
-export const dynamic = 'force-dynamic';
 
 export default function VerifyOTPPage() {
   return (

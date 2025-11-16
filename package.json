@@ -1,18 +1,37 @@
 {
-  "type": "module",
   "name": "creator-payment-platform",
   "version": "1.0.0",
-  "description": "",
+  "description": "A comprehensive platform for content creators to manage payments, payouts, and transactions",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "creator",
+    "payment",
+    "platform",
+    "nextjs",
+    "react",
+    "typescript"
+  ],
+  "author": "Creator Payment Platform Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creator-payment-platform.git"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "@types/node": "^24.10.1",
     "@types/qrcode": "^1.5.6",
@@ -35,5 +54,12 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.9.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^16.0.3",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.0"
+  }
 }
