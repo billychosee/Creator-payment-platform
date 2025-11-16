@@ -35,7 +35,5 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.9.3"
   },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.17"
-  }
+  "devDependencies": {}
 }
