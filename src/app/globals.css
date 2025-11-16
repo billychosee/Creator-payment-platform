@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Zimbabwean Flag Colors: Green, Red, Yellow, Black */
+  /* Bold, vibrant light theme */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 5%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 5%;
+  
+  /* Primary Red - The boldest Zimbabwe color */
+  --primary: 356 85% 50%; /* #E31837 - Vibrant Zimbabwe red */
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary Green - Supporting green element */
+  --secondary: 125 35% 90%; /* Light green background */
+  --secondary-foreground: 125 85% 30%; /* Dark green text */
+  
+  /* Muted tones - Still Zimbabwe colors */
+  --muted: 125 25% 92%;
+  --muted-foreground: 125 60% 35%;
+  
+  /* Accent Yellow - Bright Zimbabwe gold */
+  --accent: 51 100% 55%; /* #FCD116 - Zimbabwe yellow */
+  --accent-foreground: 0 0% 5%;
+  
+  /* Destructive - Different shade of red */
+  --destructive: 356 90% 45%; /* Darker red for errors */
+  --destructive-foreground: 0 0% 100%;
+  
+  /* UI elements - Black theme integration */
+  --border: 0 0% 85%;
+  --input: 0 0% 98%;
+  --ring: 356 85% 55%; /* Red ring */
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Bold dark theme with Zimbabwe flag prominence */
+  --background: 0 0% 2%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 6%;
+  --card-foreground: 0 0% 98%;
+  
+  /* Primary red in dark mode */
+  --primary: 356 75% 60%; /* Vibrant red for dark backgrounds */
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary green for dark */
+  --secondary: 125 40% 15%; /* Dark green background */
+  --secondary-foreground: 125 85% 80%; /* Light green text */
+  
+  /* Muted Zimbabwe colors in dark */
+  --muted: 125 30% 12%;
+  --muted-foreground: 125 60% 70%;
+  
+  /* Yellow accent brighter in dark */
+  --accent: 51 100% 60%; /* Brighter yellow */
+  --accent-foreground: 0 0% 5%;
+  
+  /* Red destructive in dark */
+  --destructive: 356 80% 50%; /* Bright red for alerts */
+  --destructive-foreground: 0 0% 100%;
+  
+  /* UI elements in dark */
+  --border: 0 0% 12%;
+  --input: 0 0% 8%;
+  --ring: 356 75% 65%; /* Red ring for dark */
+}
+
+* {
+  /* Use CSS variable-based border color instead of Tailwind @apply.
+     Replacing `@apply border-border` avoids PostCSS/Tailwind utility resolution issues. */
+  border-color: hsl(var(--border));
+}
+
+body {
+  @apply bg-background text-foreground;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Zimbabwe Flag Enhancement - Make Red More Prominent */
+.primary-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(356 85% 65%) 100%);
+}
+
+.zim-red-accent {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.zim-green-bg {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.zim-yellow-accent {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+/* Enhanced button styles for Zimbabwe theme */
+button:hover, .btn:hover {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Links and interactive elements */
+a:hover, .interactive:hover {
+  color: hsl(var(--primary)) !important;
+  background-color: hsl(var(--secondary));
+}
+
+/* Active sidebar menu items should maintain white text on hover */
+.active-menu-item:hover {
+  color: white !important;
+}
+
+/* Notification dot should turn white on hover */
+.notification-dot:hover {
+  background-color: white !important;
+}
