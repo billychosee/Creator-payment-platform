@@ -18,6 +18,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
+      // Only run on client side
+      if (typeof window === 'undefined') return;
+      
       // Check for saved theme in localStorage
       const savedTheme = localStorage.getItem("theme") as Theme | null;
       
@@ -40,12 +43,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setMounted(true);
     } catch (error) {
       console.error("Error initializing theme:", error);
+      setTheme("light");
       setMounted(true);
     }
   }, []);
 
   const applyTheme = (newTheme: Theme) => {
     try {
+      // Only run on client side
+      if (typeof window === 'undefined') return;
+      
       const html = document.documentElement;
       if (newTheme === "dark") {
         html.classList.add("dark");

@@ -6,11 +6,11 @@ export default function Home() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-yellow-50">
+    <div className="min-h-screen bg-background">
       <nav className="border-b border-border bg-card/50 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">
               CP
             </div>
             <span className="font-bold text-lg">CreatorPay</span>
@@ -27,7 +27,7 @@ export default function Home() {
       </nav>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center space-y-8">
-        <h1 className="text-5xl sm:text-6xl font-bold leading-tight">
+        <h1 className="text-5xl sm:text-6xl font-bold leading-tight text-foreground">
           Monetize Your Influence
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -49,7 +49,7 @@ export default function Home() {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-12">
-        <h2 className="text-3xl font-bold text-center">
+        <h2 className="text-3xl font-bold text-center text-foreground">
           Why Creators Love CreatorPay
         </h2>
 
@@ -83,7 +83,7 @@ export default function Home() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
                   <Icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold">{feature.title}</h3>
+                <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.description}</p>
               </div>
             );
@@ -92,7 +92,7 @@ export default function Home() {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center space-y-6">
-        <h2 className="text-3xl font-bold">Ready to get paid?</h2>
+        <h2 className="text-3xl font-bold text-foreground">Ready to get paid?</h2>
         <p className="text-lg text-muted-foreground">
           Join hundreds of creators monetizing their influence
         </p>

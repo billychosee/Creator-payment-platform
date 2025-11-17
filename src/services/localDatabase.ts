@@ -501,4 +501,7 @@ export class LocalDatabase {
   }
 }
 
-// No automatic initialization - will be called manually from client components
+// Auto-initialize when imported (client-side only)
+if (typeof window !== 'undefined') {
+  LocalDatabase.initialize();
+}
