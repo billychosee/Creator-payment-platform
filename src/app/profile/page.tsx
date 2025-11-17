@@ -5,7 +5,7 @@ import { DashboardLayout } from "@/components/shared/DashboardLayout";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ProfileForm } from "@/components/forms/ProfileForm";
 import { Button } from "@/components/ui/Button";
-import APIService from "@/services/api";
+import { APIService } from "@/services/api";
 import { User } from "@/types";
 import { ExternalLink } from "lucide-react";
 
