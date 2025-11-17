@@ -96,9 +96,11 @@ export default function Home() {
         <p className="text-lg text-muted-foreground">
           Join hundreds of creators monetizing their influence
         </p>
-        <Link href="/signup">
-          <Button size="lg">Create Account</Button>
-        </Link>
+        <div className="flex justify-center">
+          <Link href="/signup">
+            <Button size="lg">Create Account</Button>
+          </Link>
+        </div>
       </section>
 
       <footer className="border-t border-border bg-card/50">
