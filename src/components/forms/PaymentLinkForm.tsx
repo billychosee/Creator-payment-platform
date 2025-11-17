@@ -8,7 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Modal } from "@/components/ui/Modal";
 import { PaymentLinkSuccessModal } from "@/components/ui/PaymentLinkSuccessModal";
 import { DatePicker } from "@/components/ui/DatePicker";
-import { LocalDatabase } from "@/services/localDatabase";
+import { APIService } from "@/services/api";
 import { Upload, Save, X } from "lucide-react";
 
 interface PaymentLinkFormModalProps {
@@ -38,8 +38,16 @@ export const PaymentLinkFormModal = ({
 
   // Get current user data when component mounts
   useEffect(() => {
-    const user = LocalDatabase.getCurrentUser();
-    setCurrentUser(user);
+    const loadCurrentUser = async () => {
+      try {
+        const user = await APIService.getCurrentUser();
+        setCurrentUser(user);
+      } catch (error) {
+        console.error("Failed to load current user:", error);
+      }
+    };
+    
+    loadCurrentUser();
   }, []);
 
   const [formData, setFormData] = useState({
@@ -146,16 +154,27 @@ export const PaymentLinkFormModal = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    if (!validateForm() || !currentUser) {
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Payment Link created:", formData);
+      // Create payment link using API
+      const newPaymentLink = await APIService.createPaymentLink({
+        userId: currentUser.id,
+        name: formData.paymentLinkName,
+        currency: formData.paymentCurrency,
+        reference: formData.reference,
+        description: formData.description,
+        customerRedirectUrl: formData.customerRedirectUrl || undefined,
+        customerFailRedirectUrl: formData.customerFailRedirectUrl || undefined,
+        startDate: formData.startDate ? new Date(formData.startDate) : undefined,
+        expiryDate: formData.expiryDate ? new Date(formData.expiryDate) : undefined,
+      });
+
+      console.log("Payment Link created:", newPaymentLink);
 
       // Store the created payment link data for success modal
       setCreatedPaymentLink({
@@ -181,6 +200,7 @@ export const PaymentLinkFormModal = ({
       setShowSuccessModal(true);
     } catch (error) {
       console.error("Error creating payment link:", error);
+      setErrors({ submit: "Failed to create payment link. Please try again." });
     } finally {
       setIsLoading(false);
     }

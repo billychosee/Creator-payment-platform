@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/shared/DashboardLayout";
 import { StatCard } from "@/components/cards/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -16,10 +17,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { LocalDatabase } from "@/services/localDatabase";
+import { APIService } from "@/services/api";
 import { formatCurrency } from "@/lib/utils";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [period, setPeriod] = useState<
     "daily" | "weekly" | "monthly" | "yearly"
   >("daily");
@@ -34,12 +36,20 @@ export default function DashboardPage() {
 
   // Load user data and stats
   useEffect(() => {
-    const user = LocalDatabase.getCurrentUser();
-    if (user) {
-      setCurrentUser(user);
-      const userStats = LocalDatabase.getDashboardStats(user.id);
-      setStats(userStats);
-    }
+    const loadData = async () => {
+      try {
+        const user = await APIService.getCurrentUser();
+        if (user) {
+          setCurrentUser(user);
+          const userStats = await APIService.getDashboardStats(user.id);
+          setStats(userStats);
+        }
+      } catch (error) {
+        console.error("Failed to load dashboard data:", error);
+      }
+    };
+
+    loadData();
   }, []);
 
   const chartData = generateMockChartData(period);
@@ -196,7 +206,11 @@ export default function DashboardPage() {
               <p className="text-sm text-muted-foreground">
                 Generate a link for supporters to send you money
               </p>
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => router.push('/payments/payment-link')}
+              >
                 Create Now
               </Button>
             </CardContent>
@@ -207,7 +221,11 @@ export default function DashboardPage() {
               <p className="text-sm text-muted-foreground">
                 Ask a brand or client to pay for your work
               </p>
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => router.push('/payments/payment-request')}
+              >
                 Request Now
               </Button>
             </CardContent>
@@ -218,7 +236,11 @@ export default function DashboardPage() {
               <p className="text-sm text-muted-foreground">
                 Receive your earnings to your bank account
               </p>
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => router.push('/payments/payouts')}
+              >
                 Withdraw
               </Button>
             </CardContent>

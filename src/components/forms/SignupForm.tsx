@@ -75,26 +75,26 @@ export const SignupForm = ({ onSkip }: SignupFormProps) => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      // Import local database
-      const { LocalDatabase } = await import("@/services/localDatabase");
+      // Import API service
+      const APIService = await import("@/services/api");
       
       // Check if user already exists
-      const existingUser = LocalDatabase.getUserByEmail(formData.email);
+      const existingUser = await APIService.getUserByEmail(formData.email);
       if (existingUser) {
         setErrors({ email: "An account with this email already exists" });
         setIsLoading(false);
         return;
       }
 
-      const existingUsername = LocalDatabase.getUserByUsername(formData.username);
+      const existingUsername = await APIService.getUserByUsername(formData.username);
       if (existingUsername) {
         setErrors({ username: "This username is already taken" });
         setIsLoading(false);
         return;
       }
 
-      // Create user in local database
-      const newUser = LocalDatabase.createUser({
+      // Create user using API
+      const newUser = await APIService.createUser({
         username: formData.username,
         email: formData.email,
         password: formData.password,
@@ -104,11 +104,8 @@ export const SignupForm = ({ onSkip }: SignupFormProps) => {
         }
       });
 
-      // Store password for authentication
-      localStorage.setItem(`password_${newUser.id}`, formData.password);
-
       // Set current user
-      LocalDatabase.setCurrentUser(newUser.id);
+      await APIService.setCurrentUser(newUser.id);
       
       // Redirect to dashboard
       router.push("/dashboard");

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { DatePicker } from "@/components/ui/DatePicker";
+import { PaymentLinkViewModal } from "@/components/ui/PaymentLinkViewModal";
 import { formatDateWithTime } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, Search, ExternalLink, Calendar } from "lucide-react";
 
@@ -23,6 +24,8 @@ export const PaymentLinksList = ({
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive" | "expired">("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [selectedPaymentLink, setSelectedPaymentLink] = useState<any>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const itemsPerPage = 10;
 
   const filteredPaymentLinks = useMemo(() => {
@@ -248,7 +251,10 @@ export const PaymentLinksList = ({
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => window.open(link.shareUrl, '_blank')}
+                              onClick={() => {
+                                setSelectedPaymentLink(link);
+                                setIsViewModalOpen(true);
+                              }}
                               className="flex items-center gap-1"
                             >
                               <ExternalLink size={12} />
@@ -307,6 +313,16 @@ export const PaymentLinksList = ({
           </>
         )}
       </CardContent>
+
+      {/* Payment Link View Modal */}
+      <PaymentLinkViewModal
+        isOpen={isViewModalOpen}
+        onClose={() => {
+          setIsViewModalOpen(false);
+          setSelectedPaymentLink(null);
+        }}
+        paymentLink={selectedPaymentLink}
+      />
     </Card>
   );
 };

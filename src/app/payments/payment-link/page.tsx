@@ -1,15 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/shared/DashboardLayout";
 import { PaymentLinkFormModal } from "@/components/forms/PaymentLinkForm";
 import { PaymentLinksList } from "@/components/tables/PaymentLinksList";
 import { Button } from "@/components/ui/Button";
+import { APIService } from "@/services/api";
 import { Plus } from "lucide-react";
-import { MOCK_PAYMENT_LINKS } from "@/services/mock";
+import { PaymentLink } from "@/types";
 
 export default function PaymentLinkPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentLinks, setPaymentLinks] = useState<PaymentLink[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // Load current user and payment links
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Get current user
+        const user = await APIService.getCurrentUser();
+        if (user) {
+          setCurrentUser(user);
+          
+          // Get payment links for this user
+          const links = await APIService.getPaymentLinks(user.id);
+          setPaymentLinks(links);
+        }
+      } catch (error) {
+        console.error("Failed to load payment links:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Callback to refresh payment links after creating a new one
+  const handlePaymentLinkCreated = async () => {
+    if (currentUser) {
+      try {
+        const links = await APIService.getPaymentLinks(currentUser.id);
+        setPaymentLinks(links);
+      } catch (error) {
+        console.error("Failed to refresh payment links:", error);
+      }
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -27,11 +66,17 @@ export default function PaymentLinkPage() {
           </Button>
         </div>
 
-        <PaymentLinksList paymentLinks={MOCK_PAYMENT_LINKS} />
+        <PaymentLinksList
+          paymentLinks={paymentLinks}
+          isLoading={isLoading}
+        />
 
-        <PaymentLinkFormModal 
-          isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
+        <PaymentLinkFormModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            handlePaymentLinkCreated();
+          }}
         />
       </div>
     </DashboardLayout>

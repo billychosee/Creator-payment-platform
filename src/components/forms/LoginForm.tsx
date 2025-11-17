@@ -55,14 +55,14 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
   const handleProfileSetupComplete = async (profileData: any) => {
     try {
-      // Import local database
-      const { LocalDatabase } = await import("@/services/localDatabase");
+      // Import API service
+      const APIService = await import("@/services/api");
       
       // Get current user
-      const currentUser = LocalDatabase.getCurrentUser();
+      const currentUser = await APIService.getCurrentUser();
       if (currentUser) {
         // Update user with profile completion data
-        LocalDatabase.updateUser(currentUser.id, {
+        await APIService.updateUser(currentUser.id, {
           tagline: profileData.tagline || currentUser.tagline,
           bio: profileData.bio || currentUser.bio,
           socialLinks: {
@@ -87,11 +87,11 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
     setIsLoading(true);
     try {
-      // Import local database
-      const { LocalDatabase } = await import("@/services/localDatabase");
+      // Import API service
+      const APIService = await import("@/services/api");
       
-      // Authenticate user using local database
-      const user = LocalDatabase.authenticate(formData.email, formData.password);
+      // Authenticate user using API
+      const user = await APIService.authenticate(formData.email, formData.password);
       
       if (user) {
         // Check if this is the demo user with no password set yet

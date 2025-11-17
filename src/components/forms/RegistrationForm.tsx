@@ -141,29 +141,31 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
     setIsLoading(true);
     try {
-      // Placeholder API call - replace with actual registration logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Import API service
+      const APIService = await import("@/services/api");
       
+      // Check if user already exists
+      const existingUser = await APIService.getUserByEmail(formData.email);
+      if (existingUser) {
+        setErrors({ email: "An account with this email already exists" });
+        setIsLoading(false);
+        return;
+      }
+
       // Generate OTP code
       const otpCode = generateOTP();
       
-      // Store user data with OTP verification status (in real app, this would be handled by backend)
-      const userData = {
-        title: formData.title,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+      // Create user using API service with consistent format
+      const newUser = await APIService.createUser({
+        username: `${formData.firstName.toLowerCase()}_${formData.lastName.toLowerCase()}_${Date.now()}`,
         email: formData.email,
-        password: formData.password, // In production, password should be hashed
-        isEmailVerified: false,
-        otpCode: otpCode,
-        otpExpiry: Date.now() + (10 * 60 * 1000), // 10 minutes expiry
+        password: formData.password,
+        tagline: `${formData.title} ${formData.firstName} ${formData.lastName}`,
+        bio: `Social Media: ${formData.socialLink || 'Not provided'}`,
         socialLinks: {
-          primary: formData.socialLink,
-        },
-      };
-      
-      localStorage.setItem("user", JSON.stringify(userData));
-      localStorage.setItem("pendingVerification", "true");
+          primary: formData.socialLink || undefined,
+        }
+      });
       
       // Send OTP verification email
       setVerificationEmail(formData.email);
@@ -185,17 +187,18 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
   };
 
   const handleResendOTP = async () => {
-    const userData = JSON.parse(localStorage.getItem("user") || "{}");
-    if (userData.email) {
-      const newOTP = generateOTP();
-      const updatedUserData = {
-        ...userData,
-        otpCode: newOTP,
-        otpExpiry: Date.now() + (10 * 60 * 1000), // 10 minutes expiry
-      };
+    try {
+      // Import API service
+      const APIService = await import("@/services/api");
       
-      localStorage.setItem("user", JSON.stringify(updatedUserData));
-      await sendVerificationEmail(userData.email, newOTP);
+      // Get current user
+      const currentUser = await APIService.getCurrentUser();
+      if (currentUser && currentUser.email) {
+        const newOTP = generateOTP();
+        await sendVerificationEmail(currentUser.email, newOTP);
+      }
+    } catch (error) {
+      console.error("Failed to resend OTP:", error);
     }
   };
 
