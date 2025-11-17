@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Modal } from "@/components/ui/Modal";
 import { PaymentLinkSuccessModal } from "@/components/ui/PaymentLinkSuccessModal";
 import { DatePicker } from "@/components/ui/DatePicker";
+import { LocalDatabase } from "@/services/localDatabase";
 import { Upload, Save, X } from "lucide-react";
 
 interface PaymentLinkFormModalProps {
@@ -27,12 +28,19 @@ export const PaymentLinkFormModal = ({
     reference: string;
     paymentCurrency: string;
   } | null>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   // Helper function to get today's date in YYYY-MM-DD format
   const getTodayDate = () => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   };
+
+  // Get current user data when component mounts
+  useEffect(() => {
+    const user = LocalDatabase.getCurrentUser();
+    setCurrentUser(user);
+  }, []);
 
   const [formData, setFormData] = useState({
     paymentLinkName: "",
@@ -198,6 +206,18 @@ export const PaymentLinkFormModal = ({
   const handleSuccessModalClose = () => {
     setShowSuccessModal(false);
     setCreatedPaymentLink(null);
+  };
+
+  // Prepare user data for the success modal
+  const getUserDataForModal = () => {
+    if (!currentUser) return undefined;
+
+    return {
+      name: currentUser.username || currentUser.email,
+      email: currentUser.email,
+      address: "4056 4th street Dzivaresekwa", // Static address as per requirement
+      telephone: "0788559154", // Static telephone as per requirement
+    };
   };
 
   return (
@@ -369,12 +389,13 @@ export const PaymentLinkFormModal = ({
         </form>
       </Modal>
 
-      {/* Success Modal with QR Code */}
+      {/* Success Modal with QR Code and User Information */}
       {createdPaymentLink && (
         <PaymentLinkSuccessModal
           isOpen={showSuccessModal}
           onClose={handleSuccessModalClose}
           paymentLinkData={createdPaymentLink}
+          userData={getUserDataForModal()}
         />
       )}
     </>

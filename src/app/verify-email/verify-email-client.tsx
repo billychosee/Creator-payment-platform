@@ -24,12 +24,24 @@ export default function VerifyEmailClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
 
+  // Handle email verification process
   useEffect(() => {
-    // Check if this is a success redirect from OTP verification
     const success = searchParams.get("success");
     const name = searchParams.get("name");
     
     if (success === "true" && name) {
+      // Update localStorage to mark email as verified
+      const savedUser = localStorage.getItem("user");
+      if (savedUser) {
+        const userData = JSON.parse(savedUser);
+        userData.isEmailVerified = true;
+        userData.verifiedAt = new Date().toISOString();
+        localStorage.setItem("user", JSON.stringify(userData));
+        
+        // Clear pending verification flag
+        localStorage.removeItem("pendingVerification");
+      }
+      
       setVerificationResult({
         success: true,
         message: "Email verified successfully! You can now login to your account.",

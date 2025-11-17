@@ -30,10 +30,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     email: "",
     password: "",
     confirmPassword: "",
-    tiktok: "",
-    instagram: "",
-    youtube: "",
-    twitter: "",
+    socialLink: "",
     acceptTerms: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -72,9 +69,10 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     if (!formData.password) newErrors.password = "Password is required";
     if (!formData.confirmPassword) newErrors.confirmPassword = "Confirm password is required";
     
-    // Require at least one social media link (TikTok is required, others are optional)
-    if (!formData.tiktok.trim() && !formData.instagram.trim() && !formData.youtube.trim() && !formData.twitter.trim()) {
-      newErrors.tiktok = "Please provide at least one social media handle (TikTok required)";
+    // Social media link is optional, no validation required
+    // Optional: add validation if you want to validate the format of the social link
+    if (formData.socialLink.trim() && !formData.socialLink.includes('.') && !formData.socialLink.startsWith('@')) {
+      newErrors.socialLink = "Please provide a valid social media link or username";
     }
     
     if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
@@ -109,10 +107,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     console.log("Sending verification OTP email to:", email);
     console.log("OTP Code:", otp);
     console.log("User social media data:", {
-      tiktok: formData.tiktok,
-      instagram: formData.instagram,
-      youtube: formData.youtube,
-      twitter: formData.twitter,
+      socialLink: formData.socialLink,
     });
     
     // In a real application, you would use an email service like:
@@ -162,11 +157,8 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
         isEmailVerified: false,
         otpCode: otpCode,
         otpExpiry: Date.now() + (10 * 60 * 1000), // 10 minutes expiry
-        socialMedia: {
-          tiktok: formData.tiktok,
-          instagram: formData.instagram,
-          youtube: formData.youtube,
-          twitter: formData.twitter,
+        socialLinks: {
+          primary: formData.socialLink,
         },
       };
       
@@ -347,40 +339,12 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
               <h3 className="text-sm font-medium text-foreground">Social Media Presence (Optional)</h3>
               
               <Input
-                label="TikTok Username *"
-                name="tiktok"
-                value={formData.tiktok}
+                label="Primary Social Link"
+                name="socialLink"
+                value={formData.socialLink}
                 onChange={handleChange}
-                placeholder="@yourusername"
-                error={errors.tiktok}
-                required
-              />
-
-              <Input
-                label="Instagram"
-                name="instagram"
-                value={formData.instagram}
-                onChange={handleChange}
-                placeholder="@yourusername (optional)"
-                error={errors.instagram}
-              />
-
-              <Input
-                label="YouTube Channel"
-                name="youtube"
-                value={formData.youtube}
-                onChange={handleChange}
-                placeholder="Your channel name (optional)"
-                error={errors.youtube}
-              />
-
-              <Input
-                label="Twitter/X"
-                name="twitter"
-                value={formData.twitter}
-                onChange={handleChange}
-                placeholder="@yourusername (optional)"
-                error={errors.twitter}
+                placeholder="https://your-social-profile.com or @username"
+                error={errors.socialLink}
               />
             </div>
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
-import { Copy, QrCode, Check, ExternalLink } from "lucide-react";
+import { Copy, QrCode, Check, ExternalLink, Download } from "lucide-react";
 import QRCode from "qrcode";
 
 interface PaymentLinkSuccessModalProps {
@@ -14,12 +14,19 @@ interface PaymentLinkSuccessModalProps {
     reference: string;
     paymentCurrency: string;
   };
+  userData?: {
+    name?: string;
+    email?: string;
+    address?: string;
+    telephone?: string;
+  };
 }
 
 export const PaymentLinkSuccessModal = ({ 
   isOpen, 
   onClose, 
-  paymentLinkData 
+  paymentLinkData,
+  userData
 }: PaymentLinkSuccessModalProps) => {
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
   const [copied, setCopied] = useState(false);
@@ -59,9 +66,27 @@ export const PaymentLinkSuccessModal = ({
     }
   };
   
+  const handleDownloadQR = () => {
+    if (qrCodeUrl) {
+      // Create a temporary link element to trigger download
+      const link = document.createElement('a');
+      link.href = qrCodeUrl;
+      link.download = `${paymentLinkData.paymentLinkName.replace(/\s+/g, '-')}-qr-code.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+  
   const handleClose = () => {
     setCopied(false);
     onClose();
+  };
+  
+  // Get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
   };
   
   return (
@@ -87,6 +112,41 @@ export const PaymentLinkSuccessModal = ({
             </p>
           </div>
         </div>
+        
+        {/* User Information */}
+        {userData && (
+          <div className="bg-secondary/20 rounded-lg p-4 space-y-2">
+            <h4 className="text-sm font-semibold text-foreground mb-3">Payment Details</h4>
+            {userData.name && (
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted-foreground">Name:</span>
+                <span className="font-medium text-foreground">{userData.name}</span>
+              </div>
+            )}
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-muted-foreground">Date:</span>
+              <span className="font-medium text-foreground">{getTodayDate()}</span>
+            </div>
+            {userData.email && (
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted-foreground">Email:</span>
+                <span className="font-medium text-foreground">{userData.email}</span>
+              </div>
+            )}
+            {userData.address && (
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted-foreground">Address:</span>
+                <span className="font-medium text-foreground text-right">{userData.address}</span>
+              </div>
+            )}
+            {userData.telephone && (
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted-foreground">Telephone:</span>
+                <span className="font-medium text-foreground">{userData.telephone}</span>
+              </div>
+            )}
+          </div>
+        )}
         
         {/* Payment Link */}
         <div className="space-y-3">
@@ -123,16 +183,32 @@ export const PaymentLinkSuccessModal = ({
         
         {/* QR Code */}
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-foreground">
-            QR Code
-          </label>
+          <div className="flex items-center justify-between">
+            <label className="block text-sm font-medium text-foreground">
+              QR Code
+            </label>
+            {qrCodeUrl && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleDownloadQR}
+                className="text-primary border-primary hover:bg-primary hover:text-white"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download
+              </Button>
+            )}
+          </div>
           <div className="flex justify-center">
             <div className="p-4 border border-border rounded-lg bg-background">
               {qrCodeUrl ? (
                 <img 
                   src={qrCodeUrl} 
                   alt="Payment Link QR Code" 
-                  className="w-48 h-48"
+                  className="w-48 h-48 cursor-pointer"
+                  onClick={handleDownloadQR}
+                  title="Click to download QR code"
                 />
               ) : (
                 <div className="w-48 h-48 flex items-center justify-center">

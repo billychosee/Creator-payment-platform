@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/shared/DashboardLayout";
 import { StatCard } from "@/components/cards/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -16,7 +16,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { generateMockChartData, getMockDashboardStats } from "@/services/mock";
+import { LocalDatabase } from "@/services/localDatabase";
 import { formatCurrency } from "@/lib/utils";
 
 export default function DashboardPage() {
@@ -24,9 +24,55 @@ export default function DashboardPage() {
     "daily" | "weekly" | "monthly" | "yearly"
   >("daily");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [stats, setStats] = useState({
+    totalEarnings: 0,
+    todayEarnings: 0,
+    pendingPayouts: 0,
+    totalTransactions: 0
+  });
 
-  const stats = getMockDashboardStats();
+  // Load user data and stats
+  useEffect(() => {
+    const user = LocalDatabase.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+      const userStats = LocalDatabase.getDashboardStats(user.id);
+      setStats(userStats);
+    }
+  }, []);
+
   const chartData = generateMockChartData(period);
+
+  function generateMockChartData(period: string) {
+    const data = [];
+    const now = new Date();
+    const days = period === "daily" ? 7 : period === "weekly" ? 4 : period === "monthly" ? 12 : 5;
+    
+    for (let i = days - 1; i >= 0; i--) {
+      const date = new Date(now);
+      if (period === "daily") {
+        date.setDate(date.getDate() - i);
+      } else if (period === "weekly") {
+        date.setDate(date.getDate() - (i * 7));
+      } else if (period === "monthly") {
+        date.setMonth(date.getMonth() - i);
+      } else {
+        date.setFullYear(date.getFullYear() - i);
+      }
+      
+      data.push({
+        name: period === "daily" ? date.toLocaleDateString('en-US', { weekday: 'short' }) :
+              period === "weekly" ? `Week ${days - i}` :
+              period === "monthly" ? date.toLocaleDateString('en-US', { month: 'short' }) :
+              date.getFullYear().toString(),
+        earnings: Math.floor(Math.random() * 500) + 100,
+        transactions: Math.floor(Math.random() * 20) + 5,
+      });
+    }
+    
+    return data;
+  }
 
   const handlePeriodChange = async (
     newPeriod: "daily" | "weekly" | "monthly" | "yearly"

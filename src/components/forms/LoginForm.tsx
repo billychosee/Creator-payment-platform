@@ -53,18 +53,31 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleProfileSetupComplete = (profileData: any) => {
-    // Save profile completion status
-    const userData = JSON.parse(localStorage.getItem("user") || "{}");
-    userData.accountType = 'individual';
-    userData.profileData = profileData;
-    userData.profileCompletedAt = new Date().toISOString();
-    userData.hasCompletedProfileSetup = true;
-    localStorage.setItem("user", JSON.stringify(userData));
-    
-    setShowProfileSetup(false);
-    router.push("/dashboard");
-    if (onSuccess) onSuccess();
+  const handleProfileSetupComplete = async (profileData: any) => {
+    try {
+      // Import local database
+      const { LocalDatabase } = await import("@/services/localDatabase");
+      
+      // Get current user
+      const currentUser = LocalDatabase.getCurrentUser();
+      if (currentUser) {
+        // Update user with profile completion data
+        LocalDatabase.updateUser(currentUser.id, {
+          tagline: profileData.tagline || currentUser.tagline,
+          bio: profileData.bio || currentUser.bio,
+          socialLinks: {
+            ...currentUser.socialLinks,
+            ...profileData.socialLinks
+          }
+        });
+      }
+      
+      setShowProfileSetup(false);
+      router.push("/dashboard");
+      if (onSuccess) onSuccess();
+    } catch (error) {
+      console.error("Failed to save profile setup:", error);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,42 +87,29 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
     setIsLoading(true);
     try {
-      // Placeholder API call - replace with actual login logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Import local database
+      const { LocalDatabase } = await import("@/services/localDatabase");
       
-      // Check if user exists in localStorage (in real app, this would be handled by backend)
-      const savedUser = localStorage.getItem("user");
-      if (savedUser) {
-        const userData = JSON.parse(savedUser);
-        if (userData.email === formData.email) {
-          // Check if email is verified
-          if (!userData.isEmailVerified) {
-            setErrors({
-              submit: "Please verify your email address before logging in. Check your email for the verification code and enter it on the OTP verification page."
-            });
-            return;
-          }
-          
-          // Check password (in production, this would be handled by backend)
-          if (userData.password !== formData.password) {
-            setErrors({ submit: "Invalid email or password" });
-            return;
-          }
-          
-          localStorage.setItem("isLoggedIn", "true");
-          
-          // Check if user needs to complete profile setup
-          if (!userData.hasCompletedProfileSetup) {
-            setShowProfileSetup(true);
-          } else {
-            router.push("/dashboard");
-            if (onSuccess) onSuccess();
-          }
-          return;
+      // Authenticate user using local database
+      const user = LocalDatabase.authenticate(formData.email, formData.password);
+      
+      if (user) {
+        // Check if this is the demo user with no password set yet
+        if (user.email === "demo@example.com") {
+          // Store the password for future logins
+          localStorage.setItem(`password_${user.id}`, formData.password);
         }
+        
+        // User is authenticated, check if they need profile setup
+        if (!user.tagline || !user.username) {
+          setShowProfileSetup(true);
+        } else {
+          router.push("/dashboard");
+          if (onSuccess) onSuccess();
+        }
+      } else {
+        setErrors({ submit: "Invalid email or password. Try demo@example.com with any password." });
       }
-      
-      setErrors({ submit: "No account found with this email address. Please register first." });
     } catch (error) {
       console.error("Login failed:", error);
       setErrors({ submit: "Login failed. Please check your credentials." });

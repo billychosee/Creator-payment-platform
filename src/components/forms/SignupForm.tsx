@@ -24,10 +24,7 @@ export const SignupForm = ({ onSkip }: SignupFormProps) => {
   const [formData, setFormData] = useState({
     username: "",
     tagline: "",
-    twitter: "",
-    instagram: "",
-    tiktok: "",
-    youtube: "",
+    socialLink: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -78,12 +75,46 @@ export const SignupForm = ({ onSkip }: SignupFormProps) => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      // Placeholder API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      localStorage.setItem("user", JSON.stringify(formData));
+      // Import local database
+      const { LocalDatabase } = await import("@/services/localDatabase");
+      
+      // Check if user already exists
+      const existingUser = LocalDatabase.getUserByEmail(formData.email);
+      if (existingUser) {
+        setErrors({ email: "An account with this email already exists" });
+        setIsLoading(false);
+        return;
+      }
+
+      const existingUsername = LocalDatabase.getUserByUsername(formData.username);
+      if (existingUsername) {
+        setErrors({ username: "This username is already taken" });
+        setIsLoading(false);
+        return;
+      }
+
+      // Create user in local database
+      const newUser = LocalDatabase.createUser({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        tagline: formData.tagline,
+        socialLinks: {
+          primary: formData.socialLink || undefined
+        }
+      });
+
+      // Store password for authentication
+      localStorage.setItem(`password_${newUser.id}`, formData.password);
+
+      // Set current user
+      LocalDatabase.setCurrentUser(newUser.id);
+      
+      // Redirect to dashboard
       router.push("/dashboard");
     } catch (error) {
       console.error("Signup failed:", error);
+      setErrors({ submit: "Failed to create account. Please try again." });
     } finally {
       setIsLoading(false);
     }
@@ -129,32 +160,11 @@ export const SignupForm = ({ onSkip }: SignupFormProps) => {
                 Connect your social accounts (optional)
               </p>
               <Input
-                label="Twitter"
-                name="twitter"
-                value={formData.twitter}
+                label="Social Media (Optional)"
+                name="socialLink"
+                value={formData.socialLink}
                 onChange={handleChange}
-                placeholder="@yourhandle"
-              />
-              <Input
-                label="Instagram"
-                name="instagram"
-                value={formData.instagram}
-                onChange={handleChange}
-                placeholder="@yourhandle"
-              />
-              <Input
-                label="TikTok"
-                name="tiktok"
-                value={formData.tiktok}
-                onChange={handleChange}
-                placeholder="@yourhandle"
-              />
-              <Input
-                label="YouTube"
-                name="youtube"
-                value={formData.youtube}
-                onChange={handleChange}
-                placeholder="Your channel name"
+                placeholder="https://your-profile.com or @username"
               />
             </div>
           )}

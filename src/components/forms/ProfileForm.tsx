@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
+import { LocalDatabase } from "@/services/localDatabase";
+import { User } from "@/types";
 import {
   Card,
   CardContent,
@@ -13,16 +16,32 @@ import {
 } from "@/components/ui/Card";
 
 export const ProfileForm = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [formData, setFormData] = useState({
-    username: "alex_creator",
-    tagline: "Digital creator | Content filmmaker",
-    bio: "Creating amazing content for amazing people",
-    twitter: "@alex_creator",
-    instagram: "@alexcreator",
-    tiktok: "@alexcreator",
-    youtube: "AlexCreatorChannel",
+    username: "",
+    tagline: "",
+    bio: "",
+    socialLink: "",
   });
+
+  // Load current user data
+  useEffect(() => {
+    const user = LocalDatabase.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+      setFormData({
+        username: user.username,
+        tagline: user.tagline || "",
+        bio: user.bio || "",
+        socialLink: user.socialLinks?.primary || "",
+      });
+    } else {
+      // Redirect to login if not authenticated
+      router.push("/login");
+    }
+  }, [router]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,9 +51,33 @@ export const ProfileForm = () => {
   };
 
   const handleSubmit = async () => {
+    if (!currentUser) return;
+    
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
+    try {
+      // Update user profile in local database
+      LocalDatabase.updateUser(currentUser.id, {
+        username: formData.username,
+        tagline: formData.tagline,
+        bio: formData.bio,
+        socialLinks: {
+          primary: formData.socialLink || undefined,
+        }
+      });
+
+      // Refresh current user data
+      const updatedUser = LocalDatabase.getCurrentUser();
+      if (updatedUser) {
+        setCurrentUser(updatedUser);
+      }
+      
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      alert("Failed to update profile. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -53,9 +96,13 @@ export const ProfileForm = () => {
           </label>
           <div className="flex items-center gap-4">
             <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=alex"
+              src={currentUser?.profileImage || "/placeholder-avatar.png"}
               alt="Profile"
               className="w-16 h-16 rounded-full"
+              onError={(e) => {
+                // Fallback to a placeholder if image fails to load
+                (e.target as HTMLImageElement).src = "/placeholder-avatar.png";
+              }}
             />
             <Button variant="outline">Upload New Photo</Button>
           </div>
@@ -88,32 +135,11 @@ export const ProfileForm = () => {
         <div className="space-y-4">
           <h4 className="font-semibold text-sm">Social Links</h4>
           <Input
-            label="Twitter"
-            name="twitter"
-            value={formData.twitter}
+            label="Primary Social Link"
+            name="socialLink"
+            value={formData.socialLink}
             onChange={handleChange}
-            placeholder="@yourhandle"
-          />
-          <Input
-            label="Instagram"
-            name="instagram"
-            value={formData.instagram}
-            onChange={handleChange}
-            placeholder="@yourhandle"
-          />
-          <Input
-            label="TikTok"
-            name="tiktok"
-            value={formData.tiktok}
-            onChange={handleChange}
-            placeholder="@yourhandle"
-          />
-          <Input
-            label="YouTube"
-            name="youtube"
-            value={formData.youtube}
-            onChange={handleChange}
-            placeholder="Your channel name"
+            placeholder="https://your-profile.com or @username"
           />
         </div>
 

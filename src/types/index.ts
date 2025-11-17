@@ -16,6 +16,7 @@ export interface SocialLinks {
   youtube?: string;
   twitch?: string;
   linkedin?: string;
+  primary?: string;
 }
 
 export interface Transaction {
