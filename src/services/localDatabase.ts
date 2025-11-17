@@ -29,8 +29,23 @@ const generateId = (): string => {
 
 // Local Database Service
 export class LocalDatabase {
-  // Initialize with sample data if empty
+  // Check if we're in the browser before accessing localStorage
+  private static checkLocalStorageAccess(): boolean {
+    if (typeof window === 'undefined') return false;
+    try {
+      const testKey = '__localStorage_test__';
+      localStorage.setItem(testKey, 'test');
+      localStorage.removeItem(testKey);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // Initialize with sample data if empty (client-side only)
   static initialize() {
+    if (!this.checkLocalStorageAccess()) return;
+    
     if (!localStorage.getItem(DB_KEYS.NEXT_IDS)) {
       const nextIds = {
         users: 1,
@@ -48,6 +63,8 @@ export class LocalDatabase {
 
   // Add sample data for demonstration
   static addSampleData() {
+    if (!this.checkLocalStorageAccess()) return;
+
     const sampleUser: User = {
       id: "demo-user-1",
       username: "demo_creator",
@@ -131,6 +148,8 @@ export class LocalDatabase {
 
   // Get next ID for a table
   private static getNextId(table: NextIdTableKey): string {
+    if (!this.checkLocalStorageAccess()) throw new Error("localStorage not available");
+    
     const nextIds = JSON.parse(localStorage.getItem(DB_KEYS.NEXT_IDS) || "{}");
     const id = nextIds[table] || 1;
     nextIds[table] = (id as number) + 1;
@@ -159,12 +178,15 @@ export class LocalDatabase {
 
     const users = this.getUsers();
     users.push(newUser);
-    localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+    }
 
     return newUser;
   }
 
   static getUsers(): User[] {
+    if (!this.checkLocalStorageAccess()) return [];
     return JSON.parse(localStorage.getItem(DB_KEYS.USERS) || "[]");
   }
 
@@ -185,16 +207,21 @@ export class LocalDatabase {
     if (userIndex === -1) return null;
 
     users[userIndex] = { ...users[userIndex], ...updates };
-    localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+    }
 
     return users[userIndex];
   }
 
   static setCurrentUser(userId: string): void {
+    if (!this.checkLocalStorageAccess()) return;
     localStorage.setItem(DB_KEYS.CURRENT_USER, userId);
   }
 
   static getCurrentUser(): User | null {
+    if (!this.checkLocalStorageAccess()) return null;
+    
     const currentUserId = localStorage.getItem(DB_KEYS.CURRENT_USER);
     if (!currentUserId) return null;
 
@@ -203,6 +230,7 @@ export class LocalDatabase {
   }
 
   static logout(): void {
+    if (!this.checkLocalStorageAccess()) return;
     localStorage.removeItem(DB_KEYS.CURRENT_USER);
   }
 
@@ -211,7 +239,9 @@ export class LocalDatabase {
     const user = this.getUserByEmail(email);
     if (user) {
       // Store password during authentication attempt
-      localStorage.setItem(`password_${user.id}`, password);
+      if (this.checkLocalStorageAccess()) {
+        localStorage.setItem(`password_${user.id}`, password);
+      }
       
       // For demo purposes, we'll accept any password for existing users
       // In production, this would properly validate the password hash
@@ -246,12 +276,15 @@ export class LocalDatabase {
 
     const transactions = this.getTransactions();
     transactions.push(newTransaction);
-    localStorage.setItem(DB_KEYS.TRANSACTIONS, JSON.stringify(transactions));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.TRANSACTIONS, JSON.stringify(transactions));
+    }
 
     return newTransaction;
   }
 
   static getTransactions(userId?: string): Transaction[] {
+    if (!this.checkLocalStorageAccess()) return [];
     const transactions = JSON.parse(localStorage.getItem(DB_KEYS.TRANSACTIONS) || "[]");
     return userId ? transactions.filter((txn: Transaction) => txn.userId === userId) : transactions;
   }
@@ -274,12 +307,15 @@ export class LocalDatabase {
 
     const payouts = this.getPayouts();
     payouts.push(newPayout);
-    localStorage.setItem(DB_KEYS.PAYOUTS, JSON.stringify(payouts));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.PAYOUTS, JSON.stringify(payouts));
+    }
 
     return newPayout;
   }
 
   static getPayouts(userId?: string): Payout[] {
+    if (!this.checkLocalStorageAccess()) return [];
     const payouts = JSON.parse(localStorage.getItem(DB_KEYS.PAYOUTS) || "[]");
     return userId ? payouts.filter((payout: Payout) => payout.userId === userId) : payouts;
   }
@@ -290,12 +326,14 @@ export class LocalDatabase {
     
     if (payoutIndex === -1) return null;
 
-    payouts[payoutIndex] = { 
-      ...payouts[payoutIndex], 
-      status, 
-      ...(completedAt && { completedAt }) 
+    payouts[payoutIndex] = {
+      ...payouts[payoutIndex],
+      status,
+      ...(completedAt && { completedAt })
     };
-    localStorage.setItem(DB_KEYS.PAYOUTS, JSON.stringify(payouts));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.PAYOUTS, JSON.stringify(payouts));
+    }
 
     return payouts[payoutIndex];
   }
@@ -332,12 +370,15 @@ export class LocalDatabase {
 
     const paymentLinks = this.getPaymentLinks();
     paymentLinks.push(newPaymentLink);
-    localStorage.setItem(DB_KEYS.PAYMENT_LINKS, JSON.stringify(paymentLinks));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.PAYMENT_LINKS, JSON.stringify(paymentLinks));
+    }
 
     return newPaymentLink;
   }
 
   static getPaymentLinks(userId?: string): PaymentLink[] {
+    if (!this.checkLocalStorageAccess()) return [];
     const paymentLinks = JSON.parse(localStorage.getItem(DB_KEYS.PAYMENT_LINKS) || "[]");
     return userId ? paymentLinks.filter((link: PaymentLink) => link.userId === userId) : paymentLinks;
   }
@@ -349,7 +390,9 @@ export class LocalDatabase {
     if (linkIndex === -1) return null;
 
     paymentLinks[linkIndex] = { ...paymentLinks[linkIndex], status };
-    localStorage.setItem(DB_KEYS.PAYMENT_LINKS, JSON.stringify(paymentLinks));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.PAYMENT_LINKS, JSON.stringify(paymentLinks));
+    }
 
     return paymentLinks[linkIndex];
   }
@@ -374,12 +417,15 @@ export class LocalDatabase {
 
     const paymentRequests = this.getPaymentRequests();
     paymentRequests.push(newPaymentRequest);
-    localStorage.setItem(DB_KEYS.PAYMENT_REQUESTS, JSON.stringify(paymentRequests));
+    if (this.checkLocalStorageAccess()) {
+      localStorage.setItem(DB_KEYS.PAYMENT_REQUESTS, JSON.stringify(paymentRequests));
+    }
 
     return newPaymentRequest;
   }
 
   static getPaymentRequests(userId?: string): PaymentRequest[] {
+    if (!this.checkLocalStorageAccess()) return [];
     const paymentRequests = JSON.parse(localStorage.getItem(DB_KEYS.PAYMENT_REQUESTS) || "[]");
     return userId ? paymentRequests.filter((request: PaymentRequest) => request.userId === userId) : paymentRequests;
   }
@@ -455,5 +501,4 @@ export class LocalDatabase {
   }
 }
 
-// Initialize the database
-LocalDatabase.initialize();
+// No automatic initialization - will be called manually from client components
