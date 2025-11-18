@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Zimbabwean Flag Colors: Green, Red, Yellow, Black */
+  /* Bold, vibrant light theme */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 5%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 5%;
+  
+  /* Primary Red - The boldest Zimbabwe color */
+  --primary: 356 85% 50%; /* #E31837 - Vibrant Zimbabwe red */
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary Green - Supporting green element */
+  --secondary: 125 35% 90%; /* Light green background */
+  --secondary-foreground: 125 85% 30%; /* Dark green text */
+  
+  /* Muted tones - Still Zimbabwe colors */
+  --muted: 125 25% 92%;
+  --muted-foreground: 125 60% 35%;
+  
+  /* Accent Yellow - Bright Zimbabwe gold */
+  --accent: 51 100% 55%; /* #FCD116 - Zimbabwe yellow */
+  --accent-foreground: 0 0% 5%;
+  
+  /* Destructive - Different shade of red */
+  --destructive: 356 90% 45%; /* Darker red for errors */
+  --destructive-foreground: 0 0% 100%;
+  
+  /* UI elements - Black theme integration */
+  --border: 0 0% 85%;
+  --input: 0 0% 98%;
+  --ring: 356 85% 55%; /* Red ring */
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Bold dark theme with Zimbabwe flag prominence */
+  --background: 0 0% 2%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 6%;
+  --card-foreground: 0 0% 98%;
+  
+  /* Primary red in dark mode */
+  --primary: 356 75% 60%; /* Vibrant red for dark backgrounds */
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary green for dark */
+  --secondary: 125 40% 15%; /* Dark green background */
+  --secondary-foreground: 125 85% 80%; /* Light green text */
+  
+  /* Muted Zimbabwe colors in dark */
+  --muted: 125 30% 12%;
+  --muted-foreground: 125 60% 70%;
+  
+  /* Yellow accent brighter in dark */
+  --accent: 51 100% 60%; /* Brighter yellow */
+  --accent-foreground: 0 0% 5%;
+  
+  /* Red destructive in dark */
+  --destructive: 356 80% 50%; /* Bright red for alerts */
+  --destructive-foreground: 0 0% 100%;
+  
+  /* UI elements in dark */
+  --border: 0 0% 12%;
+  --input: 0 0% 8%;
+  --ring: 356 75% 65%; /* Red ring for dark */
+}
+
+* {
+  /* Use CSS variable-based border color instead of Tailwind @apply.
+     Replacing `@apply border-border` avoids PostCSS/Tailwind utility resolution issues. */
+  border-color: hsl(var(--border));
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  /* Prevent font flashing */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  /* Prevent layout shift */
+  overflow-x: hidden;
+}
+
+/* Ensure full height for React components */
+#__next {
+  min-height: 100vh;
+}
+
+/* Loading state styles */
+.loading {
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Ensure consistent styling across browsers */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Zimbabwe Flag Enhancement - Make Red More Prominent */
+.primary-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(356 85% 65%) 100%);
+}
+
+.zim-red-accent {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.zim-green-bg {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.zim-yellow-accent {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+/* Enhanced button styles for Zimbabwe theme */
+button:hover:not(:disabled), .btn:hover {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Links and interactive elements */
+a:hover:not(:disabled), .interactive:hover {
+  color: hsl(var(--primary)) !important;
+  background-color: hsl(var(--secondary));
+}
+
+/* Active sidebar menu items should maintain white text on hover */
+.active-menu-item:hover {
+  color: white !important;
+}
+
+/* Notification dot should turn white on hover */
+.notification-dot:hover {
+  background-color: white !important;
+}
+
+/* Prevent layout shift and ensure consistent rendering */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Ensure proper focus styles for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Loading spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid hsl(var(--muted));
+  border-top: 2px solid hsl(var(--primary));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .mobile-hidden {
+    display: none;
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
