@@ -131,7 +131,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
               CP
             </div>
             <CardTitle>Welcome Back</CardTitle>
-            <CardDescription>Login to your CreatorPay account</CardDescription>
+            <CardDescription>Login to your Tese account</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -181,7 +181,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             </div>
 
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-              <p>© 2025 CreatorPay. All rights reserved.</p>
+              <p>© 2025 Tese. All rights reserved.</p>
             </div>
           </CardContent>
         </Card>

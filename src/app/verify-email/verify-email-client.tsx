@@ -122,13 +122,13 @@ export default function VerifyEmailClient() {
             </div>
             <CardTitle>Email Verified Successfully!</CardTitle>
             <CardDescription>
-              Welcome to CreatorPay, {verificationResult.userData?.firstName}!
+              Welcome to Tese, {verificationResult.userData?.firstName}!
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Your email has been verified and your account is now active. 
-              You can now login to start using CreatorPay.
+              Your email has been verified and your account is now active.
+              You can now login to start using Tese.
             </p>
             
             <div className="space-y-3">
@@ -142,7 +142,7 @@ export default function VerifyEmailClient() {
             </div>
 
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-              <p>© 2025 CreatorPay. All rights reserved.</p>
+              <p>© 2025 Tese. All rights reserved.</p>
             </div>
           </CardContent>
         </Card>
@@ -182,7 +182,7 @@ export default function VerifyEmailClient() {
           </div>
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-            <p>© 2025 CreatorPay. All rights reserved.</p>
+            <p>© 2025 Tese. All rights reserved.</p>
           </div>
         </CardContent>
       </Card>

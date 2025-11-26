@@ -166,7 +166,7 @@ Edit `src/app/globals.css` CSS variables:
 
 ### Change Brand Name
 
-Replace "CreatorPay" in:
+Replace "Tese" in:
 
 - `src/components/shared/Sidebar.tsx` (Logo)
 - `src/app/page.tsx` (Landing page)

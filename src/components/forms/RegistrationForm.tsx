@@ -254,7 +254,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
             </div>
 
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-              <p>© 2025 CreatorPay. All rights reserved.</p>
+              <p>© 2025 Tese. All rights reserved.</p>
             </div>
           </CardContent>
         </Card>
@@ -270,7 +270,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
             CP
           </div>
           <CardTitle>Create Account</CardTitle>
-          <CardDescription>Join CreatorPay today</CardDescription>
+          <CardDescription>Join Tese today</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -396,7 +396,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
           </div>
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-            <p>© 2025 CreatorPay. All rights reserved.</p>
+            <p>© 2025 Tese. All rights reserved.</p>
           </div>
         </CardContent>
       </Card>

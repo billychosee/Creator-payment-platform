@@ -9,9 +9,8 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <nav className="border-b border-border bg-card/50 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img src="/Tese-Logo.svg" alt="Tese" className="w-8 h-8" />
-            <span className="font-bold text-lg">Tese</span>
+          <div className="flex items-center">
+            <img src="/Tese-Logo.svg" alt="Tese" className="h-8" />
           </div>
           <div className="flex gap-3">
             <Link href="/login">
@@ -48,7 +47,7 @@ export default function Home() {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-12">
         <h2 className="text-3xl font-bold text-center text-foreground">
-          Why Creators Love CreatorPay
+          Why Creators Love Tese
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">

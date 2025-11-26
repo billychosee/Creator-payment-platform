@@ -62,11 +62,8 @@ export const Sidebar = () => {
         )}
       >
         {/* Logo */}
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-yellow-500 rounded-lg flex items-center justify-center text-white font-bold">
-            CP
-          </div>
-          <span className="font-bold text-lg">CreatorPay</span>
+        <Link href="/dashboard" className="flex items-center">
+          <img src="/Tese-Logo.svg" alt="Tese" className="h-8" />
         </Link>
 
         {/* Navigation */}
