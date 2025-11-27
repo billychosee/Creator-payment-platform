@@ -8,16 +8,8 @@ export default function Home() {
       {/* Navigation */}
       <nav className="border-b border-border bg-card/50 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-<<<<<<< HEAD
           <div className="flex items-center">
-            <img src="/Tese-Logo.svg" alt="Tese" className="h-8" />
-=======
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
-              CP
-            </div>
-            <span className="font-bold text-lg">CreatorPay</span>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
+            <img src="/Tese-Logo.svg" alt="Tese" className="h-14" />
           </div>
           <div className="flex gap-3">
             <Button variant="outline">Login</Button>
@@ -54,11 +46,7 @@ export default function Home() {
       {/* Features */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-12">
         <h2 className="text-3xl font-bold text-center">
-<<<<<<< HEAD
           Why Creators Love Tese
-=======
-          Why Creators Love CreatorPay
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -113,13 +101,10 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border bg-card/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-muted-foreground">
-<<<<<<< HEAD
           <p>&copy; 2025 Tese. All rights reserved.</p>
-=======
-          <p>&copy; 2024 CreatorPay. All rights reserved.</p>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
         </div>
       </footer>
     </div>
   );
 }
+

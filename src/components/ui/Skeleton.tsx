@@ -18,3 +18,4 @@ export const Skeleton = ({ className, count = 1, ...props }: SkeletonProps) => {
     </div>
   );
 };
+

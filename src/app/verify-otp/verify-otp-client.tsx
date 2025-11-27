@@ -86,9 +86,7 @@ export default function VerifyOTPClient() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-            CP
-          </div>
+          <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
           <div className="mx-auto mb-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
             <Mail className="w-8 h-8 text-blue-600" />
           </div>
@@ -158,11 +156,7 @@ export default function VerifyOTPClient() {
           </div>
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-<<<<<<< HEAD
             <p>© 2025 Tese. All rights reserved.</p>
-=======
-            <p>© 2025 CreatorPay. All rights reserved.</p>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
           </div>
         </CardContent>
       </Card>

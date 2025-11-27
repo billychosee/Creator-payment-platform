@@ -76,3 +76,4 @@ export interface DashboardStats {
   pendingPayouts: number;
   totalTransactions: number;
 }
+

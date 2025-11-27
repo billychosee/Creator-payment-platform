@@ -111,3 +111,4 @@ export const PayoutTable = ({ payouts, isLoading }: PayoutTableProps) => {
     </Card>
   );
 };
+

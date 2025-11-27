@@ -72,9 +72,7 @@ export default function VerifyEmailClient() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 w-16 h-16 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-              CP
-            </div>
+            <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
             <div className="mx-auto mb-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
               <Loader className="w-8 h-8 text-blue-600 animate-spin" />
             </div>
@@ -93,9 +91,7 @@ export default function VerifyEmailClient() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 w-16 h-16 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-              CP
-            </div>
+            <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
             <div className="mx-auto mb-4 w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
               <XCircle className="w-8 h-8 text-red-600" />
             </div>
@@ -114,30 +110,19 @@ export default function VerifyEmailClient() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 w-16 h-16 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-              CP
-            </div>
+            <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
             <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
               <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
             <CardTitle>Email Verified Successfully!</CardTitle>
             <CardDescription>
-<<<<<<< HEAD
               Welcome to Tese, {verificationResult.userData?.firstName}!
-=======
-              Welcome to CreatorPay, {verificationResult.userData?.firstName}!
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-center">
             <p className="text-sm text-muted-foreground">
-<<<<<<< HEAD
               Your email has been verified and your account is now active.
               You can now login to start using Tese.
-=======
-              Your email has been verified and your account is now active. 
-              You can now login to start using CreatorPay.
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
             </p>
             
             <div className="space-y-3">
@@ -151,11 +136,7 @@ export default function VerifyEmailClient() {
             </div>
 
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-<<<<<<< HEAD
               <p>© 2025 Tese. All rights reserved.</p>
-=======
-              <p>© 2025 CreatorPay. All rights reserved.</p>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
             </div>
           </CardContent>
         </Card>
@@ -168,9 +149,7 @@ export default function VerifyEmailClient() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-            CP
-          </div>
+          <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
           <div className="mx-auto mb-4 w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
             <XCircle className="w-8 h-8 text-red-600" />
           </div>
@@ -195,11 +174,7 @@ export default function VerifyEmailClient() {
           </div>
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-<<<<<<< HEAD
             <p>© 2025 Tese. All rights reserved.</p>
-=======
-            <p>© 2025 CreatorPay. All rights reserved.</p>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
           </div>
         </CardContent>
       </Card>

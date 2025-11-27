@@ -244,7 +244,6 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
                 Resend OTP Code
               </Button>
               
-<<<<<<< HEAD
               <p
                 onClick={handleLoginClick}
                 className="text-sm text-muted-foreground hover:underline cursor-pointer"
@@ -255,19 +254,6 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
               <p>© 2025 Tese. All rights reserved.</p>
-=======
-              <Button
-                variant="ghost"
-                onClick={handleLoginClick}
-                className="w-full"
-              >
-                Already have an account? Login
-              </Button>
-            </div>
-
-            <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-              <p>© 2025 CreatorPay. All rights reserved.</p>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
             </div>
           </CardContent>
         </Card>
@@ -279,17 +265,9 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-yellow-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-<<<<<<< HEAD
           <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
           <CardTitle>Create Account</CardTitle>
           <CardDescription>Join Tese today</CardDescription>
-=======
-          <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-r from-green-600 to-yellow-500 rounded-lg flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-            CP
-          </div>
-          <CardTitle>Create Account</CardTitle>
-          <CardDescription>Join CreatorPay today</CardDescription>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
         </CardHeader>
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -405,7 +383,6 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
           </form>
 
           <div className="text-center">
-<<<<<<< HEAD
             <p
               onClick={handleLoginClick}
               className="text-sm text-muted-foreground hover:underline hover:text-red-500 cursor-pointer"
@@ -416,19 +393,6 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
             <p>© 2025 Tese. All rights reserved.</p>
-=======
-            <button
-              type="button"
-              onClick={handleLoginClick}
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
-              Already registered? Login
-            </button>
-          </div>
-
-          <div className="text-center text-xs text-muted-foreground pt-4 border-t">
-            <p>© 2025 CreatorPay. All rights reserved.</p>
->>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
           </div>
         </CardContent>
       </Card>
