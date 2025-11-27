@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+<<<<<<< HEAD
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/app/layout/ThemeProvider";
+=======
+import { usePathname } from "next/navigation";
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
 import {
   Home,
   Send,
@@ -20,8 +24,11 @@ import { cn } from "@/lib/utils";
 import { gradients } from "@/lib/colors";
 
 export const Sidebar = () => {
+<<<<<<< HEAD
   const { theme } = useTheme();
   const router = useRouter();
+=======
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -65,9 +72,18 @@ export const Sidebar = () => {
         )}
       >
         {/* Logo */}
+<<<<<<< HEAD
         <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard")}>
           <img src={theme === "light" ? "/Tese-Dark-logo.png" : "/Tese-Light-Logo.png"} alt="Tese" className="h-16" />
         </div>
+=======
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-yellow-500 rounded-lg flex items-center justify-center text-white font-bold">
+            CP
+          </div>
+          <span className="font-bold text-lg">CreatorPay</span>
+        </Link>
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
 
         {/* Navigation */}
         <nav className="space-y-2">

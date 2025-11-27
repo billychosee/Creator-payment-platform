@@ -122,13 +122,22 @@ export default function VerifyEmailClient() {
             </div>
             <CardTitle>Email Verified Successfully!</CardTitle>
             <CardDescription>
+<<<<<<< HEAD
               Welcome to Tese, {verificationResult.userData?.firstName}!
+=======
+              Welcome to CreatorPay, {verificationResult.userData?.firstName}!
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-center">
             <p className="text-sm text-muted-foreground">
+<<<<<<< HEAD
               Your email has been verified and your account is now active.
               You can now login to start using Tese.
+=======
+              Your email has been verified and your account is now active. 
+              You can now login to start using CreatorPay.
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
             </p>
             
             <div className="space-y-3">
@@ -142,7 +151,11 @@ export default function VerifyEmailClient() {
             </div>
 
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
+<<<<<<< HEAD
               <p>© 2025 Tese. All rights reserved.</p>
+=======
+              <p>© 2025 CreatorPay. All rights reserved.</p>
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
             </div>
           </CardContent>
         </Card>
@@ -182,7 +195,11 @@ export default function VerifyEmailClient() {
           </div>
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
+<<<<<<< HEAD
             <p>© 2025 Tese. All rights reserved.</p>
+=======
+            <p>© 2025 CreatorPay. All rights reserved.</p>
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
           </div>
         </CardContent>
       </Card>

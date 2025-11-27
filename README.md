@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 # Tese - Next.js Frontend
 
 A complete Next.js 14 (App Router) frontend for Tese, a Creator/Influencer Payment Platform, similar to "Buy Me a Coffee". This is a modern SaaS-style application that allows creators and influencers to monetize their influence by accepting payments from their community.
+=======
+# Creator Payment Platform - Next.js Frontend
+
+A complete Next.js 14 (App Router) frontend for a Creator/Influencer Payment Platform, similar to "Buy Me a Coffee". This is a modern SaaS-style application that allows creators and influencers to monetize their influence by accepting payments from their community.
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
 
 ## 🎯 Features
 
@@ -101,7 +107,11 @@ src/
 1. **Navigate to the project directory:**
 
    ```bash
+<<<<<<< HEAD
    cd tese
+=======
+   cd creator-payment-platform
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
    ```
 
 2. **Install dependencies:**

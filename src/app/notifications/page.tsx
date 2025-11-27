@@ -95,7 +95,11 @@ let mockActivities: Activity[] = [
   {
     id: '8',
     type: 'signup',
+<<<<<<< HEAD
     title: 'Welcome to Tese!',
+=======
+    title: 'Welcome to CreatorPay!',
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
     description: 'Your account has been created successfully',
     time: '5 days ago',
     isRead: true,

@@ -158,7 +158,11 @@ export default function VerifyOTPClient() {
           </div>
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
+<<<<<<< HEAD
             <p>© 2025 Tese. All rights reserved.</p>
+=======
+            <p>© 2025 CreatorPay. All rights reserved.</p>
+>>>>>>> 5437d3ba0ab258dcc647014b231c909f7294bd7d
           </div>
         </CardContent>
       </Card>
