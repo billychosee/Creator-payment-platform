@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "@/app/layout/ThemeProvider";
 import {
   Home,
   Send,
@@ -19,6 +20,8 @@ import { cn } from "@/lib/utils";
 import { gradients } from "@/lib/colors";
 
 export const Sidebar = () => {
+  const { theme } = useTheme();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -62,9 +65,9 @@ export const Sidebar = () => {
         )}
       >
         {/* Logo */}
-        <Link href="/dashboard" className="flex items-center">
-          <img src="/Tese-Logo.svg" alt="Tese" className="h-8" />
-        </Link>
+        <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard")}>
+          <img src={theme === "light" ? "/Tese-Dark-logo.png" : "/Tese-Light-Logo.png"} alt="Tese" className="h-16" />
+        </div>
 
         {/* Navigation */}
         <nav className="space-y-2">

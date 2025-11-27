@@ -244,13 +244,12 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
                 Resend OTP Code
               </Button>
               
-              <Button
-                variant="ghost"
+              <p
                 onClick={handleLoginClick}
-                className="w-full"
+                className="text-sm text-muted-foreground hover:underline cursor-pointer"
               >
-                Already have an account? Login
-              </Button>
+                Already have an account? <span className="hover:text-red-500">Login</span>
+              </p>
             </div>
 
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
@@ -266,9 +265,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-yellow-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-r from-green-600 to-yellow-500 rounded-lg flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-            CP
-          </div>
+          <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
           <CardTitle>Create Account</CardTitle>
           <CardDescription>Join Tese today</CardDescription>
         </CardHeader>
@@ -386,13 +383,12 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
           </form>
 
           <div className="text-center">
-            <button
-              type="button"
+            <p
               onClick={handleLoginClick}
-              className="text-sm text-muted-foreground hover:text-foreground"
+              className="text-sm text-muted-foreground hover:underline hover:text-red-500 cursor-pointer"
             >
               Already registered? Login
-            </button>
+            </p>
           </div>
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">

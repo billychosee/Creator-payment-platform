@@ -10,7 +10,7 @@ export default function Home() {
       <nav className="border-b border-border bg-card/50 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
-            <img src="/Tese-Logo.svg" alt="Tese" className="h-8" />
+            <img src="/Tese-Logo.svg" alt="Tese" className="h-10" />
           </div>
           <div className="flex gap-3">
             <Link href="/login">
