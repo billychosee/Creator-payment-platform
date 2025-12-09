@@ -213,6 +213,19 @@ export class APIService {
     return response.data;
   }
   
+  // Forgot Password methods
+  static async initiateForgotPassword(email: string): Promise<APIResponse<{ message: string; email: string }>> {
+    return await api.initiateForgotPassword(email);
+  }
+  
+  static async verifyForgotPasswordOTP(email: string, otp: string): Promise<APIResponse<{ verified: boolean; message: string }>> {
+    return await api.verifyForgotPasswordOTP(email, otp);
+  }
+  
+  static async resetPassword(email: string, newPassword: string): Promise<APIResponse<{ success: boolean; message: string }>> {
+    return await api.resetPassword(email, newPassword);
+  }
+  
   // Utility methods
   static isUsingLocalStorage(): boolean {
     return api.isUsingLocalStorage();
@@ -249,6 +262,10 @@ export const getPaymentRequests = APIService.getPaymentRequests.bind(APIService)
 export const updatePaymentRequestStatus = APIService.updatePaymentRequestStatus.bind(APIService);
 export const getDashboardStats = APIService.getDashboardStats.bind(APIService);
 
+// Forgot Password convenience exports
+export const initiateForgotPassword = APIService.initiateForgotPassword.bind(APIService);
+export const verifyForgotPasswordOTP = APIService.verifyForgotPasswordOTP.bind(APIService);
+export const resetPassword = APIService.resetPassword.bind(APIService);
+
 // Legacy exports for backward compatibility
 export default APIService;
-

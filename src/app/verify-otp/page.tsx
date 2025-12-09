@@ -1,17 +1,28 @@
 "use client";
 
-import { Suspense } from "react";
-import VerifyOTPClient from "./verify-otp-client.tsx";
-
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { ForgotPasswordOTPForm } from "@/components/forms/ForgotPasswordOTPForm";
+import VerifyOTPClient from "./verify-otp-client";
 
 export default function VerifyOTPPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    }>
-      <VerifyOTPClient />
-    </Suspense>
-  );
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
+  const email = searchParams.get("email") || "";
+  
+  const [showForgotPasswordFlow, setShowForgotPasswordFlow] = useState(type === "password-reset");
+  
+  // If this is for password reset, use the forgot password OTP form
+  if (showForgotPasswordFlow && email) {
+    return (
+      <ForgotPasswordOTPForm
+        email={email}
+        onSuccess={() => console.log("OTP verified for password reset")}
+        onBack={() => setShowForgotPasswordFlow(false)}
+      />
+    );
+  }
+  
+  // Otherwise, use the existing email verification flow
+  return <VerifyOTPClient />;
 }

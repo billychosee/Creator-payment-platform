@@ -168,6 +168,16 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
               </Button>
             </form>
 
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => router.push("/forgot-password")}
+                className="text-sm text-primary hover:text-primary/80 hover:underline"
+              >
+                Forgot your password?
+              </button>
+            </div>
+
             <div className="text-center text-xs text-muted-foreground pt-4 border-t">
               <p>© 2025 Tese. All rights reserved.</p>
               <button

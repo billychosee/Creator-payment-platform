@@ -106,6 +106,11 @@ export default function ProfilePage() {
                           {currentUser.tagline}
                         </p>
                       )}
+                      {!currentUser.tagline && currentUser.bio && (
+                        <p className="text-muted-foreground text-lg">
+                          {currentUser.bio.split(' ').slice(0, 3).join(' ')}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

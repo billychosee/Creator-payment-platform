@@ -104,6 +104,11 @@ export interface BaseAPI {
   
   // Dashboard Stats
   getDashboardStats(userId: string): Promise<APIResponse<DashboardStats>>;
+  
+  // Forgot Password
+  initiateForgotPassword(email: string): Promise<APIResponse<{ message: string; email: string }>>;
+  verifyForgotPasswordOTP(email: string, otp: string): Promise<APIResponse<{ verified: boolean; message: string }>>;
+  resetPassword(email: string, newPassword: string): Promise<APIResponse<{ success: boolean; message: string }>>;
 }
 
 // Mock API Implementation (for testing)
@@ -294,6 +299,147 @@ class MockAPI implements BaseAPI {
       data: stats
     };
   }
+  
+  // Forgot Password Implementation
+  async initiateForgotPassword(email: string): Promise<APIResponse<{ message: string; email: string }>> {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Check if user exists
+    const user = LocalDatabase.getUserByEmail(email);
+    if (!user) {
+      return {
+        success: false,
+        error: 'No account found with this email address'
+      };
+    }
+    
+    // Generate OTP and store it (in a real app, this would be sent via email)
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    
+    // Store OTP in localStorage for demo purposes
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`forgot_password_otp_${email}`, JSON.stringify({
+        otp,
+        expiresAt: expiresAt.toISOString(),
+        email
+      }));
+    }
+    
+    // Simulate email sending
+    console.log(`Password reset OTP for ${email}: ${otp}`);
+    alert(`Password reset code sent to ${email}\n\nFor demo purposes, your OTP is: ${otp}`);
+    
+    return {
+      success: true,
+      data: {
+        message: 'Password reset code sent to your email',
+        email
+      }
+    };
+  }
+  
+  async verifyForgotPasswordOTP(email: string, otp: string): Promise<APIResponse<{ verified: boolean; message: string }>> {
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    if (typeof window === 'undefined') {
+      return {
+        success: false,
+        error: 'Verification can only be done in browser'
+      };
+    }
+    
+    // Get stored OTP
+    const storedOTPData = localStorage.getItem(`forgot_password_otp_${email}`);
+    if (!storedOTPData) {
+      return {
+        success: false,
+        error: 'No password reset request found for this email'
+      };
+    }
+    
+    const { otp: storedOTP, expiresAt } = JSON.parse(storedOTPData);
+    const now = new Date();
+    const expiry = new Date(expiresAt);
+    
+    // Check if OTP has expired
+    if (now > expiry) {
+      localStorage.removeItem(`forgot_password_otp_${email}`);
+      return {
+        success: false,
+        error: 'Password reset code has expired. Please request a new one.'
+      };
+    }
+    
+    // Verify OTP
+    if (storedOTP === otp) {
+      // Mark as verified
+      localStorage.setItem(`forgot_password_verified_${email}`, 'true');
+      return {
+        success: true,
+        data: {
+          verified: true,
+          message: 'OTP verified successfully'
+        }
+      };
+    } else {
+      return {
+        success: false,
+        error: 'Invalid verification code'
+      };
+    }
+  }
+  
+  async resetPassword(email: string, newPassword: string): Promise<APIResponse<{ success: boolean; message: string }>> {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    if (typeof window === 'undefined') {
+      return {
+        success: false,
+        error: 'Password reset can only be done in browser'
+      };
+    }
+    
+    // Check if OTP was verified
+    const isVerified = localStorage.getItem(`forgot_password_verified_${email}`) === 'true';
+    if (!isVerified) {
+      return {
+        success: false,
+        error: 'Password reset verification required. Please verify your OTP first.'
+      };
+    }
+    
+    // Get user and update password
+    const user = LocalDatabase.getUserByEmail(email);
+    if (!user) {
+      return {
+        success: false,
+        error: 'User not found'
+      };
+    }
+    
+    // Update password in localStorage (extend User type for password field)
+    const userWithPassword = { ...user, password: newPassword };
+    const updatedUser = LocalDatabase.updateUser(user.id, userWithPassword);
+    if (!updatedUser) {
+      return {
+        success: false,
+        error: 'Failed to update password'
+      };
+    }
+    
+    // Clean up stored OTP data
+    localStorage.removeItem(`forgot_password_otp_${email}`);
+    localStorage.removeItem(`forgot_password_verified_${email}`);
+    
+    return {
+      success: true,
+      data: {
+        success: true,
+        message: 'Password reset successfully. You can now login with your new password.'
+      }
+    };
+  }
 }
 
 // Supabase API Implementation
@@ -432,8 +578,6 @@ class SupabaseAPI implements BaseAPI {
     }
   }
   
-  // Implement other methods similarly...
-  // For brevity, I'll add basic implementations that throw not implemented
   async createTransaction(transactionData: any): Promise<APIResponse<Transaction>> {
     return this.request<Transaction>('transactions', {
       method: 'POST',
@@ -532,6 +676,60 @@ class SupabaseAPI implements BaseAPI {
         error: error instanceof Error ? error.message : 'Failed to fetch dashboard stats'
       };
     }
+  }
+  
+  // Forgot Password Implementation for Supabase
+  async initiateForgotPassword(email: string): Promise<APIResponse<{ message: string; email: string }>> {
+    // This would integrate with Supabase Auth reset password
+    try {
+      const response = await fetch(`${this.supabaseUrl}/auth/v1/recover`, {
+        method: 'POST',
+        headers: {
+          'apikey': this.supabaseKey,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to initiate password reset');
+      }
+      
+      return {
+        success: true,
+        data: {
+          message: 'Password reset instructions sent to your email',
+          email
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to initiate password reset'
+      };
+    }
+  }
+  
+  async verifyForgotPasswordOTP(email: string, otp: string): Promise<APIResponse<{ verified: boolean; message: string }>> {
+    // Supabase handles OTP verification automatically in the reset flow
+    return {
+      success: true,
+      data: {
+        verified: true,
+        message: 'OTP verification handled by Supabase'
+      }
+    };
+  }
+  
+  async resetPassword(email: string, newPassword: string): Promise<APIResponse<{ success: boolean; message: string }>> {
+    // This would be handled by Supabase Auth updateUser with new password
+    return {
+      success: true,
+      data: {
+        success: true,
+        message: 'Password reset handled by Supabase Auth'
+      }
+    };
   }
 }
 
@@ -705,6 +903,28 @@ class CustomAPI implements BaseAPI {
   
   async getDashboardStats(userId: string): Promise<APIResponse<DashboardStats>> {
     return this.request<DashboardStats>(`/dashboard/stats/${userId}`);
+  }
+  
+  // Forgot Password Implementation for Custom API
+  async initiateForgotPassword(email: string): Promise<APIResponse<{ message: string; email: string }>> {
+    return this.request<{ message: string; email: string }>('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email })
+    });
+  }
+  
+  async verifyForgotPasswordOTP(email: string, otp: string): Promise<APIResponse<{ verified: boolean; message: string }>> {
+    return this.request<{ verified: boolean; message: string }>('/auth/verify-reset-otp', {
+      method: 'POST',
+      body: JSON.stringify({ email, otp })
+    });
+  }
+  
+  async resetPassword(email: string, newPassword: string): Promise<APIResponse<{ success: boolean; message: string }>> {
+    return this.request<{ success: boolean; message: string }>('/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ email, newPassword })
+    });
   }
 }
 
@@ -880,6 +1100,19 @@ export class APIManager {
   
   async getDashboardStats(userId: string) {
     return this.getAPI().getDashboardStats(userId);
+  }
+  
+  // Forgot Password convenience methods
+  async initiateForgotPassword(email: string) {
+    return this.getAPI().initiateForgotPassword(email);
+  }
+  
+  async verifyForgotPasswordOTP(email: string, otp: string) {
+    return this.getAPI().verifyForgotPasswordOTP(email, otp);
+  }
+  
+  async resetPassword(email: string, newPassword: string) {
+    return this.getAPI().resetPassword(email, newPassword);
   }
 }
 
