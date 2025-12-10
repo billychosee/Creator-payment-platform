@@ -51,11 +51,13 @@ export default function SettingsPage() {
     bio: "I create amazing content and love helping others.",
     socialLink: "https://alexcreator.com",
     email: "alex@example.com",
+    address: "123 Main Street, Cape Town, 8001, South Africa",
   });
 
   const [profileImage, setProfileImage] = useState("/placeholder-avatar.png");
   const [residenceDocument, setResidenceDocument] = useState<File | null>(null);
   const [documentPreview, setDocumentPreview] = useState<string>("");
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const documentInputRef = useRef<HTMLInputElement>(null);
@@ -155,6 +157,7 @@ export default function SettingsPage() {
   const handleSaveProfile = () => {
     // Save profile logic here
     alert("Profile updated successfully!");
+    setIsEditingProfile(false);
   };
 
   const handleSaveBanking = () => {
@@ -222,106 +225,221 @@ export default function SettingsPage() {
           <div className="flex-1 max-w-2xl">
             {activeTab === "profile" && (
               <div className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <User size={20} />
-                      Profile Information
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {/* Profile Picture */}
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-3">
-                        Profile Picture
-                      </label>
+                {/* Profile Preview */}
+                {!isEditingProfile ? (
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center gap-2">
+                          <User size={20} />
+                          Profile Information
+                        </CardTitle>
+                        <Button
+                          onClick={() => setIsEditingProfile(true)}
+                          variant="outline"
+                          className="gap-2"
+                        >
+                          <User size={16} />
+                          Edit Profile
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      {/* Profile Picture */}
                       <div className="flex items-center gap-4">
-                        <div className="relative">
-                          <img
-                            src={profileImage}
-                            alt="Profile"
-                            className="w-20 h-20 rounded-full object-cover border-2 border-border"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src =
-                                "/placeholder-avatar.png";
-                            }}
-                          />
-                          <button
-                            onClick={() => fileInputRef.current?.click()}
-                            className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center hover:bg-primary/90 transition-colors"
-                            type="button"
-                          >
-                            <Camera size={14} />
-                          </button>
-                        </div>
-                        <div className="space-y-2">
-                          <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                            className="hidden"
-                          />
-                          <Button
-                            variant="outline"
-                            onClick={() => fileInputRef.current?.click()}
-                            className="gap-2"
-                          >
-                            <Upload size={16} />
-                            Upload New Photo
-                          </Button>
-                          <p className="text-xs text-muted-foreground">
-                            JPG, PNG or GIF. Max size 5MB.
+                        <img
+                          src={profileImage}
+                          alt="Profile"
+                          className="w-24 h-24 rounded-full object-cover border-2 border-border"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src =
+                              "/placeholder-avatar.png";
+                          }}
+                        />
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            {profileData.username}
+                          </h3>
+                          <p className="text-muted-foreground">
+                            {profileData.tagline}
                           </p>
                         </div>
                       </div>
-                    </div>
 
-                    <Input
-                      label="Username"
-                      name="username"
-                      value={profileData.username}
-                      onChange={handleProfileChange}
-                    />
+                      {/* Profile Details */}
+                      <div className="grid gap-4">
+                        <div>
+                          <label className="text-sm font-medium text-muted-foreground">
+                            Bio
+                          </label>
+                          <p className="mt-1">{profileData.bio}</p>
+                        </div>
 
-                    <Input
-                      label="Email"
-                      name="email"
-                      value={profileData.email}
-                      onChange={handleProfileChange}
-                      type="email"
-                    />
+                        <div>
+                          <label className="text-sm font-medium text-muted-foreground">
+                            Email
+                          </label>
+                          <p className="mt-1">{profileData.email}</p>
+                        </div>
 
-                    <Input
-                      label="Tagline"
-                      name="tagline"
-                      value={profileData.tagline}
-                      onChange={handleProfileChange}
-                      placeholder="What do you do?"
-                    />
+                        <div>
+                          <label className="text-sm font-medium text-muted-foreground">
+                            Social Link
+                          </label>
+                          <p className="mt-1">
+                            <a
+                              href={profileData.socialLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              {profileData.socialLink}
+                            </a>
+                          </p>
+                        </div>
 
-                    <Textarea
-                      label="Bio"
-                      name="bio"
-                      value={profileData.bio}
-                      onChange={handleProfileChange}
-                      placeholder="Tell your audience about yourself..."
-                      rows={4}
-                    />
+                        <div>
+                          <label className="text-sm font-medium text-muted-foreground">
+                            Address
+                          </label>
+                          <p className="mt-1 whitespace-pre-wrap">
+                            {profileData.address}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  /* Profile Edit Form */
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center gap-2">
+                          <User size={20} />
+                          Edit Profile
+                        </CardTitle>
+                        <Button
+                          onClick={() => setIsEditingProfile(false)}
+                          variant="outline"
+                          className="gap-2"
+                        >
+                          <Eye size={16} />
+                          View Profile
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      {/* Profile Picture */}
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-3">
+                          Profile Picture
+                        </label>
+                        <div className="flex items-center gap-4">
+                          <div className="relative">
+                            <img
+                              src={profileImage}
+                              alt="Profile"
+                              className="w-20 h-20 rounded-full object-cover border-2 border-border"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src =
+                                  "/placeholder-avatar.png";
+                              }}
+                            />
+                            <button
+                              onClick={() => fileInputRef.current?.click()}
+                              className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center hover:bg-primary/90 transition-colors"
+                              type="button"
+                            >
+                              <Camera size={14} />
+                            </button>
+                          </div>
+                          <div className="space-y-2">
+                            <input
+                              ref={fileInputRef}
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                              className="hidden"
+                            />
+                            <Button
+                              variant="outline"
+                              onClick={() => fileInputRef.current?.click()}
+                              className="gap-2"
+                            >
+                              <Upload size={16} />
+                              Upload New Photo
+                            </Button>
+                            <p className="text-xs text-muted-foreground">
+                              JPG, PNG or GIF. Max size 5MB.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
-                    <Input
-                      label="Social Link"
-                      name="socialLink"
-                      value={profileData.socialLink}
-                      onChange={handleProfileChange}
-                      placeholder="https://your-profile.com or @username"
-                    />
+                      <Input
+                        label="Username"
+                        name="username"
+                        value={profileData.username}
+                        onChange={handleProfileChange}
+                      />
 
-                    <Button onClick={handleSaveProfile} className="w-full">
-                      Save Profile Changes
-                    </Button>
-                  </CardContent>
-                </Card>
+                      <Input
+                        label="Email"
+                        name="email"
+                        value={profileData.email}
+                        onChange={handleProfileChange}
+                        type="email"
+                      />
+
+                      <Input
+                        label="Tagline"
+                        name="tagline"
+                        value={profileData.tagline}
+                        onChange={handleProfileChange}
+                        placeholder="What do you do?"
+                      />
+
+                      <Textarea
+                        label="Bio"
+                        name="bio"
+                        value={profileData.bio}
+                        onChange={handleProfileChange}
+                        placeholder="Tell your audience about yourself..."
+                        rows={4}
+                      />
+
+                      <Input
+                        label="Social Link"
+                        name="socialLink"
+                        value={profileData.socialLink}
+                        onChange={handleProfileChange}
+                        placeholder="https://your-profile.com or @username"
+                      />
+
+                      <Textarea
+                        label="Address"
+                        name="address"
+                        value={profileData.address}
+                        onChange={handleProfileChange}
+                        placeholder="Enter your full address including city, postal code, and country"
+                        rows={3}
+                      />
+
+                      <div className="flex gap-3">
+                        <Button onClick={handleSaveProfile} className="flex-1">
+                          Save Changes
+                        </Button>
+                        <Button
+                          onClick={() => setIsEditingProfile(false)}
+                          variant="outline"
+                          className="flex-1"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
 
                 <Card>
                   <CardHeader>
