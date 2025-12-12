@@ -1,38 +1,38 @@
 # Tese - Next.js Frontend
 
-A complete Next.js 14 (App Router) frontend for Tese, a Creator/Influencer Payment Platform, similar to "Buy Me a Coffee". This is a modern SaaS-style application that allows creators and influencers to monetize their influence by accepting payments from their community.
+Next.js 14 (App Router) frontend for Tese, a Creator/Influencer Payment Platform similar to "Buy Me a Coffee". Allows creators and influencers to monetize their influence by accepting payments from their community.
 
-## 🎯 Features
+## Features
 
-### ✨ Core Features
+### Core Features
 
-- **Multi-step Signup** - Easy onboarding for creators
-- **Beautiful Dashboard** - Overview of earnings with real-time stats
-- **Payment Management** - Create payment links and request payments
-- **Transaction Tracking** - Complete transaction history with filtering
-- **Payout Management** - Manage withdrawals and payout history
-- **Creator Profile** - Showcase your profile and social links
-- **Settings** - Control account preferences and security
+- Multi-step Signup - Easy onboarding for creators
+- Beautiful Dashboard - Overview of earnings with real-time stats
+- Payment Management - Create payment links and request payments
+- Transaction Tracking - Complete transaction history with filtering
+- Payout Management - Manage withdrawals and payout history
+- Creator Profile - Showcase your profile and social links
+- Settings - Control account preferences and security
 
-### 🎨 Tech Stack
+### Tech Stack
 
-- **Next.js 14** (App Router)
-- **TypeScript** - Type-safe development
-- **TailwindCSS** - Modern styling
-- **Lucide React** - Beautiful icons
-- **Recharts** - Interactive charts
-- **Framer Motion** - Smooth animations
-- **Axios** - API calls
+- Next.js 14 (App Router)
+- TypeScript - Type-safe development
+- TailwindCSS - Modern styling
+- Lucide React - Beautiful icons
+- Recharts - Interactive charts
+- Framer Motion - Smooth animations
+- Axios - API calls
 
-### 📦 Key Components
+### Key Components
 
-- **Reusable UI Components** - Button, Input, Card, Modal, Toast, Skeleton
-- **Form Components** - Signup, Profile, Payment Link, Payment Request
-- **Table Components** - Transaction and Payout tables with pagination
-- **Dashboard Layout** - Responsive sidebar and navbar
-- **Theme System** - Light/Dark mode toggle
+- Reusable UI Components - Button, Input, Card, Modal, Toast, Skeleton
+- Form Components - Signup, Profile, Payment Link, Payment Request
+- Table Components - Transaction and Payout tables with pagination
+- Dashboard Layout - Responsive sidebar and navbar
+- Theme System - Light/Dark mode toggle
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -89,7 +89,7 @@ src/
 └── hooks/                      # Custom hooks (if needed)
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -98,39 +98,35 @@ src/
 
 ### Installation
 
-1. **Navigate to the project directory:**
+1. Navigate to the project directory:
 
    ```bash
    cd tese
    ```
 
-2. **Install dependencies:**
+2. Install dependencies:
 
    ```bash
    npm install
-   # or
-   yarn install
    ```
 
-3. **Set up environment variables:**
+3. Set up environment variables:
    Create a `.env.local` file in the root directory:
 
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:3001/api
    ```
 
-4. **Run the development server:**
+4. Run the development server:
 
    ```bash
    npm run dev
-   # or
-   yarn dev
    ```
 
-5. **Open your browser:**
+5. Open your browser:
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 📱 Pages Overview
+## Pages Overview
 
 ### Landing Page (`/`)
 
@@ -179,7 +175,7 @@ src/
 - **Security** - Password and 2FA
 - **API Keys** - API key management
 
-## 🎨 Theming
+## Theming
 
 The app includes automatic light/dark mode support:
 
@@ -188,7 +184,7 @@ The app includes automatic light/dark mode support:
 - Smooth theme transitions
 - Click theme toggle in navbar
 
-## 📊 Chart Component
+## Chart Component
 
 The dashboard features a Recharts LineChart with:
 
@@ -198,7 +194,7 @@ The dashboard features a Recharts LineChart with:
 - Responsive container
 - Period selector (Daily/Weekly/Monthly/Yearly)
 
-## 🔌 API Integration
+## API Integration
 
 All API calls use Axios with:
 
@@ -214,7 +210,7 @@ All API calls use Axios with:
 - Payout records
 - Chart data generation
 
-## 🎯 Forms & Validation
+## Forms & Validation
 
 All forms include:
 
@@ -223,29 +219,29 @@ All forms include:
 - Loading states
 - Success feedback
 
-## 📱 Responsive Design
+## Responsive Design
 
 - Mobile-first approach
 - Responsive grid layouts
 - Mobile sidebar with hamburger menu
 - Tablet and desktop optimizations
 
-## 🔐 Security Features
+## Security Features
 
 - Password confirmation validation
 - Protected routes ready
 - Secure token storage
 - CSRF protection ready
 
-## 🎬 Animations
+## Animations
 
+- hover effects
 - Fade-in page transitions
-- Smooth card hover effects
-- Slide-up modals
+- Smooth card Slide-up modals
 - Loading spinners
 - Skeleton loaders
 
-## 📚 Component Usage Examples
+## Component Usage Examples
 
 ### Using StatCard
 
@@ -273,7 +269,7 @@ All forms include:
 </Button>
 ```
 
-## 🔄 Building & Deployment
+## Building & Deployment
 
 ### Build
 
@@ -293,7 +289,7 @@ npm run start
 npm run lint
 ```
 
-## 📝 Environment Setup
+## Environment Setup
 
 ### Development
 
@@ -309,7 +305,7 @@ NEXT_PUBLIC_API_URL=http://your-api-endpoint
 NEXT_PUBLIC_API_URL=https://api.yourproduction.com
 ```
 
-## 🚀 Next Steps
+## Next Steps
 
 1. **Connect to Backend API**
 
@@ -339,7 +335,7 @@ NEXT_PUBLIC_API_URL=https://api.yourproduction.com
    - Implement real data persistence
    - Set up sync mechanisms
 
-## 📖 Resources
+## Resources
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [TailwindCSS](https://tailwindcss.com)
@@ -347,19 +343,14 @@ NEXT_PUBLIC_API_URL=https://api.yourproduction.com
 - [Lucide Icons](https://lucide.dev)
 - [TypeScript](https://www.typescriptlang.org)
 
-## 📄 License
+## License
 
 This project is open source and available under the MIT License.
 
-## 🤝 Contributing
+## Contributing
 
 Feel free to submit issues and pull requests to improve the application.
 
-## 💬 Support
+## Support
 
 For questions and support, please reach out to the team.
-
----
-
-**Happy coding! 🚀**
-

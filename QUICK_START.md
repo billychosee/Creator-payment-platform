@@ -1,6 +1,6 @@
 # Creator Payment Platform - Quick Start Guide
 
-## ⚡ 5-Minute Setup
+## 5-Minute Setup
 
 ### Step 1: Install Dependencies
 
@@ -27,12 +27,12 @@ npm run dev
 
 Navigate to: **http://localhost:3000**
 
-## 🎯 What to Explore
+## What to Explore
 
 ### Landing Page
 
 - **Route**: `http://localhost:3000/`
-- Clean hero section with features
+- Hero section with features
 - CTA to signup
 
 ### Signup Flow
@@ -96,7 +96,7 @@ Navigate to: **http://localhost:3000**
 - Account management
 - Preferences
 
-## 🎨 Features to Try
+## Features to Try
 
 ### Dark/Light Mode
 
@@ -129,7 +129,7 @@ Navigate to: **http://localhost:3000**
 - Pagination controls
 - Sort by clicking headers (ready to implement)
 
-## 📝 Key Files to Understand
+## Key Files to Understand
 
 ### Layout Components
 
@@ -156,26 +156,26 @@ Navigate to: **http://localhost:3000**
 
 - `src/services/mock.ts` - All mock data and generators
 
-## 🔌 Connecting to Real API
+## Connecting to Real API
 
-Replace mock data in pages with API calls:
+Replace mock API calls:
 
 ```typescript
-// Before (with mock data)
+// Before data in pages with (with mock data)
 const stats = getMockDashboardStats();
 
 // After (with API)
 const stats = await apiClient.get("/dashboard/stats");
 ```
 
-## 🚀 Production Build
+## Production Build
 
 ```bash
 npm run build
 npm start
 ```
 
-## 📦 Project Stats
+## Project Stats
 
 - **10 Pages** - All fully functional
 - **20+ Components** - Reusable UI components
@@ -187,7 +187,7 @@ npm start
 - **TypeScript** - Fully typed codebase
 - **Mock Data** - Ready for backend integration
 
-## 🎯 Next Steps
+## Next Steps
 
 1. **Replace Mock Data**
 
@@ -196,8 +196,8 @@ npm start
 
 2. **Add Authentication**
 
-   - Implement login/logout
-   - Add JWT token management
+   - Implement login - Add JWT token/logout
+     management
    - Protect routes
 
 3. **Integrate Payments**
@@ -209,14 +209,14 @@ npm start
    - Connect to backend
    - Implement real data persistence
 
-## 💡 Tips
+## Tips
 
 - Check `src/services/mock.ts` for example data structure
 - All API calls are prepared in `src/services/api.ts`
 - Theme toggle is in `src/app/layout/ThemeProvider.tsx`
 - Forms have built-in validation in each component
 
-## ❓ Troubleshooting
+## Troubleshooting
 
 ### Port 3000 already in use?
 
@@ -237,7 +237,7 @@ npm install
 - Check `tailwind.config.ts`
 - Restart dev server
 
-## 📞 Support
+## Support
 
 For questions about:
 
@@ -245,8 +245,3 @@ For questions about:
 - **Tailwind**: [Tailwind Docs](https://tailwindcss.com/docs)
 - **Recharts**: [Recharts Docs](https://recharts.org)
 - **Components**: Check component files for JSDoc comments
-
----
-
-Happy coding! 🚀
-

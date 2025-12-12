@@ -1,8 +1,7 @@
 "use client";
 
-import { RegistrationForm } from "@/components/forms/RegistrationForm";
+import { MobileAppSignupLanding } from "@/components/ui/MobileAppSignupLanding";
 
 export default function SignupPage() {
-  return <RegistrationForm />;
+  return <MobileAppSignupLanding />;
 }
-
