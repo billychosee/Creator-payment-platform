@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: "export",
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
-  distDir: "out",
 
   images: {
-    unoptimized: true,
+    unoptimized: false,
     remotePatterns: [
       {
         protocol: "https",
@@ -28,6 +26,7 @@ const nextConfig = {
 
   experimental: {
     optimizeCss: true,
+    turbopack: {}, // Enable Turbopack configuration
   },
 
   compiler: {
@@ -95,7 +94,7 @@ const nextConfig = {
           // Cache Control for sensitive pages
           {
             key: 'Cache-Control',
-            value: isProduction 
+            value: isProduction
               ? 'no-cache, no-store, must-revalidate, private'
               : 'no-cache',
           },
@@ -145,7 +144,7 @@ const nextConfig = {
     ];
   },
 
-  // Webpack configuration for security
+  // Turbopack/Webpack configuration for security
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Remove webpack resolve alias warnings in production
     if (isServer) {
@@ -160,6 +159,12 @@ const nextConfig = {
     );
 
     return config;
+  },
+
+  // Turbopack specific configuration
+  turbopack: {
+    resolveAlias: {},
+    resolveExtensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
 };
 
