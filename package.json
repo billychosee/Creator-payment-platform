@@ -12,7 +12,10 @@
     "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
     "dev:full": "concurrently \"npm run dev\" \"cd server && npm run dev\"",
     "install:all": "npm install && cd server && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "security:audit": "npm audit --audit-level high",
+    "security:fix": "npm audit fix",
+    "security:check": "npm run security:audit && npx audit-ci --moderate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.0",
@@ -20,6 +23,8 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "critters": "^0.0.23",
+    "dompurify": "^3.0.8",
+    "isomorphic-dompurify": "^2.13.0",
     "lucide-react": "^0.331.0",
     "next": "^16.0.10",
     "qrcode": "^1.5.3",
@@ -28,18 +33,63 @@
     "react-hook-form": "^7.48.0",
     "recharts": "^2.8.0",
     "tailwind-merge": "^2.0.0",
-    "zod": "^3.22.0"
+    "zod": "^3.22.0",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.2.0",
+    "uuid": "^9.0.1",
+    "joi": "^17.12.1",
+    "validator": "^13.11.0",
+    "rate-limiter-flexible": "^4.0.1",
+    "node-cache": "^5.1.2",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@types/node": "20.8.0",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0",
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/dompurify": "^3.0.5",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/crypto-js": "^4.2.2",
+    "@types/uuid": "^9.0.7",
+    "@types/validator": "^13.11.8",
     "autoprefixer": "10.4.16",
     "concurrently": "^8.2.0",
-    "eslint": "8.51.0",
+    "eslint": "^8.51.0",
     "eslint-config-next": "14.0.0",
     "postcss": "8.4.31",
     "tailwindcss": "3.3.5",
-    "typescript": "^5.9.3"
-  }
+    "typescript": "^5.9.3",
+    "audit-ci": "^6.6.1",
+    "eslint-plugin-security": "^1.7.1",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0"
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "keywords": [
+    "security",
+    "nextjs",
+    "payment",
+    "authentication",
+    "csrf",
+    "xss-protection"
+  ]
 }
