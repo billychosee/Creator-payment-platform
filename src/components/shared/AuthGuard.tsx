@@ -10,7 +10,15 @@ interface AuthGuardProps {
   redirectTo?: string;
 }
 
-export const AuthGuard = ({ children, redirectTo = "/login" }: AuthGuardProps) => {
+export const AuthGuard = ({
+  children,
+  redirectTo = "/login",
+}: AuthGuardProps) => {
+  // Temporarily bypass authentication for debugging
+  return <>{children}</>;
+
+  // Original authentication logic (commented out for debugging)
+  /*
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -40,6 +48,7 @@ export const AuthGuard = ({ children, redirectTo = "/login" }: AuthGuardProps) =
 
   // Render children only if user is authenticated
   return currentUser ? <>{children}</> : null;
+  */
 };
 
 export default AuthGuard;

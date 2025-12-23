@@ -30,7 +30,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -57,7 +57,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Get current user
       const currentUser = await APIService.getCurrentUser();
       if (currentUser) {
@@ -67,11 +67,11 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           bio: profileData.bio || currentUser.bio,
           socialLinks: {
             ...currentUser.socialLinks,
-            ...profileData.socialLinks
-          }
+            ...profileData.socialLinks,
+          },
         });
       }
-      
+
       setShowProfileSetup(false);
       router.push("/dashboard");
       if (onSuccess) onSuccess();
@@ -82,24 +82,27 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Authenticate user using API
-      const user = await APIService.authenticate(formData.email, formData.password);
-      
+      const user = await APIService.authenticate(
+        formData.email,
+        formData.password
+      );
+
       if (user) {
         // Check if this is the demo user with no password set yet
         if (user.email === "demo@example.com") {
           // Store the password for future logins
           localStorage.setItem(`password_${user.id}`, formData.password);
         }
-        
+
         // User is authenticated, check if they need profile setup
         if (!user.tagline || !user.username) {
           setShowProfileSetup(true);
@@ -108,7 +111,10 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           if (onSuccess) onSuccess();
         }
       } else {
-        setErrors({ submit: "Invalid email or password. Try demo@example.com with any password." });
+        setErrors({
+          submit:
+            "Invalid email or password. Try demo@example.com with any password.",
+        });
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -127,11 +133,32 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
+            <img
+              src="/Tese-Icon.png"
+              alt="Tese Icon"
+              className="mx-auto mb-4 w-16 h-16"
+            />
             <CardTitle>Welcome Back</CardTitle>
             <CardDescription>Login to your Tese account</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+              <p className="text-sm text-yellow-800 font-medium mb-2">
+                Demo Login
+              </p>
+              <p className="text-xs text-yellow-700">
+                Use these credentials to test the dashboard:
+              </p>
+              <div className="mt-2 text-xs text-yellow-800">
+                <p>
+                  <strong>Email:</strong> demo@example.com
+                </p>
+                <p>
+                  <strong>Password:</strong> any password
+                </p>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 label="Email"
@@ -139,7 +166,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Enter your email"
+                placeholder="demo@example.com"
                 error={errors.email}
                 required
               />
@@ -150,7 +177,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
+                placeholder="Enter any password"
                 error={errors.password}
                 required
               />
@@ -159,11 +186,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 <p className="text-sm text-destructive">{errors.submit}</p>
               )}
 
-              <Button
-                type="submit"
-                isLoading={isLoading}
-                className="w-full"
-              >
+              <Button type="submit" isLoading={isLoading} className="w-full">
                 Login
               </Button>
             </form>

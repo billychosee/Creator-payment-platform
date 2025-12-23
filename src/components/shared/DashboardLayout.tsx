@@ -15,10 +15,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <Sidebar />
       <div className="flex-1 lg:ml-64">
         <Navbar />
-        <main className="mt-16 p-4 lg:p-8">{children}</main>
-        <ProfileSetupChecker />
+        <main className="mt-16">{children}</main>
+        {/* <ProfileSetupChecker /> */}
       </div>
     </div>
   );
 };
-

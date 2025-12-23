@@ -3,9 +3,11 @@ import { cn } from "@/lib/utils";
 import { buttons, semantic } from "@/lib/colors";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "accent" | "outline" | "ghost" | "premium" | "destructive";
-  size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary" | "accent" | "outline" | "ghost" | "premium" | "destructive" | "glass" | "gradient";
+  size?: "sm" | "md" | "lg" | "xl";
   isLoading?: boolean;
+  fullWidth?: boolean;
+  className?: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -16,35 +18,48 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       isLoading,
       disabled,
+      fullWidth = false,
       children,
       ...props
     },
     ref
   ) => {
     const baseStyles =
-      "font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-2";
+      "font-medium transition-all duration-300 flex items-center justify-center gap-2";
 
     const variants = {
-      primary: `${buttons.primary} text-white active:scale-95`,
-      secondary: `${buttons.secondary} text-white active:scale-95`,
-      accent: `${buttons.accent} text-white active:scale-95`,
-      outline: buttons.outline,
-      ghost: buttons.ghost,
-      premium: `${buttons.premium} text-white active:scale-95`,
-      destructive: `bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white active:scale-95`,
+      primary: `${buttons.primary} text-white active:scale-95 shadow-lg hover:shadow-xl`,
+      secondary: `${buttons.secondary} text-white active:scale-95 shadow-lg hover:shadow-xl`,
+      accent: `${buttons.accent} text-white active:scale-95 shadow-lg hover:shadow-xl`,
+      outline: `${buttons.outline} shadow-lg hover:shadow-xl`,
+      ghost: `${buttons.ghost} shadow-lg hover:shadow-xl`,
+      premium: `${buttons.premium} text-white active:scale-95 shadow-lg hover:shadow-xl`,
+      destructive: `bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white active:scale-95 shadow-lg hover:shadow-xl`,
+      glass: `backdrop-blur-sm border border-white/20 bg-gradient-to-br from-white/10 to-white/5 text-white hover:border-white/40 hover:shadow-xl hover:shadow-white/20 active:scale-95`,
+      gradient: `bg-gradient-to-br from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white active:scale-95 shadow-lg hover:shadow-xl`,
     };
 
     const sizes = {
-      sm: "px-3 py-1.5 text-sm",
-      md: "px-4 py-2 text-base",
-      lg: "px-6 py-3 text-lg",
+      sm: "px-3 py-1.5 text-sm rounded-lg",
+      md: "px-4 py-2 text-base rounded-lg",
+      lg: "px-6 py-3 text-lg rounded-xl",
+      xl: "px-8 py-4 text-xl rounded-2xl",
     };
+
+    const widthClass = fullWidth ? "w-full" : "";
 
     return (
       <button
-        className={cn(baseStyles, variants[variant], sizes[size], className, {
-          "opacity-50 cursor-not-allowed": disabled || isLoading,
-        })}
+        className={cn(
+          baseStyles,
+          variants[variant],
+          sizes[size],
+          widthClass,
+          className,
+          {
+            "opacity-50 cursor-not-allowed": disabled || isLoading,
+          }
+        )}
         disabled={disabled || isLoading}
         ref={ref}
         {...props}

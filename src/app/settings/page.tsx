@@ -191,7 +191,7 @@ export default function SettingsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-fade-in">
+      <div className="space-y-8 animate-fade-in px-4 sm:px-6 lg:px-8">
         <div>
           <h1 className="text-3xl font-bold">Settings</h1>
           <p className="text-muted-foreground mt-2">
@@ -205,18 +205,15 @@ export default function SettingsPage() {
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
-                <button
+                <Button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
-                    activeTab === tab.id
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-secondary/50"
-                  }`}
+                  variant={activeTab === tab.id ? "primary" : "ghost"}
+                  className="flex items-center gap-2 whitespace-nowrap"
                 >
                   <Icon size={18} />
                   <span className="hidden sm:inline">{tab.label}</span>
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -345,13 +342,14 @@ export default function SettingsPage() {
                                   "/placeholder-avatar.png";
                               }}
                             />
-                            <button
+                            <Button
                               onClick={() => fileInputRef.current?.click()}
-                              className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center hover:bg-primary/90 transition-colors"
+                              variant="primary"
+                              className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full"
                               type="button"
                             >
                               <Camera size={14} />
-                            </button>
+                            </Button>
                           </div>
                           <div className="space-y-2">
                             <input
@@ -584,7 +582,7 @@ export default function SettingsPage() {
                         <button
                           type="button"
                           onClick={() => togglePasswordVisibility("current")}
-                          className="absolute right-3 top-8 text-muted-foreground hover:text-foreground"
+                          className="absolute right-3 top-8 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {showPasswords.current ? (
                             <EyeOff size={18} />
@@ -606,7 +604,7 @@ export default function SettingsPage() {
                         <button
                           type="button"
                           onClick={() => togglePasswordVisibility("new")}
-                          className="absolute right-3 top-8 text-muted-foreground hover:text-foreground"
+                          className="absolute right-3 top-8 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {showPasswords.new ? (
                             <EyeOff size={18} />
@@ -628,7 +626,7 @@ export default function SettingsPage() {
                         <button
                           type="button"
                           onClick={() => togglePasswordVisibility("confirm")}
-                          className="absolute right-3 top-8 text-muted-foreground hover:text-foreground"
+                          className="absolute right-3 top-8 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {showPasswords.confirm ? (
                             <EyeOff size={18} />

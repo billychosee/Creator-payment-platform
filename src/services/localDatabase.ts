@@ -1,4 +1,12 @@
-import { User, Transaction, Payout, PaymentLink, PaymentRequest, DashboardStats, SocialLinks } from "@/types";
+import {
+  User,
+  Transaction,
+  Payout,
+  PaymentLink,
+  PaymentRequest,
+  DashboardStats,
+  SocialLinks,
+} from "@/types";
 
 // Local Database Keys
 const DB_KEYS = {
@@ -8,7 +16,7 @@ const DB_KEYS = {
   PAYOUTS: "creator_payments_payouts",
   PAYMENT_LINKS: "creator_payments_payment_links",
   PAYMENT_REQUESTS: "creator_payments_payment_requests",
-  NEXT_IDS: "creator_payments_next_ids"
+  NEXT_IDS: "creator_payments_next_ids",
 } as const;
 
 // Next ID Table Keys
@@ -17,10 +25,11 @@ const NEXT_ID_TABLE_KEYS = {
   TRANSACTIONS: "transactions",
   PAYOUTS: "payouts",
   PAYMENT_LINKS: "paymentLinks",
-  PAYMENT_REQUESTS: "paymentRequests"
+  PAYMENT_REQUESTS: "paymentRequests",
 } as const;
 
-type NextIdTableKey = typeof NEXT_ID_TABLE_KEYS[keyof typeof NEXT_ID_TABLE_KEYS];
+type NextIdTableKey =
+  (typeof NEXT_ID_TABLE_KEYS)[keyof typeof NEXT_ID_TABLE_KEYS];
 
 // Generate unique ID
 const generateId = (): string => {
@@ -31,10 +40,10 @@ const generateId = (): string => {
 export class LocalDatabase {
   // Check if we're in the browser before accessing localStorage
   private static checkLocalStorageAccess(): boolean {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === "undefined") return false;
     try {
-      const testKey = '__localStorage_test__';
-      localStorage.setItem(testKey, 'test');
+      const testKey = "__localStorage_test__";
+      localStorage.setItem(testKey, "test");
       localStorage.removeItem(testKey);
       return true;
     } catch {
@@ -45,14 +54,14 @@ export class LocalDatabase {
   // Initialize with sample data if empty (client-side only)
   static initialize() {
     if (!this.checkLocalStorageAccess()) return;
-    
+
     if (!localStorage.getItem(DB_KEYS.NEXT_IDS)) {
       const nextIds = {
         users: 1,
         transactions: 1,
         payouts: 1,
         paymentLinks: 1,
-        paymentRequests: 1
+        paymentRequests: 1,
       };
       localStorage.setItem(DB_KEYS.NEXT_IDS, JSON.stringify(nextIds));
     }
@@ -75,50 +84,50 @@ export class LocalDatabase {
       socialLinks: {
         twitter: "@demo_creator",
         instagram: "@demo_creator",
-        youtube: "Demo Creator Channel"
+        youtube: "Demo Creator Channel",
       },
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     const sampleTransactions: Transaction[] = [
       {
         id: "txn-1",
         userId: "demo-user-1",
-        amount: 25.50,
+        amount: 25.5,
         type: "donation",
         status: "completed",
         description: "Thank you for the awesome content!",
         createdAt: new Date(Date.now() - 86400000), // 1 day ago
         fromUser: {
           username: "fan123",
-          profileImage: ""
-        }
+          profileImage: "",
+        },
       },
       {
         id: "txn-2",
         userId: "demo-user-1",
-        amount: 15.00,
+        amount: 15.0,
         type: "payment_link",
         status: "completed",
         description: "Custom artwork request",
         createdAt: new Date(Date.now() - 172800000), // 2 days ago
         fromUser: {
           username: "artlover",
-          profileImage: ""
-        }
-      }
+          profileImage: "",
+        },
+      },
     ];
 
     const samplePayouts: Payout[] = [
       {
         id: "payout-1",
         userId: "demo-user-1",
-        amount: 35.50,
+        amount: 35.5,
         status: "completed",
         method: "bank_transfer",
         createdAt: new Date(Date.now() - 259200000), // 3 days ago
-        completedAt: new Date(Date.now() - 86400000) // 1 day ago
-      }
+        completedAt: new Date(Date.now() - 86400000), // 1 day ago
+      },
     ];
 
     const samplePaymentLinks: PaymentLink[] = [
@@ -132,24 +141,31 @@ export class LocalDatabase {
         shareUrl: "https://payments.example.com/l/custom-art",
         logo: "",
         createdAt: new Date(),
-        status: "active"
-      }
+        status: "active",
+      },
     ];
 
     // Only add sample data if no data exists
     if (!localStorage.getItem(DB_KEYS.USERS)) {
       localStorage.setItem(DB_KEYS.USERS, JSON.stringify([sampleUser]));
-      localStorage.setItem(DB_KEYS.TRANSACTIONS, JSON.stringify(sampleTransactions));
+      localStorage.setItem(
+        DB_KEYS.TRANSACTIONS,
+        JSON.stringify(sampleTransactions)
+      );
       localStorage.setItem(DB_KEYS.PAYOUTS, JSON.stringify(samplePayouts));
-      localStorage.setItem(DB_KEYS.PAYMENT_LINKS, JSON.stringify(samplePaymentLinks));
+      localStorage.setItem(
+        DB_KEYS.PAYMENT_LINKS,
+        JSON.stringify(samplePaymentLinks)
+      );
       localStorage.setItem(DB_KEYS.PAYMENT_REQUESTS, JSON.stringify([]));
     }
   }
 
   // Get next ID for a table
   private static getNextId(table: NextIdTableKey): string {
-    if (!this.checkLocalStorageAccess()) throw new Error("localStorage not available");
-    
+    if (!this.checkLocalStorageAccess())
+      throw new Error("localStorage not available");
+
     const nextIds = JSON.parse(localStorage.getItem(DB_KEYS.NEXT_IDS) || "{}");
     const id = nextIds[table] || 1;
     nextIds[table] = (id as number) + 1;
@@ -173,7 +189,7 @@ export class LocalDatabase {
       tagline: userData.tagline,
       bio: userData.bio || "",
       socialLinks: userData.socialLinks || {},
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     const users = this.getUsers();
@@ -192,18 +208,18 @@ export class LocalDatabase {
 
   static getUserByEmail(email: string): User | null {
     const users = this.getUsers();
-    return users.find(user => user.email === email) || null;
+    return users.find((user) => user.email === email) || null;
   }
 
   static getUserByUsername(username: string): User | null {
     const users = this.getUsers();
-    return users.find(user => user.username === username) || null;
+    return users.find((user) => user.username === username) || null;
   }
 
   static updateUser(userId: string, updates: Partial<User>): User | null {
     const users = this.getUsers();
-    const userIndex = users.findIndex(user => user.id === userId);
-    
+    const userIndex = users.findIndex((user) => user.id === userId);
+
     if (userIndex === -1) return null;
 
     users[userIndex] = { ...users[userIndex], ...updates };
@@ -221,12 +237,12 @@ export class LocalDatabase {
 
   static getCurrentUser(): User | null {
     if (!this.checkLocalStorageAccess()) return null;
-    
+
     const currentUserId = localStorage.getItem(DB_KEYS.CURRENT_USER);
     if (!currentUserId) return null;
 
     const users = this.getUsers();
-    return users.find(user => user.id === currentUserId) || null;
+    return users.find((user) => user.id === currentUserId) || null;
   }
 
   static logout(): void {
@@ -242,7 +258,7 @@ export class LocalDatabase {
       if (this.checkLocalStorageAccess()) {
         localStorage.setItem(`password_${user.id}`, password);
       }
-      
+
       // For demo purposes, we'll accept any password for existing users
       // In production, this would properly validate the password hash
       this.setCurrentUser(user.id);
@@ -271,7 +287,7 @@ export class LocalDatabase {
       status: transactionData.status,
       description: transactionData.description,
       createdAt: new Date(),
-      fromUser: transactionData.fromUser
+      fromUser: transactionData.fromUser,
     };
 
     const transactions = this.getTransactions();
@@ -285,8 +301,12 @@ export class LocalDatabase {
 
   static getTransactions(userId?: string): Transaction[] {
     if (!this.checkLocalStorageAccess()) return [];
-    const transactions = JSON.parse(localStorage.getItem(DB_KEYS.TRANSACTIONS) || "[]");
-    return userId ? transactions.filter((txn: Transaction) => txn.userId === userId) : transactions;
+    const transactions = JSON.parse(
+      localStorage.getItem(DB_KEYS.TRANSACTIONS) || "[]"
+    );
+    return userId
+      ? transactions.filter((txn: Transaction) => txn.userId === userId)
+      : transactions;
   }
 
   // Payouts
@@ -302,7 +322,7 @@ export class LocalDatabase {
       amount: payoutData.amount,
       method: payoutData.method,
       status: payoutData.status || "pending",
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     const payouts = this.getPayouts();
@@ -317,19 +337,25 @@ export class LocalDatabase {
   static getPayouts(userId?: string): Payout[] {
     if (!this.checkLocalStorageAccess()) return [];
     const payouts = JSON.parse(localStorage.getItem(DB_KEYS.PAYOUTS) || "[]");
-    return userId ? payouts.filter((payout: Payout) => payout.userId === userId) : payouts;
+    return userId
+      ? payouts.filter((payout: Payout) => payout.userId === userId)
+      : payouts;
   }
 
-  static updatePayoutStatus(payoutId: string, status: Payout["status"], completedAt?: Date): Payout | null {
+  static updatePayoutStatus(
+    payoutId: string,
+    status: Payout["status"],
+    completedAt?: Date
+  ): Payout | null {
     const payouts = this.getPayouts();
-    const payoutIndex = payouts.findIndex(payout => payout.id === payoutId);
-    
+    const payoutIndex = payouts.findIndex((payout) => payout.id === payoutId);
+
     if (payoutIndex === -1) return null;
 
     payouts[payoutIndex] = {
       ...payouts[payoutIndex],
       status,
-      ...(completedAt && { completedAt })
+      ...(completedAt && { completedAt }),
     };
     if (this.checkLocalStorageAccess()) {
       localStorage.setItem(DB_KEYS.PAYOUTS, JSON.stringify(payouts));
@@ -365,7 +391,7 @@ export class LocalDatabase {
       startDate: linkData.startDate,
       expiryDate: linkData.expiryDate,
       createdAt: new Date(),
-      status: "active"
+      status: "active",
     };
 
     const paymentLinks = this.getPaymentLinks();
@@ -379,14 +405,21 @@ export class LocalDatabase {
 
   static getPaymentLinks(userId?: string): PaymentLink[] {
     if (!this.checkLocalStorageAccess()) return [];
-    const paymentLinks = JSON.parse(localStorage.getItem(DB_KEYS.PAYMENT_LINKS) || "[]");
-    return userId ? paymentLinks.filter((link: PaymentLink) => link.userId === userId) : paymentLinks;
+    const paymentLinks = JSON.parse(
+      localStorage.getItem(DB_KEYS.PAYMENT_LINKS) || "[]"
+    );
+    return userId
+      ? paymentLinks.filter((link: PaymentLink) => link.userId === userId)
+      : paymentLinks;
   }
 
-  static updatePaymentLinkStatus(linkId: string, status: PaymentLink["status"]): PaymentLink | null {
+  static updatePaymentLinkStatus(
+    linkId: string,
+    status: PaymentLink["status"]
+  ): PaymentLink | null {
     const paymentLinks = this.getPaymentLinks();
-    const linkIndex = paymentLinks.findIndex(link => link.id === linkId);
-    
+    const linkIndex = paymentLinks.findIndex((link) => link.id === linkId);
+
     if (linkIndex === -1) return null;
 
     paymentLinks[linkIndex] = { ...paymentLinks[linkIndex], status };
@@ -412,13 +445,16 @@ export class LocalDatabase {
       amount: requestData.amount,
       reason: requestData.reason,
       status: requestData.status || "pending",
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     const paymentRequests = this.getPaymentRequests();
     paymentRequests.push(newPaymentRequest);
     if (this.checkLocalStorageAccess()) {
-      localStorage.setItem(DB_KEYS.PAYMENT_REQUESTS, JSON.stringify(paymentRequests));
+      localStorage.setItem(
+        DB_KEYS.PAYMENT_REQUESTS,
+        JSON.stringify(paymentRequests)
+      );
     }
 
     return newPaymentRequest;
@@ -426,18 +462,35 @@ export class LocalDatabase {
 
   static getPaymentRequests(userId?: string): PaymentRequest[] {
     if (!this.checkLocalStorageAccess()) return [];
-    const paymentRequests = JSON.parse(localStorage.getItem(DB_KEYS.PAYMENT_REQUESTS) || "[]");
-    return userId ? paymentRequests.filter((request: PaymentRequest) => request.userId === userId) : paymentRequests;
+    const paymentRequests = JSON.parse(
+      localStorage.getItem(DB_KEYS.PAYMENT_REQUESTS) || "[]"
+    );
+    return userId
+      ? paymentRequests.filter(
+          (request: PaymentRequest) => request.userId === userId
+        )
+      : paymentRequests;
   }
 
-  static updatePaymentRequestStatus(requestId: string, status: PaymentRequest["status"]): PaymentRequest | null {
+  static updatePaymentRequestStatus(
+    requestId: string,
+    status: PaymentRequest["status"]
+  ): PaymentRequest | null {
     const paymentRequests = this.getPaymentRequests();
-    const requestIndex = paymentRequests.findIndex(request => request.id === requestId);
-    
+    const requestIndex = paymentRequests.findIndex(
+      (request) => request.id === requestId
+    );
+
     if (requestIndex === -1) return null;
 
-    paymentRequests[requestIndex] = { ...paymentRequests[requestIndex], status };
-    localStorage.setItem(DB_KEYS.PAYMENT_REQUESTS, JSON.stringify(paymentRequests));
+    paymentRequests[requestIndex] = {
+      ...paymentRequests[requestIndex],
+      status,
+    };
+    localStorage.setItem(
+      DB_KEYS.PAYMENT_REQUESTS,
+      JSON.stringify(paymentRequests)
+    );
 
     return paymentRequests[requestIndex];
   }
@@ -450,28 +503,82 @@ export class LocalDatabase {
     today.setHours(0, 0, 0, 0);
 
     const totalEarnings = transactions
-      .filter(txn => txn.status === "completed")
+      .filter((txn) => txn.status === "completed")
       .reduce((sum, txn) => sum + txn.amount, 0);
 
     const todayEarnings = transactions
-      .filter(txn => txn.status === "completed" && new Date(txn.createdAt) >= today)
+      .filter(
+        (txn) => txn.status === "completed" && new Date(txn.createdAt) >= today
+      )
       .reduce((sum, txn) => sum + txn.amount, 0);
 
     const pendingPayouts = payouts
-      .filter(payout => payout.status === "pending" || payout.status === "processing")
+      .filter(
+        (payout) =>
+          payout.status === "pending" || payout.status === "processing"
+      )
       .reduce((sum, payout) => sum + payout.amount, 0);
 
-    return {
+    // Generate sample data for the dashboard
+    const sampleStats: DashboardStats = {
+      totalBalance: 2500.75,
+      totalPaidOut: 1200.5,
+      views: 15420,
+      watchTime: "124h 32m",
+      subscribers: 892,
+      subscriptionEarningsPerMonth: 450.25,
+      payPerView: 0.0024,
+      topViewedVideos: [
+        {
+          id: "video-1",
+          name: "How to Create Amazing Digital Art",
+          views: 12540,
+          playlistName: undefined,
+          channelName: undefined,
+          status: undefined,
+          createdAt: undefined
+        },
+        {
+          id: "video-2", name: "My Creative Process Explained", views: 8920,
+          playlistName: undefined,
+          channelName: undefined,
+          status: undefined,
+          createdAt: undefined
+        },
+        {
+          id: "video-3", name: "Behind the Scenes: Art Creation", views: 6780,
+          playlistName: undefined,
+          channelName: undefined,
+          status: undefined,
+          createdAt: undefined
+        },
+        {
+          id: "video-4", name: "Tips for Aspiring Artists", views: 4560,
+          playlistName: undefined,
+          channelName: undefined,
+          status: undefined,
+          createdAt: undefined
+        },
+        {
+          id: "video-5", name: "Monthly Art Challenge Results", views: 3240,
+          playlistName: undefined,
+          channelName: undefined,
+          status: undefined,
+          createdAt: undefined
+        },
+      ],
       totalEarnings,
       todayEarnings,
       pendingPayouts,
-      totalTransactions: transactions.length
+      totalTransactions: transactions.length,
     };
+
+    return sampleStats;
   }
 
   // Database Management
   static clearDatabase(): void {
-    Object.values(DB_KEYS).forEach(key => {
+    Object.values(DB_KEYS).forEach((key) => {
       localStorage.removeItem(key);
     });
     this.initialize();
@@ -502,6 +609,6 @@ export class LocalDatabase {
 }
 
 // Auto-initialize when imported (client-side only)
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   LocalDatabase.initialize();
 }

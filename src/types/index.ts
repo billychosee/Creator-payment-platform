@@ -71,9 +71,111 @@ export interface PaymentRequest {
 }
 
 export interface DashboardStats {
+  totalBalance: number;
+  totalPaidOut: number;
+  views: number;
+  watchTime: string;
+  subscribers: number;
+  subscriptionEarningsPerMonth: number;
+  payPerView: number;
+  topViewedVideos: TopViewedVideo[];
   totalEarnings: number;
   todayEarnings: number;
   pendingPayouts: number;
   totalTransactions: number;
 }
 
+export interface Channel {
+  id: string;
+  name: string;
+  description?: string;
+  profileImage?: string;
+  subscribers: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Playlist {
+  id: string;
+  name: string;
+  description?: string;
+  channelId: string;
+  channelName: string;
+  videoCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Video {
+  id: string;
+  title: string;
+  description?: string;
+  thumbnail?: string;
+  duration: string;
+  views: number;
+  watchTime: string;
+  playlistId?: string;
+  playlistName?: string;
+  channelId: string;
+  channelName: string;
+  status: "active" | "abuseReported" | "blocked";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface TopViewedVideo {
+  playlistName: any;
+  channelName: any;
+  status: any;
+  createdAt: any;
+  id: string;
+  name: string;
+  views: number;
+}
+
+export interface Payment {
+  id: string;
+  userId: string;
+  date: Date;
+  description: string;
+  currency: string;
+  amount: number;
+  paymentMethod: string;
+  provider: string;
+  status: "completed" | "pending" | "failed";
+  createdAt: Date;
+}
+
+export interface Report {
+  id: string;
+  userId: string;
+  title: string;
+  description: string;
+  category: string;
+  moderation: string;
+  resolutionNotes?: string;
+  reportStatus: "pending" | "in_progress" | "resolved" | "rejected";
+  createdAt: Date;
+  resolvedAt?: Date;
+}
+
+export interface SubscriptionEarnings {
+  id: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  period: string;
+  createdAt: Date;
+}
+
+export interface PayPerView {
+  id: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  videoId: string;
+  videoTitle: string;
+  viewerId: string;
+  viewerName: string;
+  createdAt: Date;
+}

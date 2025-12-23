@@ -5,22 +5,25 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/app/layout/ThemeProvider";
 import {
-  Home,
-  Send,
+  LayoutDashboard,
+  Users,
   FileText,
+  Wallet,
   Settings,
-  User,
-  Menu,
-  X,
-  CreditCard,
+  Play,
+  List,
+  AlertTriangle,
   LogOut,
-  Bell,
+  Sun,
+  Moon,
+  X,
+  Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { gradients } from "@/lib/colors";
 
 export const Sidebar = () => {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -28,13 +31,18 @@ export const Sidebar = () => {
   const isActive = (path: string) => pathname === path;
 
   const menuItems = [
-    { icon: Home, label: "Dashboard", href: "/dashboard" },
-    { icon: CreditCard, label: "Payments", href: "/payments/payment-link" },
-    { icon: FileText, label: "Transactions", href: "/payments/transactions" },
-    { icon: Send, label: "Payouts", href: "/payments/payouts" },
-    { icon: Bell, label: "Notifications", href: "/notifications" },
-    { icon: User, label: "Profile", href: "/profile" },
-    { icon: Settings, label: "Settings", href: "/settings" },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+      href: "/dashboard",
+    },
+    { id: "channels", label: "Channels", icon: Users, href: "/channels" },
+    { id: "playlists", label: "Playlists", icon: List, href: "/playlists" },
+    { id: "videos", label: "Videos", icon: Play, href: "/videos" },
+    { id: "payments", label: "Payments", icon: Wallet, href: "/payments" },
+    { id: "reports", label: "Reports", icon: AlertTriangle, href: "/reports" },
+    { id: "settings", label: "Settings", icon: Settings, href: "/settings" },
   ];
 
   return (
@@ -65,34 +73,48 @@ export const Sidebar = () => {
         )}
       >
         {/* Logo */}
-        <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard")}>
-          <img src={theme === "light" ? "/Tese-Dark-logo.png" : "/Tese-Light-Logo.png"} alt="Tese" className="h-16" />
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={() => router.push("/dashboard")}
+        >
+          <img
+            src={
+              theme === "light" ? "/Tese-Dark-logo.png" : "/Tese-Light-Logo.png"
+            }
+            alt="Tese"
+            className="h-16"
+          />
         </div>
 
         {/* Navigation */}
         <nav className="space-y-2">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200",
-                  isActive(item.href)
-                    ? `bg-gradient-to-r ${gradients.primary} text-white shadow-lg hover:shadow-xl hover:brightness-110 active-menu-item`
-                    : "text-foreground hover:bg-secondary/50"
-                )}
-                style={{
-                  color: isActive(item.href) ? 'white' : undefined
-                }}
-              >
-                <Icon size={20} />
-                <span className="font-medium">{item.label}</span>
-              </Link>
-            );
-          })}
+          <div className="space-y-1">
+            <h3 className="px-4 py-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              Main
+            </h3>
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200",
+                    isActive(item.href)
+                      ? `bg-gradient-to-r ${gradients.primary} text-white shadow-lg hover:shadow-xl hover:brightness-110 active-menu-item`
+                      : "text-foreground hover:bg-secondary/50"
+                  )}
+                  style={{
+                    color: isActive(item.href) ? "white" : undefined,
+                  }}
+                >
+                  <Icon size={20} />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
         </nav>
 
         {/* Logout */}
@@ -106,4 +128,3 @@ export const Sidebar = () => {
     </>
   );
 };
-

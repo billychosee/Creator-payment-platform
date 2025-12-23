@@ -28,7 +28,16 @@ export const Navbar = () => {
 
   // Don't render navbar if user is not logged in
   if (!currentUser) {
-    return null;
+    return (
+      <div className="fixed top-0 right-0 left-0 lg:left-64 h-16 border-b border-border bg-card z-30">
+        <div className="h-full px-6 flex items-center justify-between">
+          <div className="hidden lg:block" />
+          <div className="flex items-center gap-6">
+            <div className="text-sm text-muted-foreground">Loading...</div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -40,7 +49,10 @@ export const Navbar = () => {
         {/* Right Section */}
         <div className="flex items-center gap-6">
           {/* Notifications */}
-          <Link href="/notifications" className="relative p-2 hover:bg-secondary/50 rounded-lg transition-colors">
+          <Link
+            href="/notifications"
+            className="relative p-2 hover:bg-secondary/50 rounded-lg transition-colors"
+          >
             <Bell size={20} />
             <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full notification-dot" />
           </Link>
@@ -65,12 +77,15 @@ export const Navbar = () => {
                 className="w-8 h-8 rounded-full bg-muted"
                 onError={(e) => {
                   // Fallback to a placeholder if image fails to load
-                  (e.target as HTMLImageElement).src = "/placeholder-avatar.png";
+                  (e.target as HTMLImageElement).src =
+                    "/placeholder-avatar.png";
                 }}
               />
               <div className="hidden sm:block text-left">
                 <p className="text-sm font-medium">{currentUser.username}</p>
-                <p className="text-xs text-muted-foreground">{currentUser.email}</p>
+                <p className="text-xs text-muted-foreground">
+                  {currentUser.email}
+                </p>
               </div>
             </button>
 
@@ -103,4 +118,3 @@ export const Navbar = () => {
     </div>
   );
 };
-
