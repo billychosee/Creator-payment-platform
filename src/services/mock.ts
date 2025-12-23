@@ -277,6 +277,14 @@ export const getMockDashboardStats = (): DashboardStats => {
   ).reduce((sum, p) => sum + p.amount, 0);
 
   return {
+    totalBalance: totalEarnings,
+    totalPaidOut: 0,
+    views: 0,
+    watchTime: "0",
+    subscribers: 0,
+    subscriptionEarningsPerMonth: 0,
+    payPerView: 0,
+    topViewedVideos: [],
     totalEarnings,
     todayEarnings,
     pendingPayouts,

@@ -4,7 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/Select";
 import {
   Card,
   CardContent,
@@ -48,12 +54,12 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    
+
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    
+
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -63,22 +69,33 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     const newErrors: Record<string, string> = {};
 
     if (!formData.title) newErrors.title = "Title is required";
-    if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
+    if (!formData.firstName.trim())
+      newErrors.firstName = "First name is required";
     if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.password) newErrors.password = "Password is required";
-    if (!formData.confirmPassword) newErrors.confirmPassword = "Confirm password is required";
-    
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "Confirm password is required";
+
     // Social media link is optional, no validation required
     // Optional: add validation if you want to validate the format of the social link
-    if (formData.socialLink.trim() && !formData.socialLink.includes('.') && !formData.socialLink.startsWith('@')) {
-      newErrors.socialLink = "Please provide a valid social media link or username";
+    if (
+      formData.socialLink.trim() &&
+      !formData.socialLink.includes(".") &&
+      !formData.socialLink.startsWith("@")
+    ) {
+      newErrors.socialLink =
+        "Please provide a valid social media link or username";
     }
-    
-    if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
+
+    if (
+      formData.password &&
+      formData.confirmPassword &&
+      formData.password !== formData.confirmPassword
+    ) {
       newErrors.confirmPassword = "Passwords do not match";
     }
-    
+
     if (!formData.acceptTerms) {
       newErrors.acceptTerms = "You must accept the terms and conditions";
     }
@@ -109,26 +126,29 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     console.log("User social media data:", {
       socialLink: formData.socialLink,
     });
-    
+
     // In a real application, you would use an email service like:
     // - SendGrid
     // - Mailgun
     // - AWS SES
     // - Resend
     // etc.
-    
+
     // For demo purposes, we'll just simulate the API call
     try {
       // Simulate email sending delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Generate OTP verification URL
-      const otpVerificationUrl = `${window.location.origin}/verify-otp?email=${encodeURIComponent(email)}`;
+      const otpVerificationUrl = `${
+        window.location.origin
+      }/verify-otp?email=${encodeURIComponent(email)}`;
       console.log("OTP Verification URL:", otpVerificationUrl);
-      
+
       // In production, this would be sent via email service with OTP code
-      alert(`Verification email would be sent to ${email}\n\nFor demo purposes, you can copy this OTP:\n\n${otp}\n\nOr visit: ${otpVerificationUrl}`);
-      
+      alert(
+        `Verification email would be sent to ${email}\n\nFor demo purposes, you can copy this OTP:\n\n${otp}\n\nOr visit: ${otpVerificationUrl}`
+      );
     } catch (error) {
       console.error("Failed to send verification email:", error);
     }
@@ -136,14 +156,14 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Check if user already exists
       const existingUser = await APIService.getUserByEmail(formData.email);
       if (existingUser) {
@@ -154,25 +174,25 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
       // Generate OTP code
       const otpCode = generateOTP();
-      
+
       // Create user using API service with consistent format
       const newUser = await APIService.createUser({
         username: `${formData.firstName.toLowerCase()}_${formData.lastName.toLowerCase()}_${Date.now()}`,
         email: formData.email,
         password: formData.password,
         tagline: `${formData.title} ${formData.firstName} ${formData.lastName}`,
-        bio: `Social Media: ${formData.socialLink || 'Not provided'}`,
+        bio: `Social Media: ${formData.socialLink || "Not provided"}`,
         socialLinks: {
           primary: formData.socialLink || undefined,
-        }
+        },
       });
-      
+
       // Send OTP verification email
       setVerificationEmail(formData.email);
       await sendVerificationEmail(formData.email, otpCode);
-      
+
       setIsRegistered(true);
-      
+
       if (onSuccess) onSuccess();
     } catch (error) {
       console.error("Registration failed:", error);
@@ -190,7 +210,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Get current user
       const currentUser = await APIService.getCurrentUser();
       if (currentUser && currentUser.email) {
@@ -213,20 +233,22 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
             </div>
             <CardTitle>Check Your Email</CardTitle>
             <CardDescription>
-              We've sent a verification code to <strong>{verificationEmail}</strong>
+              We've sent a verification code to{" "}
+              <strong>{verificationEmail}</strong>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Enter the 6-digit verification code from your email to activate your account.
-              If you don't see the email, check your spam folder.
+              Enter the 6-digit verification code from your email to activate
+              your account. If you don't see the email, check your spam folder.
             </p>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm text-blue-800 font-medium">
-                <strong>Next Step:</strong> Copy the 6-digit code from your email and enter it on the OTP verification page.
+                <strong>Next Step:</strong> Copy the 6-digit code from your
+                email and enter it on the OTP verification page.
               </p>
             </div>
-            
+
             <div className="space-y-3">
               <Button
                 onClick={() => router.push("/verify-otp")}
@@ -234,7 +256,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
               >
                 Enter Verification Code
               </Button>
-              
+
               <Button
                 variant="outline"
                 onClick={handleResendOTP}
@@ -243,12 +265,13 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
                 <Mail className="w-4 h-4 mr-2" />
                 Resend OTP Code
               </Button>
-              
+
               <p
                 onClick={handleLoginClick}
                 className="text-sm text-muted-foreground hover:underline cursor-pointer"
               >
-                Already have an account? <span className="hover:text-red-500">Login</span>
+                Already have an account?{" "}
+                <span className="hover:text-red-500">Login</span>
               </p>
             </div>
 
@@ -265,21 +288,36 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-yellow-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
+          <img
+            src="/Tese-Icon.png"
+            alt="Tese Icon"
+            className="mx-auto mb-4 w-16 h-16"
+          />
           <CardTitle>Create Account</CardTitle>
           <CardDescription>Join Tese today</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Select
-              label="Title"
-              name="title"
               value={formData.title}
-              onChange={handleChange}
-              options={titleOptions}
-              error={errors.title}
-              required
-            />
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, title: value }));
+                if (errors.title) {
+                  setErrors((prev) => ({ ...prev, title: "" }));
+                }
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select title" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="mr">Mr</SelectItem>
+                <SelectItem value="mrs">Mrs</SelectItem>
+                <SelectItem value="miss">Miss</SelectItem>
+                <SelectItem value="dr">Dr</SelectItem>
+                <SelectItem value="rev">Rev</SelectItem>
+              </SelectContent>
+            </Select>
 
             <Input
               label="First Name"
@@ -336,8 +374,10 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
             {/* Social Media Links Section */}
             <div className="space-y-4">
-              <h3 className="text-sm font-medium text-foreground">Social Media Presence (Optional)</h3>
-              
+              <h3 className="text-sm font-medium text-foreground">
+                Social Media Presence (Optional)
+              </h3>
+
               <Input
                 label="Primary Social Link"
                 name="socialLink"
@@ -373,11 +413,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
               <p className="text-sm text-destructive">{errors.submit}</p>
             )}
 
-            <Button
-              type="submit"
-              isLoading={isLoading}
-              className="w-full"
-            >
+            <Button type="submit" isLoading={isLoading} className="w-full">
               Register
             </Button>
           </form>

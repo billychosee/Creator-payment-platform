@@ -21,12 +21,12 @@ const nextConfig = {
       },
     ],
     dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; frame-src 'none';",
+    contentSecurityPolicy:
+      "default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; frame-src 'none';",
   },
 
   experimental: {
     optimizeCss: true,
-    turbopack: {}, // Enable Turbopack configuration
   },
 
   compiler: {
@@ -49,95 +49,102 @@ const nextConfig = {
       form-action 'self';
       frame-ancestors 'none';
       upgrade-insecure-requests;
-    `.replace(/\s{2,}/g, ' ').trim();
+    `
+      .replace(/\s{2,}/g, " ")
+      .trim();
 
     return [
       {
         // Apply security headers to all routes
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           // Content Security Policy
           {
-            key: 'Content-Security-Policy',
+            key: "Content-Security-Policy",
             value: csp,
           },
           // XSS Protection
           {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
           },
           // Prevent MIME type sniffing
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           // Prevent clickjacking
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           // Referrer Policy
           {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
           },
           // Feature Policy / Permissions Policy
           {
-            key: 'Permissions-Policy',
-            value: 'geolocation=(), microphone=(), camera=(), payment=()',
+            key: "Permissions-Policy",
+            value: "geolocation=(), microphone=(), camera=(), payment=()",
           },
           // HSTS (HTTP Strict Transport Security)
-          ...(isProduction ? [{
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
-          }] : []),
+          ...(isProduction
+            ? [
+                {
+                  key: "Strict-Transport-Security",
+                  value: "max-age=63072000; includeSubDomains; preload",
+                },
+              ]
+            : []),
           // Cache Control for sensitive pages
           {
-            key: 'Cache-Control',
+            key: "Cache-Control",
             value: isProduction
-              ? 'no-cache, no-store, must-revalidate, private'
-              : 'no-cache',
+              ? "no-cache, no-store, must-revalidate, private"
+              : "no-cache",
           },
           // Remove server information
           {
-            key: 'X-Powered-By',
-            value: '', // Remove Next.js version info
+            key: "X-Powered-By",
+            value: "", // Remove Next.js version info
           },
           // Remove X-DNS-Prefetch-Control for security
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'off',
+            key: "X-DNS-Prefetch-Control",
+            value: "off",
           },
         ],
       },
       {
         // Additional headers for API routes
-        source: '/api/(.*)',
+        source: "/api/(.*)",
         headers: [
           {
-            key: 'Access-Control-Allow-Origin',
-            value: process.env.NEXT_PUBLIC_API_URL || 'https://your-domain.com',
+            key: "Access-Control-Allow-Origin",
+            value: process.env.NEXT_PUBLIC_API_URL || "https://your-domain.com",
           },
           {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET, POST, PUT, DELETE, OPTIONS',
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
           },
           {
-            key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type, Authorization, X-Requested-With, X-CSRF-Token',
+            key: "Access-Control-Allow-Headers",
+            value:
+              "Content-Type, Authorization, X-Requested-With, X-CSRF-Token",
           },
           {
-            key: 'Access-Control-Allow-Credentials',
-            value: 'true',
+            key: "Access-Control-Allow-Credentials",
+            value: "true",
           },
           {
-            key: 'Access-Control-Max-Age',
-            value: '86400',
+            key: "Access-Control-Max-Age",
+            value: "86400",
           },
           // CORS preflight cache
           {
-            key: 'Access-Control-Expose-Headers',
-            value: 'X-CSRF-Token, X-RateLimit-Limit, X-RateLimit-Remaining',
+            key: "Access-Control-Expose-Headers",
+            value: "X-CSRF-Token, X-RateLimit-Limit, X-RateLimit-Remaining",
           },
         ],
       },
@@ -148,13 +155,15 @@ const nextConfig = {
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Remove webpack resolve alias warnings in production
     if (isServer) {
-      config.externals = [...(config.externals || []), 'canvas', 'jsdom'];
+      config.externals = [...(config.externals || []), "canvas", "jsdom"];
     }
 
     // Add security-related plugins
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.SECURE_MODE': JSON.stringify(process.env.NODE_ENV === 'production'),
+        "process.env.SECURE_MODE": JSON.stringify(
+          process.env.NODE_ENV === "production"
+        ),
       })
     );
 
@@ -162,10 +171,7 @@ const nextConfig = {
   },
 
   // Turbopack specific configuration
-  turbopack: {
-    resolveAlias: {},
-    resolveExtensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-  },
+  turbopack: {},
 };
 
 module.exports = nextConfig;

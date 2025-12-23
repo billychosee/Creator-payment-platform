@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/shared/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -19,7 +19,6 @@ import { Playlists } from "@/components/ui/Playlists";
 
 export default function PlaylistsPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [channels, setChannels] = useState<Channel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,12 +29,13 @@ export default function PlaylistsPage() {
     loadPlaylists();
     loadChannels();
 
-    // Check for channel filter in URL params
-    const channelParam = searchParams.get("channel");
-    if (channelParam) {
-      setFilterChannel(channelParam);
+    // Read channel filter from URL on client mount
+    if (typeof window !== "undefined") {
+      const sp = new URLSearchParams(window.location.search);
+      const channelParam = sp.get("channel");
+      if (channelParam) setFilterChannel(channelParam);
     }
-  }, [searchParams]);
+  }, []);
 
   const loadPlaylists = async () => {
     setIsLoading(true);

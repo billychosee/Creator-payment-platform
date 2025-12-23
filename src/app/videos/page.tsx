@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/shared/DashboardLayout";
 import { Video, Channel, Playlist } from "@/types";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
@@ -28,7 +28,6 @@ interface VideosProps {
 
 export default function VideosPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [videos, setVideos] = useState<Video[]>([]);
   const [channels, setChannels] = useState<Channel[]>([]);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
@@ -58,12 +57,13 @@ export default function VideosPage() {
     loadChannels();
     loadPlaylists();
 
-    // Check for playlist filter in URL params
-    const playlistParam = searchParams.get("playlist");
-    if (playlistParam) {
-      setFilterPlaylist(playlistParam);
+    // Read playlist filter from URL on client mount
+    if (typeof window !== "undefined") {
+      const sp = new URLSearchParams(window.location.search);
+      const playlistParam = sp.get("playlist");
+      if (playlistParam) setFilterPlaylist(playlistParam);
     }
-  }, [searchParams]);
+  }, []);
 
   const loadVideos = async () => {
     try {

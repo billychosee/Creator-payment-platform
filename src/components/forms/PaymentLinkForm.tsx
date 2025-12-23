@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
-import { Select } from "@/components/ui/Select";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/Select";
 import { Modal } from "@/components/ui/Modal";
 import { PaymentLinkSuccessModal } from "@/components/ui/PaymentLinkSuccessModal";
 import { DatePicker } from "@/components/ui/DatePicker";
@@ -46,7 +46,7 @@ export const PaymentLinkFormModal = ({
         console.error("Failed to load current user:", error);
       }
     };
-    
+
     loadCurrentUser();
   }, []);
 
@@ -170,8 +170,12 @@ export const PaymentLinkFormModal = ({
         description: formData.description,
         customerRedirectUrl: formData.customerRedirectUrl || undefined,
         customerFailRedirectUrl: formData.customerFailRedirectUrl || undefined,
-        startDate: formData.startDate ? new Date(formData.startDate) : undefined,
-        expiryDate: formData.expiryDate ? new Date(formData.expiryDate) : undefined,
+        startDate: formData.startDate
+          ? new Date(formData.startDate)
+          : undefined,
+        expiryDate: formData.expiryDate
+          ? new Date(formData.expiryDate)
+          : undefined,
       });
 
       console.log("Payment Link created:", newPaymentLink);
@@ -271,16 +275,24 @@ export const PaymentLinkFormModal = ({
                 Payment Currency
               </label>
               <Select
-                name="paymentCurrency"
                 value={formData.paymentCurrency}
-                onChange={handleChange}
-                options={[
-                  { value: "USD", label: "USD" },
-                  { value: "EUR", label: "EUR" },
-                  { value: "GBP", label: "GBP" },
-                  { value: "CAD", label: "CAD" },
-                ]}
-              />
+                onValueChange={(value) => {
+                  setFormData((prev) => ({ ...prev, paymentCurrency: value }));
+                  if (errors.paymentCurrency) {
+                    setErrors((prev) => ({ ...prev, paymentCurrency: "" }));
+                  }
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select currency" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="USD">USD</SelectItem>
+                  <SelectItem value="EUR">EUR</SelectItem>
+                  <SelectItem value="GBP">GBP</SelectItem>
+                  <SelectItem value="CAD">CAD</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <Input
@@ -421,4 +433,3 @@ export const PaymentLinkFormModal = ({
     </>
   );
 };
-
