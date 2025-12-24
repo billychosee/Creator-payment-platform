@@ -73,8 +73,8 @@ export default function VerifyEmailClient() {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
-            <div className="mx-auto mb-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-              <Loader className="w-8 h-8 text-blue-600 animate-spin" />
+            <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+              <Loader className="w-8 h-8 text-green-600 animate-spin" />
             </div>
             <CardTitle>Verifying Email</CardTitle>
             <CardDescription>

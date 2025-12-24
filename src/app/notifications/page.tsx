@@ -37,7 +37,7 @@ let mockActivities: Activity[] = [
     time: '4 hours ago',
     isRead: false,
     icon: Wallet,
-    color: 'text-blue-600'
+    color: 'text-green-600'
   },
   {
     id: '3',
@@ -47,7 +47,7 @@ let mockActivities: Activity[] = [
     time: '1 day ago',
     isRead: true,
     icon: UserCheck,
-    color: 'text-emerald-600'
+    color: 'text-green-600'
   },
   {
     id: '4',
@@ -69,7 +69,7 @@ let mockActivities: Activity[] = [
     time: '2 days ago',
     isRead: true,
     icon: TrendingUp,
-    color: 'text-purple-600'
+    color: 'text-green-600'
   },
   {
     id: '6',
@@ -79,7 +79,7 @@ let mockActivities: Activity[] = [
     time: '3 days ago',
     isRead: true,
     icon: AlertCircle,
-    color: 'text-orange-600'
+    color: 'text-yellow-600'
   },
   {
     id: '7',
@@ -100,7 +100,7 @@ let mockActivities: Activity[] = [
     time: '5 days ago',
     isRead: true,
     icon: UserCheck,
-    color: 'text-emerald-600'
+    color: 'text-green-600'
   }
 ];
 
@@ -114,15 +114,15 @@ const getTypeBadgeColor = (type: string) => {
     case 'payment':
       return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
     case 'withdrawal':
-      return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+      return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
     case 'verification':
-      return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300';
+      return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
     case 'transfer':
-      return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300';
+      return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
     case 'alert':
-      return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
+      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
     case 'signup':
-      return 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300';
+      return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
     default:
       return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
   }
@@ -179,7 +179,7 @@ export default function NotificationsPage() {
               <div className="flex gap-2">
                 <button
                   onClick={markAllAsRead}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
                 >
                   <Eye className="w-4 h-4" />
                   Mark All Read
@@ -212,8 +212,8 @@ export default function NotificationsPage() {
 
           <div className="bg-card border border-border rounded-lg p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                <Wallet className="w-5 h-5 text-blue-600" />
+              <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                <Wallet className="w-5 h-5 text-green-600" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Withdrawn</p>
@@ -236,8 +236,8 @@ export default function NotificationsPage() {
 
           <div className="bg-card border border-border rounded-lg p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-emerald-100 dark:bg-emerald-900 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-emerald-600" />
+              <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-green-600" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Verified</p>
@@ -292,7 +292,7 @@ export default function NotificationsPage() {
                 <div
                   key={activity.id}
                   className={`p-6 hover:bg-secondary/30 transition-colors ${
-                    !activity.isRead ? 'bg-blue-50/50 dark:bg-blue-950/20 border-l-4 border-l-blue-500' : ''
+                    !activity.isRead ? 'bg-green-50/50 dark:bg-green-950/20 border-l-4 border-l-green-500' : ''
                   }`}
                 >
                   <div className="flex items-start gap-4">
@@ -336,7 +336,7 @@ export default function NotificationsPage() {
                           {!activity.isRead && (
                             <button
                               onClick={() => markAsRead(activity.id)}
-                              className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-xs transition-colors flex items-center gap-1"
+                              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs transition-colors flex items-center gap-1"
                             >
                               <Eye className="w-3 h-3" />
                               Mark Read

@@ -113,6 +113,8 @@ export interface Video {
   thumbnail?: string;
   duration: string;
   views: number;
+  uniqueViews: number;
+  newUniqueViews: number;
   watchTime: string;
   playlistId?: string;
   playlistName?: string;
@@ -177,5 +179,24 @@ export interface PayPerView {
   videoTitle: string;
   viewerId: string;
   viewerName: string;
+  createdAt: Date;
+}
+
+export interface Comment {
+  id: string;
+  videoId: string;
+  userId: string;
+  username: string;
+  profileImage?: string;
+  content: string;
+  likes: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface VideoLike {
+  id: string;
+  videoId: string;
+  userId: string;
   createdAt: Date;
 }

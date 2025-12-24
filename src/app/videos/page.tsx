@@ -7,6 +7,7 @@ import { Video, Channel, Playlist } from "@/types";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useTheme } from "@/app/layout/ThemeProvider";
 import { Button } from "@/components/ui/Button";
+import { VideoCard } from "@/components/ui/VideoCard";
 import {
   ArrowLeft,
   Play,
@@ -40,18 +41,6 @@ export default function VideosPage() {
   const { theme } = useTheme();
   const [showUpload, setShowUpload] = useState(false);
 
-  // Video thumbnail images
-  const videoThumbnails = [
-    "https://images.unsplash.com/photo-1639342405971-a428b16b0f16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    "https://images.unsplash.com/photo-1584091376810-0f79ff748352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    "https://images.unsplash.com/photo-1758522488162-e346cb6eb411?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    "https://images.unsplash.com/photo-1528543606781-2f6e6857f318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    "https://images.unsplash.com/photo-1522845015757-50bce044e5da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    "https://images.unsplash.com/photo-1654288891700-95f67982cbcc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    "https://images.unsplash.com/photo-1636226570637-3fbda7ca09dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-  ];
-
   useEffect(() => {
     loadVideos();
     loadChannels();
@@ -76,6 +65,8 @@ export default function VideosPage() {
           thumbnail: "/placeholder-avatar.png",
           duration: "15:30",
           views: 12500,
+          uniqueViews: 8900,
+          newUniqueViews: 1200,
           watchTime: "120:45:00",
           channelId: "1",
           channelName: "Tech Tutorials",
@@ -90,6 +81,8 @@ export default function VideosPage() {
           thumbnail: "/placeholder-avatar.png",
           duration: "25:15",
           views: 8900,
+          uniqueViews: 6200,
+          newUniqueViews: 850,
           watchTime: "85:20:00",
           channelId: "1",
           channelName: "Tech Tutorials",
@@ -104,6 +97,8 @@ export default function VideosPage() {
           thumbnail: "/placeholder-avatar.png",
           duration: "45:00",
           views: 15600,
+          uniqueViews: 11200,
+          newUniqueViews: 1500,
           watchTime: "200:15:00",
           channelId: "2",
           channelName: "Code Academy",
@@ -183,34 +178,18 @@ export default function VideosPage() {
     return channelMatch && playlistMatch && statusMatch;
   });
 
-  const getStatusBadge = (status: Video["status"]) => {
-    switch (status) {
-      case "active":
-        return (
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 text-green-400 rounded-full text-xs backdrop-blur-sm">
-            <CheckCircle className="w-3 h-3" />
-            <span>Active</span>
-          </div>
-        );
-      case "abuseReported":
-        return (
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 text-yellow-400 rounded-full text-xs backdrop-blur-sm">
-            <AlertTriangle className="w-3 h-3" />
-            <span>Under Review</span>
-          </div>
-        );
-      case "blocked":
-        return (
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 text-red-400 rounded-full text-xs backdrop-blur-sm">
-            <XCircle className="w-3 h-3" />
-            <span>Blocked</span>
-          </div>
-        );
-    }
-  };
-
   if (selectedVideo) {
     const videoIndex = videos.findIndex((v) => v.id === selectedVideo.id);
+    const videoThumbnails = [
+      "https://images.unsplash.com/photo-1639342405971-a428b16b0f16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1584091376810-0f79ff748352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1758522488162-e346cb6eb411?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1528543606781-2f6e6857f318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1522845015757-50bce044e5da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1654288891700-95f67982cbcc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1636226570637-3fbda7ca09dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    ];
     const thumbnailUrl = videoThumbnails[videoIndex % videoThumbnails.length];
 
     return (
@@ -279,7 +258,31 @@ export default function VideosPage() {
                     {selectedVideo.createdAt.toLocaleDateString()}
                   </span>
                   <span>•</span>
-                  {getStatusBadge(selectedVideo.status)}
+                  {(() => {
+                    switch (selectedVideo.status) {
+                      case "active":
+                        return (
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 text-green-400 rounded-full text-xs backdrop-blur-sm">
+                            <CheckCircle className="w-3 h-3" />
+                            <span>Active</span>
+                          </div>
+                        );
+                      case "abuseReported":
+                        return (
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 text-yellow-400 rounded-full text-xs backdrop-blur-sm">
+                            <AlertTriangle className="w-3 h-3" />
+                            <span>Under Review</span>
+                          </div>
+                        );
+                      case "blocked":
+                        return (
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 text-red-400 rounded-full text-xs backdrop-blur-sm">
+                            <XCircle className="w-3 h-3" />
+                            <span>Blocked</span>
+                          </div>
+                        );
+                    }
+                  })()}
                 </div>
 
                 {/* Channel Info */}
@@ -290,11 +293,11 @@ export default function VideosPage() {
                     border: "1px solid var(--app-card-border)",
                   }}
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-pink-600 rounded-full flex items-center justify-center text-xl text-white">
+                  <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-yellow-600 rounded-full flex items-center justify-center text-xl text-white">
                     {selectedVideo.channelName[0]}
                   </div>
                   <div className="flex-1">
-                    <h3 className="mb-1" style={{ color: "var(--app-text)" }}>
+                    <h3 className="mb-1 font-bold" style={{ color: "var(--app-text)" }}>
                       {selectedVideo.channelName}
                     </h3>
                     <p
@@ -323,29 +326,27 @@ export default function VideosPage() {
                     Performance
                   </h3>
                   <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span style={{ color: "var(--app-text-muted)" }}>
-                          Views
-                        </span>
-                        <span style={{ color: "var(--app-text)" }}>
-                          {selectedVideo.views.toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-600 to-pink-600 w-4/5" />
-                      </div>
+                    <div className="flex justify-between text-sm">
+                      <span style={{ color: "var(--app-text-muted)" }}>
+                        Total Views
+                      </span>
+                      <span style={{ color: "var(--app-text)" }}>
+                        {selectedVideo.views.toLocaleString()}
+                      </span>
                     </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span style={{ color: "var(--app-text-muted)" }}>
-                          Engagement
-                        </span>
-                        <span className="text-green-400">+24.5%</span>
-                      </div>
-                      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-green-600 to-emerald-600 w-3/5" />
-                      </div>
+                    <div className="flex justify-between text-sm">
+                      <span style={{ color: "var(--app-text-muted)" }}>
+                        Unique Views
+                      </span>
+                      <span style={{ color: "var(--app-text)" }}>
+                        {selectedVideo.uniqueViews.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span style={{ color: "var(--app-text-muted)" }}>
+                        Engagement
+                      </span>
+                      <span className="text-green-400">+24.5%</span>
                     </div>
                   </div>
                 </div>
@@ -435,7 +436,10 @@ export default function VideosPage() {
         }}
       >
         <div className="mb-8">
-          <h1 className="text-4xl mb-2" style={{ color: "var(--app-text)" }}>
+          <h1
+            className="text-4xl font-extrabold mb-2"
+            style={{ color: "var(--app-text)" }}
+          >
             Your Videos
           </h1>
           <div className="flex items-center justify-between">
@@ -497,7 +501,7 @@ export default function VideosPage() {
         <div className="flex gap-4 mb-8">
           <div className="relative group">
             <button
-              className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-600/50 rounded-xl px-4 py-3 text-white font-medium transition-all duration-300 hover:from-gray-700/60 hover:to-gray-800/60 hover:border-gray-500/70 hover:shadow-lg hover:shadow-gray-500/20 hover:scale-105 active:scale-95"
+              className="relative bg-gradient-to-br from-red-800/50 to-red-900/50 backdrop-blur-sm border border-red-600/50 rounded-xl px-4 py-3 text-white font-medium transition-all duration-300 hover:from-red-700/60 hover:to-red-800/60 hover:border-red-500/70 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105 active:scale-95"
               style={{
                 boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
                 backdropFilter: "blur(4px)",
@@ -547,7 +551,7 @@ export default function VideosPage() {
 
           <div className="relative group">
             <button
-              className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-600/50 rounded-xl px-4 py-3 text-white font-medium transition-all duration-300 hover:from-gray-700/60 hover:to-gray-800/60 hover:border-gray-500/70 hover:shadow-lg hover:shadow-gray-500/20 hover:scale-105 active:scale-95"
+              className="relative bg-gradient-to-br from-red-800/50 to-red-900/50 backdrop-blur-sm border border-red-600/50 rounded-xl px-4 py-3 text-white font-medium transition-all duration-300 hover:from-red-700/60 hover:to-red-800/60 hover:border-red-500/70 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105 active:scale-95"
               style={{
                 boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
                 backdropFilter: "blur(4px)",
@@ -598,99 +602,14 @@ export default function VideosPage() {
 
         {/* Video Grid - YouTube/Netflix Style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredVideos.map((video, index) => {
-            const thumbnailUrl =
-              videoThumbnails[index % videoThumbnails.length];
-
-            return (
-              <div
-                key={video.id}
-                className="group cursor-pointer animate-fade-in backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 shadow-xl hover:shadow-2xl hover:border-white/40 transition-all duration-300"
-                style={{ animationDelay: `${index * 0.05}s` }}
-                onClick={() => setSelectedVideo(video)}
-              >
-                {/* Thumbnail */}
-                <div className="relative aspect-video rounded-xl overflow-hidden mb-3 shadow-lg backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 group-hover:border-white/40 group-hover:shadow-2xl transition-all duration-300">
-                  <ImageWithFallback
-                    src={thumbnailUrl}
-                    alt={video.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Duration */}
-                  <div className="absolute bottom-2 right-2 bg-black/90 px-2 py-1 rounded text-xs text-white">
-                    {Math.floor(Math.random() * 30 + 5)}:
-                    {Math.floor(Math.random() * 60)
-                      .toString()
-                      .padStart(2, "0")}
-                  </div>
-
-                  {/* Status Badge */}
-                  <div className="absolute top-2 right-2">
-                    {getStatusBadge(video.status)}
-                  </div>
-
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-14 h-14 bg-gradient-to-br from-white/90 to-white/70 rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 border border-white/40 backdrop-blur-xl hover:bg-gradient-to-br hover:from-white/100 hover:to-white/90">
-                      <Play className="w-7 h-7 text-white fill-white ml-0.5" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Video Info */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    {/* Channel Avatar */}
-                    <div className="w-9 h-9 bg-gradient-to-br from-red-600 to-pink-600 rounded-full flex items-center justify-center text-sm flex-shrink-0 text-white">
-                      {video.channelName[0]}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <h3
-                        className="mb-1 line-clamp-2 group-hover:text-red-500 transition-colors"
-                        style={{ color: "var(--app-text)" }}
-                      >
-                        {video.title}
-                      </h3>
-                      <div className="flex items-center gap-2 text-xs" style={{ color: "var(--app-text-muted)" }}>
-                        <span className="bg-gradient-to-br from-white/10 to-white/5 px-2 py-1 rounded-full">
-                          {video.channelName}
-                        </span>
-                        {video.playlistName && (
-                          <span className="bg-gradient-to-br from-white/10 to-white/5 px-2 py-1 rounded-full">
-                            {video.playlistName}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* More Options */}
-                    <Button
-                      variant="glass"
-                      className="w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:text-red-500"
-                    >
-                      <MoreVertical className="w-4 h-4" />
-                    </Button>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs" style={{ color: "var(--app-text-muted)" }}>
-                    <div className="flex items-center gap-2">
-                      <span className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        {video.views.toLocaleString()} views
-                      </span>
-                      <span>•</span>
-                      <span>{video.createdAt.toLocaleDateString()}</span>
-                    </div>
-                    {getStatusBadge(video.status)}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {filteredVideos.map((video, index) => (
+            <VideoCard
+              key={video.id}
+              video={video}
+              onClick={() => setSelectedVideo(video)}
+              index={index}
+            />
+          ))}
         </div>
 
         {filteredVideos.length === 0 && (

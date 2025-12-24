@@ -19,7 +19,7 @@ export const Toast = ({ id, type, message, onClose }: ToastProps) => {
     success:
       "bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-400",
     error: "bg-red-500/10 border-red-500/30 text-red-700 dark:text-red-400",
-    info: "bg-blue-500/10 border-blue-500/30 text-blue-700 dark:text-blue-400",
+    info: "bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-400",
     warning:
       "bg-yellow-500/10 border-yellow-500/30 text-yellow-700 dark:text-yellow-400",
   };
@@ -74,4 +74,3 @@ export const useToast = () => {
 
   return { toasts, showToast, removeToast };
 };
-

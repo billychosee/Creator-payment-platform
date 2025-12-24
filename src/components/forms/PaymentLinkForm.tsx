@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/Select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 import { Modal } from "@/components/ui/Modal";
 import { PaymentLinkSuccessModal } from "@/components/ui/PaymentLinkSuccessModal";
 import { DatePicker } from "@/components/ui/DatePicker";
@@ -73,6 +73,10 @@ export const PaymentLinkFormModal = ({
       newErrors.reference = "Payment Link Reference is required";
     }
 
+    if (!formData.paymentCurrency) {
+      newErrors.paymentCurrency = "Payment Currency is required";
+    }
+
     if (formData.startDate && formData.expiryDate) {
       const start = new Date(formData.startDate);
       const end = new Date(formData.expiryDate);
@@ -104,9 +108,7 @@ export const PaymentLinkFormModal = ({
   };
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -117,6 +119,18 @@ export const PaymentLinkFormModal = ({
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleCurrencyChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      paymentCurrency: value,
+    }));
+
+    // Clear error when user changes currency
+    if (errors.paymentCurrency) {
+      setErrors((prev) => ({ ...prev, paymentCurrency: "" }));
     }
   };
 
@@ -276,12 +290,7 @@ export const PaymentLinkFormModal = ({
               </label>
               <Select
                 value={formData.paymentCurrency}
-                onValueChange={(value) => {
-                  setFormData((prev) => ({ ...prev, paymentCurrency: value }));
-                  if (errors.paymentCurrency) {
-                    setErrors((prev) => ({ ...prev, paymentCurrency: "" }));
-                  }
-                }}
+                onValueChange={handleCurrencyChange}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select currency" />
@@ -293,6 +302,11 @@ export const PaymentLinkFormModal = ({
                   <SelectItem value="CAD">CAD</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.paymentCurrency && (
+                <p className="text-xs text-destructive">
+                  {errors.paymentCurrency}
+                </p>
+              )}
             </div>
 
             <Input
@@ -405,7 +419,7 @@ export const PaymentLinkFormModal = ({
               type="button"
               variant="outline"
               onClick={handleClose}
-              className="flex-1 border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+              className="flex-1 border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
             >
               CLOSE
             </Button>
@@ -418,6 +432,9 @@ export const PaymentLinkFormModal = ({
               SAVE
             </Button>
           </div>
+          {errors.submit && (
+            <p className="text-sm text-destructive mt-2">{errors.submit}</p>
+          )}
         </form>
       </Modal>
 

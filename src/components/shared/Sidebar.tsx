@@ -100,7 +100,7 @@ export const Sidebar = () => {
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200",
+                    "flex items-start gap-3 px-4 py-3 rounded-lg transition-all duration-200",
                     isActive(item.href)
                       ? `bg-gradient-to-r ${gradients.primary} text-white shadow-lg hover:shadow-xl hover:brightness-110 active-menu-item`
                       : "text-foreground hover:bg-secondary/50"

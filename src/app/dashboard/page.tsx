@@ -131,6 +131,9 @@ export default function DashboardPage() {
         <Dashboard
           metrics={stats}
           onWithdraw={() => router.push("/payments/payouts")}
+          period={period}
+          onPeriodChange={handlePeriodChange}
+          isLoading={isLoading}
         />
       </div>
     </DashboardLayout>

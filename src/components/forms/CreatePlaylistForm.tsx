@@ -365,7 +365,7 @@ export function CreatePlaylistForm({
                 isSubmitting ||
                 Object.values(errors).some((error) => error !== "")
               }
-              className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale border border-purple-500/30 hover:border-purple-500/50"
+              className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-yellow-600 text-white rounded-xl hover:from-red-700 hover:to-yellow-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale border border-red-500/30 hover:border-red-500/50"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">

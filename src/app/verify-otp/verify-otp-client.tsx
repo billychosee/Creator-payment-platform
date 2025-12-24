@@ -87,8 +87,8 @@ export default function VerifyOTPClient() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
-          <div className="mx-auto mb-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-            <Mail className="w-8 h-8 text-blue-600" />
+          <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+            <Mail className="w-8 h-8 text-green-600" />
           </div>
           <CardTitle>Verify Your Email</CardTitle>
           <CardDescription>

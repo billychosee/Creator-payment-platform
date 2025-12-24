@@ -267,10 +267,10 @@ export default function ChannelsPage() {
         >
           <button
             onClick={() => setSelectedChannel(null)}
-            className="flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors group"
+            className="flex items-center gap-2 text-black hover:text-gray-700 mb-8 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Back to Channels</span>
+            <span className="font-bold">Back to Channels</span>
           </button>
 
           {/* Channel Hero */}
@@ -278,8 +278,8 @@ export default function ChannelsPage() {
             <div
               className={`absolute inset-0 bg-gradient-to-r ${
                 effectiveTheme === "dark"
-                  ? "from-red-600/20 to-purple-600/20"
-                  : "from-red-600/15 to-purple-600/15"
+                  ? "from-red-600/20 to-yellow-600/20"
+                  : "from-red-600/15 to-yellow-600/15"
               }`}
             />
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40" />
@@ -293,7 +293,7 @@ export default function ChannelsPage() {
                     className="w-32 h-32 rounded-3xl object-cover shadow-2xl"
                   />
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br from-red-600/30 to-pink-600/30 rounded-3xl ${
+                    className={`absolute inset-0 bg-gradient-to-br from-red-600/30 to-yellow-600/30 rounded-3xl ${
                       effectiveTheme === "dark"
                         ? "shadow-red-600/30"
                         : "shadow-red-600/20"
@@ -303,7 +303,7 @@ export default function ChannelsPage() {
 
                 <div className="flex-1">
                   <h1
-                    className={`text-5xl mb-4 animate-fade-in ${
+                    className={`text-5xl mb-4 animate-fade-in font-bold ${
                       effectiveTheme === "dark" ? "text-white" : "text-gray-900"
                     }`}
                   >
@@ -330,7 +330,7 @@ export default function ChannelsPage() {
                     </button>
                     <button
                       onClick={() => setShowCreatePlaylist(true)}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-purple-600/30 hover:scale-105"
+                      className="bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-red-600/30 hover:scale-105"
                     >
                       <Plus className="w-5 h-5" />
                       <span>Create Playlist</span>
@@ -346,31 +346,31 @@ export default function ChannelsPage() {
             <div
               className={`bg-gradient-to-br ${
                 effectiveTheme === "dark"
-                  ? "from-purple-600/20 to-pink-600/20 border border-purple-500/20"
-                  : "from-purple-600/15 to-pink-600/15 border border-purple-500/15"
+                  ? "from-red-600/20 to-yellow-600/20 border border-red-500/20"
+                  : "from-red-600/15 to-yellow-600/15 border border-red-500/15"
               } rounded-2xl p-6 hover:scale-105 transition-transform`}
             >
               <div className="flex items-center gap-3 mb-3">
                 <div
                   className={`w-12 h-12 ${
                     effectiveTheme === "dark"
-                      ? "bg-purple-500/20"
-                      : "bg-purple-500/15"
+                      ? "bg-green-500/20"
+                      : "bg-green-500/15"
                   } rounded-xl flex items-center justify-center`}
                 >
                   <Users
                     className={`w-6 h-6 ${
                       effectiveTheme === "dark"
-                        ? "text-purple-400"
-                        : "text-purple-600"
+                        ? "text-green-400"
+                        : "text-green-600"
                     }`}
                   />
                 </div>
                 <div
                   className={`flex items-center gap-1 ${
                     effectiveTheme === "dark"
-                      ? "text-purple-400"
-                      : "text-purple-600"
+                      ? "text-green-400"
+                      : "text-green-600"
                   } text-sm`}
                 >
                   <TrendingUp className="w-4 h-4" />
@@ -396,31 +396,31 @@ export default function ChannelsPage() {
             <div
               className={`bg-gradient-to-br ${
                 effectiveTheme === "dark"
-                  ? "from-blue-600/20 to-cyan-600/20 border border-blue-500/20"
-                  : "from-blue-600/15 to-cyan-600/15 border border-blue-500/15"
+                  ? "from-yellow-600/20 to-red-600/20 border border-yellow-500/20"
+                  : "from-yellow-600/15 to-red-600/15 border border-yellow-500/15"
               } rounded-2xl p-6 hover:scale-105 transition-transform`}
             >
               <div className="flex items-center gap-3 mb-3">
                 <div
                   className={`w-12 h-12 ${
                     effectiveTheme === "dark"
-                      ? "bg-blue-500/20"
-                      : "bg-blue-500/15"
+                      ? "bg-green-500/20"
+                      : "bg-green-500/15"
                   } rounded-xl flex items-center justify-center`}
                 >
                   <Play
                     className={`w-6 h-6 ${
                       effectiveTheme === "dark"
-                        ? "text-blue-400"
-                        : "text-blue-600"
+                        ? "text-green-400"
+                        : "text-green-600"
                     }`}
                   />
                 </div>
                 <div
                   className={`flex items-center gap-1 ${
                     effectiveTheme === "dark"
-                      ? "text-blue-400"
-                      : "text-blue-600"
+                      ? "text-green-400"
+                      : "text-green-600"
                   } text-sm`}
                 >
                   <TrendingUp className="w-4 h-4" />
@@ -446,8 +446,8 @@ export default function ChannelsPage() {
             <div
               className={`bg-gradient-to-br ${
                 effectiveTheme === "dark"
-                  ? "from-green-600/20 to-emerald-600/20 border border-green-500/20"
-                  : "from-green-600/15 to-emerald-600/15 border border-green-500/15"
+                  ? "from-green-600/20 to-yellow-600/20 border border-green-500/20"
+                  : "from-green-600/15 to-yellow-600/15 border border-green-500/15"
               } rounded-2xl p-6 hover:scale-105 transition-transform`}
             >
               <div className="flex items-center gap-3 mb-3">
@@ -496,31 +496,31 @@ export default function ChannelsPage() {
             <div
               className={`bg-gradient-to-br ${
                 effectiveTheme === "dark"
-                  ? "from-orange-600/20 to-red-600/20 border border-orange-500/20"
-                  : "from-orange-600/15 to-red-600/15 border border-orange-500/15"
+                  ? "from-yellow-600/20 to-red-600/20 border border-yellow-500/20"
+                  : "from-yellow-600/15 to-red-600/15 border border-yellow-500/15"
               } rounded-2xl p-6 hover:scale-105 transition-transform`}
             >
               <div className="flex items-center gap-3 mb-3">
                 <div
                   className={`w-12 h-12 ${
                     effectiveTheme === "dark"
-                      ? "bg-orange-500/20"
-                      : "bg-orange-500/15"
+                      ? "bg-yellow-500/20"
+                      : "bg-yellow-500/15"
                   } rounded-xl flex items-center justify-center`}
                 >
                   <Eye
                     className={`w-6 h-6 ${
                       effectiveTheme === "dark"
-                        ? "text-orange-400"
-                        : "text-orange-600"
+                        ? "text-yellow-400"
+                        : "text-yellow-600"
                     }`}
                   />
                 </div>
                 <div
                   className={`flex items-center gap-1 ${
                     effectiveTheme === "dark"
-                      ? "text-orange-400"
-                      : "text-orange-600"
+                      ? "text-yellow-400"
+                      : "text-yellow-600"
                   } text-sm`}
                 >
                   <TrendingUp className="w-4 h-4" />
@@ -547,10 +547,10 @@ export default function ChannelsPage() {
           {/* Playlists Section */}
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl">Channel Playlists</h2>
+              <h2 className="text-2xl font-bold">Channel Playlists</h2>
               <button
                 onClick={() => setShowCreatePlaylist(true)}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-purple-600/30 hover:scale-105"
+                className="bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-red-600/30 hover:scale-105"
               >
                 <Plus className="w-5 h-5" />
                 <span>Create Playlist</span>
@@ -569,7 +569,7 @@ export default function ChannelsPage() {
                   >
                     {/* Playlist Header */}
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="relative w-16 h-16 bg-gradient-to-br from-red-600 to-pink-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-red-600/30">
+                      <div className="relative w-16 h-16 bg-gradient-to-br from-red-600 to-yellow-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-red-600/30">
                         <List className="w-8 h-8 text-white" />
                         {/* Video count badge */}
                         <div className="absolute -bottom-2 -right-2 bg-black/90 px-2 py-1 rounded-full text-xs text-white flex items-center gap-1">
@@ -578,7 +578,7 @@ export default function ChannelsPage() {
                         </div>
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg text-white mb-1 group-hover:text-red-400 transition-colors font-medium">
+                        <h3 className="text-lg text-white mb-1 group-hover:text-red-400 transition-colors font-bold">
                           {playlist.name}
                         </h3>
                         <div className="flex items-center gap-4 text-sm">
@@ -605,7 +605,7 @@ export default function ChannelsPage() {
             ) : (
               <div className="text-center py-16 bg-gradient-to-br from-[#1a1a1a] to-[#121212] border border-gray-800 rounded-2xl">
                 <div className="mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-red-600 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg shadow-red-600/30">
+                  <div className="w-20 h-20 bg-gradient-to-br from-red-600 to-yellow-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg shadow-red-600/30">
                     <List className="w-10 h-10 text-white" />
                   </div>
                 </div>
@@ -619,7 +619,7 @@ export default function ChannelsPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
                     onClick={() => setShowCreatePlaylist(true)}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-xl flex items-center gap-3 transition-all shadow-lg shadow-purple-600/30 hover:scale-105 active:scale-95"
+                    className="bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white px-8 py-4 rounded-xl flex items-center gap-3 transition-all shadow-lg shadow-red-600/30 hover:scale-105 active:scale-95"
                   >
                     <Plus className="w-6 h-6" />
                     <span className="text-lg font-medium">
@@ -664,7 +664,7 @@ export default function ChannelsPage() {
         <div className="mb-12 flex justify-between items-center">
           <div>
             <h1
-              className={`text-4xl mb-2 ${
+              className={`text-4xl mb-2 font-bold ${
                 effectiveTheme === "dark" ? "text-white" : "text-gray-900"
               }`}
             >
@@ -680,7 +680,7 @@ export default function ChannelsPage() {
           </div>
           <button
             onClick={() => setShowCreateChannel(true)}
-            className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-red-600/30 hover:scale-105"
+            className="bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-red-600/30 hover:scale-105"
           >
             <Plus className="w-5 h-5" />
             <span>Create Channel</span>
@@ -713,7 +713,7 @@ export default function ChannelsPage() {
                 } rounded-3xl p-8 group-hover:border-red-500/50 transition-all duration-300`}
               >
                 {/* Decorative gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-yellow-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Content */}
                 <div className="relative">
@@ -724,12 +724,12 @@ export default function ChannelsPage() {
                       alt={channel.name}
                       className="w-24 h-24 rounded-2xl object-cover shadow-xl"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-pink-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-yellow-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
 
                   {/* Channel Name */}
                   <h2
-                    className={`text-2xl mb-2 group-hover:text-red-500 transition-colors ${
+                    className={`text-2xl mb-2 group-hover:text-red-500 transition-colors font-bold ${
                       effectiveTheme === "dark" ? "text-white" : "text-gray-900"
                     }`}
                   >
@@ -751,8 +751,8 @@ export default function ChannelsPage() {
                       <div
                         className={`flex items-center justify-center gap-1 mb-1 ${
                           effectiveTheme === "dark"
-                            ? "text-purple-400"
-                            : "text-purple-600"
+                            ? "text-green-400"
+                            : "text-green-600"
                         }`}
                       >
                         <Users className="w-4 h-4" />
@@ -780,8 +780,8 @@ export default function ChannelsPage() {
                       <div
                         className={`flex items-center justify-center gap-1 mb-1 ${
                           effectiveTheme === "dark"
-                            ? "text-blue-400"
-                            : "text-blue-600"
+                            ? "text-green-400"
+                            : "text-green-600"
                         }`}
                       >
                         <Play className="w-4 h-4" />

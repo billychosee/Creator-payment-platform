@@ -242,8 +242,8 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
               Enter the 6-digit verification code from your email to activate
               your account. If you don't see the email, check your spam folder.
             </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="text-sm text-blue-800 font-medium">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <p className="text-sm text-green-800 font-medium">
                 <strong>Next Step:</strong> Copy the 6-digit code from your
                 email and enter it on the OTP verification page.
               </p>

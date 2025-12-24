@@ -195,9 +195,9 @@ export const APITestPanel = () => {
         </div>
 
         {/* Instructions */}
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
-          <h4 className="font-semibold text-blue-900 mb-2">Instructions</h4>
-          <ul className="text-sm text-blue-800 space-y-1">
+        <div className="p-4 bg-green-50 border border-green-200 rounded-md">
+          <h4 className="font-semibold text-green-900 mb-2">Instructions</h4>
+          <ul className="text-sm text-green-800 space-y-1">
             <li>• <strong>localStorage/mock:</strong> Works immediately, no setup required</li>
             <li>• <strong>Supabase:</strong> Requires Supabase account and environment setup</li>
             <li>• <strong>Custom API:</strong> Requires your own API server and environment setup</li>

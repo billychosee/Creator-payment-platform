@@ -193,7 +193,7 @@ export default function SettingsPage() {
     <DashboardLayout>
       <div className="space-y-8 animate-fade-in px-4 sm:px-6 lg:px-8">
         <div>
-          <h1 className="text-3xl font-bold">Settings</h1>
+          <h1 className="text-3xl font-extrabold">Settings</h1>
           <p className="text-muted-foreground mt-2">
             Manage your account, banking details, and verification documents
           </p>
@@ -209,7 +209,7 @@ export default function SettingsPage() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
                   variant={activeTab === tab.id ? "primary" : "ghost"}
-                  className="flex items-center gap-2 whitespace-nowrap"
+                  className="flex items-center gap-2 whitespace-nowrap justify-start w-full"
                 >
                   <Icon size={18} />
                   <span className="hidden sm:inline">{tab.label}</span>
@@ -533,17 +533,17 @@ export default function SettingsPage() {
                     maxLength={6}
                   />
 
-                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
                     <div className="flex items-start gap-2">
                       <Building
-                        className="text-blue-600 dark:text-blue-400 mt-0.5"
+                        className="text-green-600 dark:text-green-400 mt-0.5"
                         size={16}
                       />
                       <div className="text-sm">
-                        <p className="font-medium text-blue-900 dark:text-blue-100">
+                        <p className="font-medium text-green-900 dark:text-green-100">
                           Security Note
                         </p>
-                        <p className="text-blue-700 dark:text-blue-300 mt-1">
+                        <p className="text-green-700 dark:text-green-300 mt-1">
                           Your banking details are encrypted and stored
                           securely. We never store your full account numbers.
                         </p>

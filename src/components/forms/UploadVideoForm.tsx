@@ -252,7 +252,7 @@ export function UploadVideoForm({ onClose, onCreate }: UploadVideoFormProps) {
       <div className="bg-[#151515] border border-gray-800 rounded-2xl p-6 w-full max-w-4xl animate-scale-in max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-pink-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-yellow-600 rounded-xl flex items-center justify-center">
               <Upload className="w-5 h-5 text-white" />
             </div>
             <h2 className="text-xl font-semibold">Upload Video</h2>
@@ -615,7 +615,7 @@ export function UploadVideoForm({ onClose, onCreate }: UploadVideoFormProps) {
                 isSubmitting ||
                 Object.values(errors).some((error) => error !== "")
               }
-              className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-xl hover:from-red-700 hover:to-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale border border-red-500/30 hover:border-red-500/50"
+              className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-yellow-600 text-white rounded-xl hover:from-red-700 hover:to-yellow-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale border border-red-500/30 hover:border-red-500/50"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">

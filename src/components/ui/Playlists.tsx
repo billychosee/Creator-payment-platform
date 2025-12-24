@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { UploadVideoForm } from "@/components/forms/UploadVideoForm";
 import {
   ArrowLeft,
   List as ListIcon,
@@ -36,6 +37,7 @@ export function Playlists({
     filterChannelId || "all"
   );
   const { theme } = useTheme();
+  const [showUpload, setShowUpload] = useState(false);
 
   // Playlist cover images
   const playlistCoverImages = [
@@ -121,7 +123,7 @@ export function Playlists({
             <div className="absolute bottom-0 left-0 right-0 p-12">
               <div className="flex items-end gap-8">
                 <div
-                  className="w-40 h-40 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-600/30 flex-shrink-0"
+                  className="w-40 h-40 bg-gradient-to-br from-red-600 to-yellow-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-red-600/30 flex-shrink-0"
                   style={{
                     transform: "scale(1)",
                     transition: "transform .45s cubic-bezier(.2,.8,.2,1)",
@@ -138,7 +140,7 @@ export function Playlists({
                     Playlist
                   </p> */}
                   <h1
-                    className="text-5xl mb-4"
+                    className="text-5xl mb-4 font-bold"
                     style={{ color: "var(--app-text)" }}
                   >
                     {selectedPlaylist.name}
@@ -201,7 +203,7 @@ export function Playlists({
                     >
                       {selectedPlaylist.channelName}
                     </span>
-                    <span className="flex items-center gap-1 text-purple-400">
+                    <span className="flex items-center gap-1 text-red-400">
                       <Play className="w-4 h-4" />
                       {selectedPlaylist.videoCount} videos
                     </span>
@@ -266,7 +268,8 @@ export function Playlists({
             </div>
             <Button
               variant="gradient"
-              className="rounded-2xl p-6 flex flex-col items-center justify-center gap-2 text-white shadow-lg shadow-purple-600/30"
+              className="rounded-2xl p-6 flex flex-col items-center justify-center gap-2 text-white shadow-lg shadow-red-600/30"
+              onClick={() => setShowUpload(true)}
             >
               <Plus className="w-8 h-8" />
               <span className="text-sm">Add Video</span>
@@ -281,7 +284,10 @@ export function Playlists({
               border: "1px solid var(--app-card-border)",
             }}
           >
-            <h2 className="text-2xl mb-6" style={{ color: "var(--app-text)" }}>
+            <h2
+              className="text-2xl mb-6 font-bold"
+              style={{ color: "var(--app-text)" }}
+            >
               Videos in this Playlist
             </h2>
             <div
@@ -295,6 +301,18 @@ export function Playlists({
               </p>
             </div>
           </div>
+          {showUpload && (
+            <UploadVideoForm
+              onClose={() => setShowUpload(false)}
+              onCreate={(data) => {
+                // increment local selected playlist video count
+                setSelectedPlaylist((prev) =>
+                  prev ? { ...prev, videoCount: prev.videoCount + 1 } : prev
+                );
+                setShowUpload(false);
+              }}
+            />
+          )}
         </div>
       </div>
     );
@@ -313,7 +331,10 @@ export function Playlists({
     >
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-4xl mb-2" style={{ color: "var(--app-text)" }}>
+          <h1
+            className="text-4xl mb-2 font-bold"
+            style={{ color: "var(--app-text)" }}
+          >
             Playlists
           </h1>
           <p style={{ color: "var(--app-text-muted)" }}>
@@ -327,7 +348,7 @@ export function Playlists({
 
           <div className="relative group">
             <Button
-              variant="glass"
+              variant="gradient"
               className="relative px-6 py-3 text-white font-medium"
             >
               <span className="relative z-10">
@@ -386,7 +407,7 @@ export function Playlists({
               onClick={() => setSelectedPlaylist(playlist)}
             >
               <div
-                className="relative overflow-hidden rounded-2xl hover:border-purple-500/50 transition-all duration-300 shadow-lg"
+                className="relative overflow-hidden rounded-2xl hover:border-red-500/50 transition-all duration-300 shadow-lg"
                 style={{
                   backgroundColor: "var(--app-card-bg)",
                   border: "1px solid var(--app-card-border)",
@@ -402,7 +423,7 @@ export function Playlists({
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-purple-600/80 rounded-full flex items-center justify-center backdrop-blur-sm group-hover:bg-purple-600 transition-colors shadow-xl">
+                    <div className="w-16 h-16 bg-red-600/80 rounded-full flex items-center justify-center backdrop-blur-sm group-hover:bg-red-600 transition-colors shadow-xl">
                       <ListIcon className="w-8 h-8 text-white" />
                     </div>
                   </div>
@@ -416,13 +437,13 @@ export function Playlists({
                   </div>
 
                   {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-red-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
                 {/* Info */}
                 <div className="p-6">
                   <h3
-                    className="text-xl mb-2 group-hover:text-purple-400 transition-colors line-clamp-1"
+                    className="text-xl mb-2 group-hover:text-green-400 transition-colors line-clamp-1 font-bold"
                     style={{ color: "var(--app-text)" }}
                   >
                     {playlist.name}
@@ -437,7 +458,7 @@ export function Playlists({
                     <span style={{ color: "var(--app-text-muted)" }}>
                       {playlist.channelName}
                     </span>
-                    <span className="flex items-center gap-1 text-purple-400">
+                    <span className="flex items-center gap-1 text-red-400">
                       <TrendingUp className="w-3 h-3" />
                       <span>+12.5%</span>
                     </span>

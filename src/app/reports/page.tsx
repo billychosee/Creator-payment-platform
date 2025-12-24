@@ -80,25 +80,25 @@ export default function ReportsPage() {
         return {
           color: "yellow",
           icon: Clock,
-          bg: "from-yellow-600/20 to-orange-600/20",
+          bg: "from-yellow-600/20 to-red-600/20",
           border: "border-yellow-500/20",
           text: "text-yellow-400",
           badge: "bg-yellow-500/10",
         };
       case "in_progress":
         return {
-          color: "blue",
+          color: "yellow",
           icon: AlertTriangle,
-          bg: "from-blue-600/20 to-cyan-600/20",
-          border: "border-blue-500/20",
-          text: "text-blue-400",
-          badge: "bg-blue-500/10",
+          bg: "from-yellow-600/20 to-red-600/20",
+          border: "border-yellow-500/20",
+          text: "text-yellow-400",
+          badge: "bg-yellow-500/10",
         };
       case "resolved":
         return {
           color: "green",
           icon: CheckCircle,
-          bg: "from-green-600/20 to-emerald-600/20",
+          bg: "from-green-600/20 to-yellow-600/20",
           border: "border-green-500/20",
           text: "text-green-400",
           badge: "bg-green-500/10",
@@ -107,8 +107,8 @@ export default function ReportsPage() {
         return {
           color: "gray",
           icon: XCircle,
-          bg: "from-gray-600/20 to-gray-700/20",
-          border: "border-gray-500/20",
+          bg: "from-red-600/20 to-yellow-600/20",
+          border: "border-red-500/20",
           text: "text-gray-400",
           badge: "bg-gray-500/10",
         };
@@ -143,7 +143,7 @@ export default function ReportsPage() {
                   <StatusIcon className={`w-10 h-10 ${config.text}`} />
                 </div>
                 <div className="flex-1">
-                  <h1 className="text-3xl text-foreground mb-3">
+                  <h1 className="text-3xl text-foreground mb-3 font-bold">
                     {selectedReport.title}
                   </h1>
                   <div
@@ -163,7 +163,7 @@ export default function ReportsPage() {
                 style={{ animationDelay: "0.1s" }}
               >
                 <p className="text-muted-foreground text-sm mb-2">Category</p>
-                <p className="text-xl text-foreground">
+                <p className="text-xl text-foreground font-bold">
                   {selectedReport.category}
                 </p>
               </div>
@@ -172,7 +172,7 @@ export default function ReportsPage() {
                 style={{ animationDelay: "0.2s" }}
               >
                 <p className="text-muted-foreground text-sm mb-2">Created</p>
-                <p className="text-xl text-foreground">
+                <p className="text-xl text-foreground font-bold">
                   {selectedReport.createdAt.toLocaleDateString()}
                 </p>
               </div>
@@ -181,7 +181,7 @@ export default function ReportsPage() {
                 style={{ animationDelay: "0.3s" }}
               >
                 <p className="text-muted-foreground text-sm mb-2">Resolved</p>
-                <p className="text-xl text-foreground">
+                <p className="text-xl text-foreground font-bold">
                   {selectedReport.resolvedAt
                     ? selectedReport.resolvedAt.toLocaleDateString()
                     : "Pending"}
@@ -195,7 +195,7 @@ export default function ReportsPage() {
                 className="bg-card border border-border rounded-2xl p-8 animate-fade-in"
                 style={{ animationDelay: "0.4s" }}
               >
-                <h2 className="text-xl mb-4">Description</h2>
+                <h2 className="text-xl mb-4 font-bold">Description</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {selectedReport.description}
                 </p>
@@ -205,21 +205,21 @@ export default function ReportsPage() {
                 className="bg-card border border-border rounded-2xl p-8 animate-fade-in"
                 style={{ animationDelay: "0.5s" }}
               >
-                <h2 className="text-xl mb-4">Moderation</h2>
-                <p className="text-muted-foreground">
+                <h2 className="text-xl mb-4 font-bold">Moderation</h2>
+                <p className="text-muted-foreground font-bold">
                   {selectedReport.moderation}
                 </p>
               </div>
 
               {selectedReport.resolutionNotes && (
                 <div
-                  className="bg-gradient-to-br from-green-600/10 to-emerald-600/10 border border-green-500/20 rounded-2xl p-8 animate-fade-in"
+                  className="bg-gradient-to-br from-green-600/10 to-yellow-600/10 border border-green-500/20 rounded-2xl p-8 animate-fade-in"
                   style={{ animationDelay: "0.6s" }}
                 >
-                  <h2 className="text-xl mb-4 text-green-400">
+                  <h2 className="text-xl mb-4 text-green-400 font-bold">
                     Resolution Notes
                   </h2>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground font-bold">
                     {selectedReport.resolutionNotes}
                   </p>
                 </div>
@@ -245,7 +245,7 @@ export default function ReportsPage() {
     <DashboardLayout>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-background text-foreground p-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-4xl mb-2">Reports & Moderation</h1>
+          <h1 className="text-4xl mb-2 font-bold">Reports & Moderation</h1>
           <p className="text-muted-foreground">
             Manage content reports and moderation issues
           </p>
@@ -254,29 +254,29 @@ export default function ReportsPage() {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-card border border-border rounded-2xl p-6 animate-fade-in">
-            <p className="text-muted-foreground text-sm mb-2">Total Reports</p>
-            <p className="text-3xl text-foreground">{reports.length}</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">Total Reports</p>
+            <p className="text-3xl text-foreground font-bold">{reports.length}</p>
           </div>
           <div
-            className="bg-gradient-to-br from-yellow-600/20 to-orange-600/20 border border-yellow-500/20 rounded-2xl p-6 animate-fade-in"
+            className="bg-gradient-to-br from-yellow-600/20 to-red-600/20 border border-yellow-500/20 rounded-2xl p-6 animate-fade-in"
             style={{ animationDelay: "0.1s" }}
           >
-            <p className="text-muted-foreground text-sm mb-2">Pending</p>
-            <p className="text-3xl text-yellow-400">{pendingCount}</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">Pending</p>
+            <p className="text-3xl text-yellow-400 font-bold">{pendingCount}</p>
           </div>
           <div
-            className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border border-blue-500/20 rounded-2xl p-6 animate-fade-in"
+            className="bg-gradient-to-br from-yellow-600/20 to-red-600/20 border border-yellow-500/20 rounded-2xl p-6 animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
-            <p className="text-muted-foreground text-sm mb-2">In Review</p>
-            <p className="text-3xl text-blue-400">{inReviewCount}</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">In Review</p>
+            <p className="text-3xl text-green-400 font-bold">{inReviewCount}</p>
           </div>
           <div
-            className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 border border-green-500/20 rounded-2xl p-6 animate-fade-in"
+            className="bg-gradient-to-br from-green-600/20 to-yellow-600/20 border border-green-500/20 rounded-2xl p-6 animate-fade-in"
             style={{ animationDelay: "0.3s" }}
           >
-            <p className="text-muted-foreground text-sm mb-2">Resolved</p>
-            <p className="text-3xl text-green-400">{resolvedCount}</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">Resolved</p>
+            <p className="text-3xl text-green-400 font-bold">{resolvedCount}</p>
           </div>
         </div>
 
@@ -303,20 +303,20 @@ export default function ReportsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between mb-2">
                       <h3
-                        className={`text-lg text-foreground group-hover:${config.text} transition-colors`}
+                        className={`text-lg text-foreground group-hover:${config.text} transition-colors font-bold`}
                       >
                         {report.title}
                       </h3>
                       <span
-                        className={`px-3 py-1 ${config.badge} ${config.text} rounded-full text-xs capitalize whitespace-nowrap`}
+                        className={`px-3 py-1 ${config.badge} ${config.text} rounded-full text-xs capitalize whitespace-nowrap font-bold`}
                       >
                         {report.reportStatus.replace("-", " ")}
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2 font-bold">
                       {report.description}
                     </p>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground font-bold">
                       <span>Category: {report.category}</span>
                       <span>•</span>
                       <span>

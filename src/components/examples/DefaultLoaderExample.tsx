@@ -98,8 +98,8 @@ const SkeletonLoadingExample = () => {
       {loading ? (
         <CardSkeleton />
       ) : content ? (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-blue-800">{content.message}</p>
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+          <p className="text-green-800">{content.message}</p>
         </div>
       ) : (
         <Button onClick={loadContent}>Load Content</Button>
@@ -353,9 +353,9 @@ const UserProfileComponent = ({
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">HOC Loading Example</h3>
       {user ? (
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-          <p className="text-purple-800">User: {user.username || user.email}</p>
-          <p className="text-purple-600">{user.tagline}</p>
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+          <p className="text-green-800">User: {user.username || user.email}</p>
+          <p className="text-green-600">{user.tagline}</p>
         </div>
       ) : (
         <Button onClick={loadUser}>Load User Profile</Button>
@@ -419,11 +419,11 @@ const DefaultLoaderExample = () => {
         <ActiveComponent />
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-lg font-semibold text-blue-900 mb-2">
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <h3 className="text-lg font-semibold text-green-900 mb-2">
           Integration Tips
         </h3>
-        <ul className="text-blue-800 space-y-1 text-sm">
+        <ul className="text-green-800 space-y-1 text-sm">
           <li>• Replace API calls with your actual backend endpoints</li>
           <li>
             • Customize loading text and variants to match your application

@@ -19,7 +19,11 @@ interface ResetPasswordFormProps {
   onSuccess?: () => void;
 }
 
-export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordFormProps) => {
+export const ResetPasswordForm = ({
+  email,
+  verified,
+  onSuccess,
+}: ResetPasswordFormProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +37,7 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -60,23 +64,26 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
     setErrors({});
-    
+
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Reset password
-      const response = await APIService.resetPassword(email, formData.newPassword);
-      
+      const response = await APIService.resetPassword(
+        email,
+        formData.newPassword
+      );
+
       if (response.success) {
         setIsSuccess(true);
         if (onSuccess) onSuccess();
-        
+
         // Redirect to login after a delay
         setTimeout(() => {
           router.push("/login");
@@ -99,7 +106,7 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
   // Check if user came from OTP verification
   if (!verified) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-yellow-50 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
@@ -107,23 +114,31 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
             </div>
             <CardTitle>Verification Required</CardTitle>
             <CardDescription>
-              Please verify your email address first before resetting your password.
+              Please verify your email address first before resetting your
+              password.
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-6 text-center">
             <p className="text-sm text-muted-foreground">
-              You need to complete the email verification process before you can reset your password.
+              You need to complete the email verification process before you can
+              reset your password.
             </p>
-            
+
             <div className="space-y-3">
               <Button
-                onClick={() => router.push(`/verify-otp?email=${encodeURIComponent(email)}&type=password-reset`)}
+                onClick={() =>
+                  router.push(
+                    `/verify-otp?email=${encodeURIComponent(
+                      email
+                    )}&type=password-reset`
+                  )
+                }
                 className="w-full"
               >
                 Verify Email First
               </Button>
-              
+
               <Button
                 variant="ghost"
                 onClick={handleBackToLogin}
@@ -145,10 +160,14 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
   // Show success message after password reset
   if (isSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-yellow-50 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
+            <img
+              src="/Tese-Icon.png"
+              alt="Tese Icon"
+              className="mx-auto mb-4 w-16 h-16"
+            />
             <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
               <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
@@ -157,17 +176,15 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
               Your password has been updated successfully.
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-6 text-center">
             <p className="text-sm text-muted-foreground">
-              You can now login with your new password. You'll be redirected to the login page shortly.
+              You can now login with your new password. You'll be redirected to
+              the login page shortly.
             </p>
-            
+
             <div className="space-y-3">
-              <Button
-                onClick={handleBackToLogin}
-                className="w-full"
-              >
+              <Button onClick={handleBackToLogin} className="w-full">
                 Continue to Login
               </Button>
             </div>
@@ -185,7 +202,11 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
+          <img
+            src="/Tese-Icon.png"
+            alt="Tese Icon"
+            className="mx-auto mb-4 w-16 h-16"
+          />
           <CardTitle>Reset Your Password</CardTitle>
           <CardDescription>
             Create a new password for your account:
@@ -193,7 +214,7 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
             <span className="font-medium text-foreground">{email}</span>
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
@@ -222,11 +243,7 @@ export const ResetPasswordForm = ({ email, verified, onSuccess }: ResetPasswordF
               <p className="text-sm text-destructive">{errors.submit}</p>
             )}
 
-            <Button
-              type="submit"
-              isLoading={isLoading}
-              className="w-full"
-            >
+            <Button type="submit" isLoading={isLoading} className="w-full">
               {isLoading ? (
                 <>
                   <Loader className="w-4 h-4 mr-2 animate-spin" />

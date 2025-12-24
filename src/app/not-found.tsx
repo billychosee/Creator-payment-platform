@@ -39,9 +39,9 @@ export default function NotFound() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-100">
+          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-green-100">
             <svg
-              className="h-6 w-6 text-blue-600"
+              className="h-6 w-6 text-green-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -67,7 +67,7 @@ export default function NotFound() {
           <div className="flex flex-col space-y-4">
             <Link
               href="/"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
             >
               Go back home
             </Link>

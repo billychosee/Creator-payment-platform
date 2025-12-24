@@ -19,7 +19,11 @@ interface ForgotPasswordOTPFormProps {
   onBack: () => void;
 }
 
-export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswordOTPFormProps) => {
+export const ForgotPasswordOTPForm = ({
+  email,
+  onSuccess,
+  onBack,
+}: ForgotPasswordOTPFormProps) => {
   const router = useRouter();
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +40,7 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (otp.length !== 6) {
       setError("Please enter a 6-digit verification code");
       return;
@@ -48,18 +52,22 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Verify OTP for password reset
       const response = await APIService.verifyForgotPasswordOTP(email, otp);
-      
+
       if (response.success) {
         setIsVerified(true);
         // Redirect to reset password page with email and verified flag
         setTimeout(() => {
-          router.push(`/reset-password?email=${encodeURIComponent(email)}&verified=true`);
+          router.push(
+            `/reset-password?email=${encodeURIComponent(email)}&verified=true`
+          );
         }, 1000);
       } else {
-        setError(response.error || "Invalid verification code. Please try again.");
+        setError(
+          response.error || "Invalid verification code. Please try again."
+        );
       }
     } catch (err) {
       console.error("OTP verification failed:", err);
@@ -72,14 +80,14 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
   const handleResendCode = async () => {
     setIsLoading(true);
     setError("");
-    
+
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Resend OTP
       const response = await APIService.initiateForgotPassword(email);
-      
+
       if (!response.success) {
         setError(response.error || "Failed to resend code. Please try again.");
       }
@@ -97,13 +105,18 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
+            <img
+              src="/Tese-Icon.png"
+              alt="Tese"
+              className="mx-auto mb-4 w-16 h-16"
+            />
             <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
               <Mail className="w-8 h-8 text-green-600" />
             </div>
             <CardTitle>Code Verified!</CardTitle>
             <CardDescription>
-              Your verification code has been confirmed. Redirecting you to create a new password...
+              Your verification code has been confirmed. Redirecting you to
+              create a new password...
             </CardDescription>
           </CardHeader>
         </Card>
@@ -115,9 +128,13 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <img src="/Tese-Icon.png" alt="Tese" className="mx-auto mb-4 w-16 h-16" />
-          <div className="mx-auto mb-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-            <Mail className="w-8 h-8 text-blue-600" />
+          <img
+            src="/Tese-Icon.png"
+            alt="Tese"
+            className="mx-auto mb-4 w-16 h-16"
+          />
+          <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+            <Mail className="w-8 h-8 text-green-600" />
           </div>
           <CardTitle>Verify Your Email</CardTitle>
           <CardDescription>
@@ -126,7 +143,7 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
             <span className="font-medium text-foreground">{email}</span>
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
@@ -148,9 +165,9 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
               )}
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full" 
+            <Button
+              type="submit"
+              className="w-full"
               disabled={otp.length !== 6 || isLoading}
             >
               {isLoading ? (
@@ -165,20 +182,16 @@ export const ForgotPasswordOTPForm = ({ email, onSuccess, onBack }: ForgotPasswo
           </form>
 
           <div className="space-y-3">
-            <Button 
-              variant="outline" 
-              className="w-full" 
+            <Button
+              variant="outline"
+              className="w-full"
               onClick={handleResendCode}
               disabled={isLoading}
             >
               {isLoading ? "Sending..." : "Resend Code"}
             </Button>
-            
-            <Button 
-              variant="ghost" 
-              className="w-full" 
-              onClick={onBack}
-            >
+
+            <Button variant="ghost" className="w-full" onClick={onBack}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Email Entry
             </Button>
