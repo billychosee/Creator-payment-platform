@@ -12,18 +12,20 @@ import {
   Clock,
   XCircle,
 } from "lucide-react";
-import { Report } from "@/types";
+import { AbuseReport } from "@/types";
 
-interface ReportsProps {
-  reports: Report[];
+interface AbuseReportsProps {
+  reports: AbuseReport[];
 }
 
-export default function ReportsPage() {
+export default function AbuseReportsPage() {
   const router = useRouter();
-  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [selectedReport, setSelectedReport] = useState<AbuseReport | null>(
+    null
+  );
 
   // Mock data for now
-  const [reports] = useState<Report[]>([
+  const [reports] = useState<AbuseReport[]>([
     {
       id: "1",
       userId: "user1",
@@ -74,7 +76,7 @@ export default function ReportsPage() {
     },
   ]);
 
-  const getStatusConfig = (status: Report["reportStatus"]) => {
+  const getStatusConfig = (status: AbuseReport["reportStatus"]) => {
     switch (status) {
       case "pending":
         return {
@@ -124,7 +126,7 @@ export default function ReportsPage() {
         <div className="min-h-screen bg-gradient-to-br from-background via-background to-background text-foreground p-8">
           <Button
             onClick={() => setSelectedReport(null)}
-            variant="ghost"
+            variant="gradient"
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -245,37 +247,49 @@ export default function ReportsPage() {
     <DashboardLayout>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-background text-foreground p-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-4xl mb-2 font-bold">Reports & Moderation</h1>
+          <h1 className="text-4xl mb-2 font-bold">
+            Abuse Reports & Moderation
+          </h1>
           <p className="text-muted-foreground">
-            Manage content reports and moderation issues
+            Manage abuse reports and content moderation issues
           </p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-card border border-border rounded-2xl p-6 animate-fade-in">
-            <p className="text-muted-foreground text-sm mb-2 font-bold">Total Reports</p>
-            <p className="text-3xl text-foreground font-bold">{reports.length}</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">
+              Total Reports
+            </p>
+            <p className="text-3xl text-foreground font-bold">
+              {reports.length}
+            </p>
           </div>
           <div
             className="bg-gradient-to-br from-yellow-600/20 to-red-600/20 border border-yellow-500/20 rounded-2xl p-6 animate-fade-in"
             style={{ animationDelay: "0.1s" }}
           >
-            <p className="text-muted-foreground text-sm mb-2 font-bold">Pending</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">
+              Pending
+            </p>
             <p className="text-3xl text-yellow-400 font-bold">{pendingCount}</p>
           </div>
           <div
             className="bg-gradient-to-br from-yellow-600/20 to-red-600/20 border border-yellow-500/20 rounded-2xl p-6 animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
-            <p className="text-muted-foreground text-sm mb-2 font-bold">In Review</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">
+              In Review
+            </p>
             <p className="text-3xl text-green-400 font-bold">{inReviewCount}</p>
           </div>
           <div
             className="bg-gradient-to-br from-green-600/20 to-yellow-600/20 border border-green-500/20 rounded-2xl p-6 animate-fade-in"
             style={{ animationDelay: "0.3s" }}
           >
-            <p className="text-muted-foreground text-sm mb-2 font-bold">Resolved</p>
+            <p className="text-muted-foreground text-sm mb-2 font-bold">
+              Resolved
+            </p>
             <p className="text-3xl text-green-400 font-bold">{resolvedCount}</p>
           </div>
         </div>

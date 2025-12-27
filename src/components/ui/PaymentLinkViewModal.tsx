@@ -125,7 +125,7 @@ export const PaymentLinkViewModal = ({
                 </p>
               </div>
               <Button
-                variant="outline"
+                variant="gradient"
                 size="sm"
                 onClick={() => copyToClipboard(paymentLink.shareUrl, "Share URL")}
                 className="px-3"

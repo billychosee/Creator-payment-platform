@@ -258,7 +258,7 @@ export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
               </Button>
 
               <Button
-                variant="outline"
+                variant="gradient"
                 onClick={handleResendOTP}
                 className="w-full"
               >

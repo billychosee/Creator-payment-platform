@@ -8,7 +8,13 @@ import { Button } from "@/components/ui/Button";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { PaymentLinkViewModal } from "@/components/ui/PaymentLinkViewModal";
 import { formatDateWithTime } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, Search, ExternalLink, Calendar } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Search,
+  ExternalLink,
+  Calendar,
+} from "lucide-react";
 
 interface PaymentLinksListProps {
   paymentLinks: PaymentLink[];
@@ -21,7 +27,9 @@ export const PaymentLinksList = ({
 }: PaymentLinksListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive" | "expired">("all");
+  const [filterStatus, setFilterStatus] = useState<
+    "all" | "active" | "inactive" | "expired"
+  >("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedPaymentLink, setSelectedPaymentLink] = useState<any>(null);
@@ -35,7 +43,8 @@ export const PaymentLinksList = ({
         link.reference.toLowerCase().includes(searchTerm.toLowerCase()) ||
         link.description.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesStatus = filterStatus === "all" || link.status === filterStatus;
+      const matchesStatus =
+        filterStatus === "all" || link.status === filterStatus;
 
       // Date filtering
       let matchesDateRange = true;
@@ -68,8 +77,10 @@ export const PaymentLinksList = ({
   );
 
   const statusColors = {
-    active: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-    inactive: "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400",
+    active:
+      "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+    inactive:
+      "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400",
     expired: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
   };
 
@@ -87,7 +98,7 @@ export const PaymentLinksList = ({
           <div>
             <CardTitle>Payment Links</CardTitle>
           </div>
-          
+
           {/* Search and Filters */}
           <div className="space-y-3">
             <div className="flex flex-col sm:flex-row gap-3">
@@ -110,17 +121,37 @@ export const PaymentLinksList = ({
                 }}
                 className="px-3 py-2 border border-border rounded-lg text-sm h-10 bg-background text-foreground dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
               >
-                <option value="all" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">All Status</option>
-                <option value="active" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">Active</option>
-                <option value="inactive" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">Inactive</option>
-                <option value="expired" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">Expired</option>
+                <option
+                  value="all"
+                  className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+                >
+                  All Status
+                </option>
+                <option
+                  value="active"
+                  className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+                >
+                  Active
+                </option>
+                <option
+                  value="inactive"
+                  className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+                >
+                  Inactive
+                </option>
+                <option
+                  value="expired"
+                  className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+                >
+                  Expired
+                </option>
               </select>
-              <Button variant="outline" size="sm">
+              <Button variant="gradient" size="sm">
                 <Search size={16} />
                 Export CSV
               </Button>
             </div>
-            
+
             {/* Date Filters */}
             <div className="flex flex-col sm:flex-row gap-3 items-end">
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -144,8 +175,8 @@ export const PaymentLinksList = ({
                 />
               </div>
               {hasActiveFilters && (
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="gradient"
                   size="sm"
                   onClick={clearDateFilters}
                   className="flex items-center gap-2 h-10"
@@ -158,7 +189,7 @@ export const PaymentLinksList = ({
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         {isLoading ? (
           <div className="space-y-3">
@@ -249,7 +280,7 @@ export const PaymentLinksList = ({
                         <td className="py-4 px-4 text-sm">
                           <div className="flex items-center gap-2">
                             <Button
-                              variant="outline"
+                              variant="gradient"
                               size="sm"
                               onClick={() => {
                                 setSelectedPaymentLink(link);
@@ -287,18 +318,18 @@ export const PaymentLinksList = ({
                 </p>
                 <div className="flex gap-2">
                   <Button
-                    variant="outline"
+                    variant="gradient"
                     size="sm"
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                   >
                     <ChevronLeft size={16} />
                   </Button>
-                  <Button variant="outline" size="sm" disabled>
+                  <Button variant="gradient" size="sm" disabled>
                     {currentPage} / {totalPages}
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="gradient"
                     size="sm"
                     onClick={() =>
                       setCurrentPage((p) => Math.min(totalPages, p + 1))

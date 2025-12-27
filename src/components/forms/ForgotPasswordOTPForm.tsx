@@ -183,7 +183,7 @@ export const ForgotPasswordOTPForm = ({
 
           <div className="space-y-3">
             <Button
-              variant="outline"
+              variant="gradient"
               className="w-full"
               onClick={handleResendCode}
               disabled={isLoading}
@@ -191,7 +191,7 @@ export const ForgotPasswordOTPForm = ({
               {isLoading ? "Sending..." : "Resend Code"}
             </Button>
 
-            <Button variant="ghost" className="w-full" onClick={onBack}>
+            <Button variant="gradient" className="w-full" onClick={onBack}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Email Entry
             </Button>

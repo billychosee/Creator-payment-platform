@@ -203,7 +203,7 @@ export const SignupForm = ({ onSkip }: SignupFormProps) => {
           <div className="flex gap-3 pt-4">
             {step > 1 && (
               <Button
-                variant="outline"
+                variant="gradient"
                 onClick={handlePrevious}
                 className="flex-1"
               >
@@ -226,7 +226,7 @@ export const SignupForm = ({ onSkip }: SignupFormProps) => {
           </div>
 
           {step === 1 && (
-            <Button variant="ghost" onClick={onSkip} className="w-full">
+            <Button variant="gradient" onClick={onSkip} className="w-full">
               I'll do it later
             </Button>
           )}

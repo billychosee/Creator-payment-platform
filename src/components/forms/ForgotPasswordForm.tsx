@@ -29,7 +29,7 @@ export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
     if (name === "email") {
       setEmail(value);
     }
-    
+
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -50,19 +50,19 @@ export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
     setErrors({});
-    
+
     try {
       // Import API service
       const APIService = await import("@/services/api");
-      
+
       // Initiate forgot password process
       const response = await APIService.initiateForgotPassword(email);
-      
+
       if (response.success) {
         setEmailSent(true);
         if (onSuccess) onSuccess();
@@ -87,7 +87,11 @@ export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
+            <img
+              src="/Tese-Icon.png"
+              alt="Tese Icon"
+              className="mx-auto mb-4 w-16 h-16"
+            />
             <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
               <Mail className="w-8 h-8 text-green-600" />
             </div>
@@ -98,38 +102,45 @@ export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
               <span className="font-medium text-foreground">{email}</span>
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Enter the 6-digit verification code from your email to reset your password.
-              If you don't see the email, check your spam folder.
+              Enter the 6-digit verification code from your email to reset your
+              password. If you don't see the email, check your spam folder.
             </p>
-            
+
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-sm text-green-800 font-medium">
-                <strong>Next Step:</strong> Copy the 6-digit code from your email and continue with the password reset process.
+                <strong>Next Step:</strong> Copy the 6-digit code from your
+                email and continue with the password reset process.
               </p>
             </div>
-            
+
             <div className="space-y-3">
               <Button
-                onClick={() => router.push(`/verify-otp?email=${encodeURIComponent(email)}&type=password-reset`)}
+                onClick={() =>
+                  router.push(
+                    `/verify-otp?email=${encodeURIComponent(
+                      email
+                    )}&type=password-reset`
+                  )
+                }
                 className="w-full"
               >
                 Enter Verification Code
               </Button>
-              
+
               <Button
-                variant="outline"
+                variant="gradient"
                 onClick={() => setEmailSent(false)}
                 className="w-full"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Send to Different Email
               </Button>
-              
+
               <Button
-                variant="ghost"
+                variant="gradient"
                 onClick={handleBackToLogin}
                 className="w-full"
               >
@@ -150,13 +161,18 @@ export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <img src="/Tese-Icon.png" alt="Tese Icon" className="mx-auto mb-4 w-16 h-16" />
+          <img
+            src="/Tese-Icon.png"
+            alt="Tese Icon"
+            className="mx-auto mb-4 w-16 h-16"
+          />
           <CardTitle>Forgot Password?</CardTitle>
           <CardDescription>
-            No worries! Enter your email address and we'll send you a verification code to reset your password.
+            No worries! Enter your email address and we'll send you a
+            verification code to reset your password.
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
@@ -174,11 +190,7 @@ export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
               <p className="text-sm text-destructive">{errors.submit}</p>
             )}
 
-            <Button
-              type="submit"
-              isLoading={isLoading}
-              className="w-full"
-            >
+            <Button type="submit" isLoading={isLoading} className="w-full">
               {isLoading ? (
                 <>
                   <Loader className="w-4 h-4 mr-2 animate-spin" />
@@ -195,7 +207,7 @@ export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
 
           <div className="space-y-3">
             <Button
-              variant="ghost"
+              variant="gradient"
               onClick={handleBackToLogin}
               className="w-full"
             >

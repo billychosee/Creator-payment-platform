@@ -20,6 +20,9 @@ import {
   XCircle,
 } from "lucide-react";
 import { UploadVideoForm } from "@/components/forms/UploadVideoForm";
+import { Comment } from "@/components/ui/Comment";
+import { CommentForm } from "@/components/ui/CommentForm";
+import { LikesList } from "@/components/ui/LikesList";
 
 interface VideosProps {
   videos: Video[];
@@ -40,6 +43,8 @@ export default function VideosPage() {
   >("active");
   const { theme } = useTheme();
   const [showUpload, setShowUpload] = useState(false);
+  const [commentLikes, setCommentLikes] = useState<Record<string, boolean>>({});
+  const [videoLikes, setVideoLikes] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     loadVideos();
@@ -73,6 +78,52 @@ export default function VideosPage() {
           status: "active",
           createdAt: new Date("2024-01-15"),
           updatedAt: new Date("2024-01-16"),
+          comments: [
+            {
+              id: "c1",
+              videoId: "1",
+              userId: "user1",
+              username: "CodeMaster",
+              profileImage: "/placeholder-avatar.png",
+              content:
+                "Great tutorial! Really helped me understand React hooks better.",
+              likes: 15,
+              createdAt: new Date("2024-01-16"),
+              updatedAt: new Date("2024-01-16"),
+            },
+            {
+              id: "c2",
+              videoId: "1",
+              userId: "user2",
+              username: "WebDevPro",
+              profileImage: "/placeholder-avatar.png",
+              content:
+                "The examples were very clear. Can you do a follow-up on state management?",
+              likes: 8,
+              createdAt: new Date("2024-01-17"),
+              updatedAt: new Date("2024-01-17"),
+            },
+          ],
+          likes: [
+            {
+              id: "l1",
+              videoId: "1",
+              userId: "user1",
+              createdAt: new Date("2024-01-16"),
+            },
+            {
+              id: "l2",
+              videoId: "1",
+              userId: "user2",
+              createdAt: new Date("2024-01-17"),
+            },
+            {
+              id: "l3",
+              videoId: "1",
+              userId: "user3",
+              createdAt: new Date("2024-01-18"),
+            },
+          ],
         },
         {
           id: "2",
@@ -89,6 +140,33 @@ export default function VideosPage() {
           status: "active",
           createdAt: new Date("2024-01-10"),
           updatedAt: new Date("2024-01-11"),
+          comments: [
+            {
+              id: "c3",
+              videoId: "2",
+              userId: "user4",
+              username: "JSNinja",
+              profileImage: "/placeholder-avatar.png",
+              content: "Closure explanation was spot on!",
+              likes: 22,
+              createdAt: new Date("2024-01-12"),
+              updatedAt: new Date("2024-01-12"),
+            },
+          ],
+          likes: [
+            {
+              id: "l4",
+              videoId: "2",
+              userId: "user4",
+              createdAt: new Date("2024-01-12"),
+            },
+            {
+              id: "l5",
+              videoId: "2",
+              userId: "user5",
+              createdAt: new Date("2024-01-13"),
+            },
+          ],
         },
         {
           id: "3",
@@ -105,6 +183,8 @@ export default function VideosPage() {
           status: "abuseReported",
           createdAt: new Date("2024-01-05"),
           updatedAt: new Date("2024-01-06"),
+          comments: [],
+          likes: [],
         },
       ];
       setVideos(mockVideos);
@@ -191,45 +271,173 @@ export default function VideosPage() {
       "https://images.unsplash.com/photo-1636226570637-3fbda7ca09dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
     ];
     const thumbnailUrl = videoThumbnails[videoIndex % videoThumbnails.length];
+    
+    // Channel cover images
+    const channelCoverImages = [
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+      "https://images.unsplash.com/photo-1523800503107-5bc3ba2a6f81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+      "https://images.unsplash.com/photo-1559526324-593bc073d938?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+    ];
+    
+    const channelIndex = channels.findIndex(c => c.id === selectedVideo.channelId);
+    const channelCoverUrl = channelCoverImages[channelIndex % channelCoverImages.length];
+
+    // Handlers for comments and likes
+    const handleCommentSubmit = (content: string) => {
+      const newComment = {
+        id: `c${Date.now()}`,
+        videoId: selectedVideo.id,
+        userId: `user${Math.floor(Math.random() * 1000)}`,
+        username: `User${Math.floor(Math.random() * 1000)}`,
+        profileImage: "/placeholder-avatar.png",
+        content,
+        likes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      setVideos((prevVideos) =>
+        prevVideos.map((video) =>
+          video.id === selectedVideo.id
+            ? { ...video, comments: [...(video.comments || []), newComment] }
+            : video
+        )
+      );
+    };
+
+    const handleReplySubmit = (commentId: string, content: string) => {
+      const newReply = {
+        id: `r${Date.now()}`,
+        videoId: selectedVideo.id,
+        userId: `user${Math.floor(Math.random() * 1000)}`,
+        username: `User${Math.floor(Math.random() * 1000)}`,
+        profileImage: "/placeholder-avatar.png",
+        content,
+        likes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      setVideos((prevVideos) =>
+        prevVideos.map((video) =>
+          video.id === selectedVideo.id
+            ? {
+                ...video,
+                comments: video.comments?.map((comment) =>
+                  comment.id === commentId
+                    ? {
+                        ...comment,
+                        replies: [...(comment.replies || []), newReply],
+                      }
+                    : comment
+                ) || [],
+              }
+            : video
+        )
+      );
+    };
+
+    const handleCommentLike = (commentId: string) => {
+      setCommentLikes((prev) => ({
+        ...prev,
+        [commentId]: !prev[commentId],
+      }));
+
+      // Update comment likes count
+      setVideos((prevVideos) =>
+        prevVideos.map((video) =>
+          video.id === selectedVideo.id
+            ? {
+                ...video,
+                comments:
+                  video.comments?.map((comment) =>
+                    comment.id === commentId
+                      ? {
+                          ...comment,
+                          likes:
+                            comment.likes + (commentLikes[commentId] ? -1 : 1),
+                        }
+                      : comment
+                  ) || [],
+              }
+            : video
+        )
+      );
+    };
+
+    const handleVideoLike = () => {
+      const isLiked = videoLikes[selectedVideo.id];
+      const newLike = {
+        id: `l${Date.now()}`,
+        videoId: selectedVideo.id,
+        userId: `user${Math.floor(Math.random() * 1000)}`,
+        createdAt: new Date(),
+      };
+
+      setVideoLikes((prev) => ({
+        ...prev,
+        [selectedVideo.id]: !isLiked,
+      }));
+
+      setVideos((prevVideos) =>
+        prevVideos.map((video) =>
+          video.id === selectedVideo.id
+            ? {
+                ...video,
+                likes: isLiked
+                  ? video.likes?.filter(
+                      (like) => like.userId !== newLike.userId
+                    ) || []
+                  : [...(video.likes || []), newLike],
+              }
+            : video
+        )
+      );
+    };
 
     return (
       <DashboardLayout>
         <div
-          className="min-h-screen p-8 transition-colors duration-300"
+          className="min-h-screen transition-colors duration-300"
           style={{
             background:
               theme === "dark"
                 ? "linear-gradient(to bottom right, #0a0a0a, #0f0f0f, #0a0a0a)"
-                : "linear-gradient(to bottom right, #f5f5f7, #ffffff, #f5f5f7)",
+                : "linear-gradient(to bottom right, #f8fafc, #ffffff, #f1f5f9)",
             color: "var(--app-text)",
           }}
         >
+          <div className="p-8">
           <Button
             onClick={() => setSelectedVideo(null)}
-            variant="ghost"
+            variant="gradient"
             className="flex items-center gap-2 mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Videos</span>
           </Button>
 
+          </div>
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Video Player Area */}
-              <div className="lg:col-span-2">
+              {/* Main Content Area */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Video Player Area */}
                 <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-6 group shadow-2xl backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20">
                   <ImageWithFallback
                     src={thumbnailUrl}
                     alt={selectedVideo.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/40" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-white/90 to-white/70 rounded-full flex items-center justify-center cursor-pointer shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 border border-white/40 backdrop-blur-xl hover:bg-gradient-to-br hover:from-white/100 hover:to-white/90">
-                      <Play className="w-10 h-10 text-white fill-white ml-1" />
+                    <div className="w-20 h-20 bg-gradient-to-br from-white/95 to-white/80 rounded-full flex items-center justify-center cursor-pointer shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 border border-white/50 backdrop-blur-xl hover:bg-gradient-to-br hover:from-white/100 hover:to-white/95">
+                      <Play className="w-10 h-10 text-gray-900 fill-gray-900 ml-1" />
                     </div>
                   </div>
-                  <div className="absolute bottom-4 right-4 bg-black/90 px-3 py-1 rounded-lg text-sm text-white">
+                  <div className="absolute bottom-4 right-4 bg-gradient-to-br from-gray-900/90 to-gray-800/90 px-3 py-1 rounded-lg text-sm text-white border border-gray-700/50">
                     {Math.floor(Math.random() * 30 + 5)}:
                     {Math.floor(Math.random() * 60)
                       .toString()
@@ -285,38 +493,171 @@ export default function VideosPage() {
                   })()}
                 </div>
 
-                {/* Channel Info */}
+                {/* Channel Backdrop - YouTube Style */}
                 <div
-                  className="flex items-center gap-4 p-6 rounded-xl"
+                  className="relative rounded-xl overflow-hidden mb-6 shadow-2xl"
                   style={{
                     backgroundColor: "var(--app-card-bg)",
                     border: "1px solid var(--app-card-border)",
                   }}
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-yellow-600 rounded-full flex items-center justify-center text-xl text-white">
-                    {selectedVideo.channelName[0]}
+                  {/* Channel Cover Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <ImageWithFallback
+                      src={channelCoverUrl}
+                      alt={`${selectedVideo.channelName} cover`}
+                      className="w-full h-full object-cover"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          theme === "dark"
+                            ? "linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 50%, rgba(10,10,10,0.4) 100%)"
+                            : "linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.4) 100%)",
+                      }}
+                    />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="mb-1 font-bold" style={{ color: "var(--app-text)" }}>
-                      {selectedVideo.channelName}
-                    </h3>
-                    <p
-                      className="text-sm"
-                      style={{ color: "var(--app-text-muted)" }}
+
+                  {/* Channel Info Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="flex items-end gap-6">
+                      {/* Channel Avatar */}
+                      <div className="w-20 h-20 bg-gradient-to-br from-red-600 to-yellow-600 rounded-full flex items-center justify-center shadow-2xl shadow-red-600/30 border-4 border-white/20">
+                        <span className="text-2xl font-bold text-white">
+                          {selectedVideo.channelName[0]}
+                        </span>
+                      </div>
+
+                      {/* Channel Details */}
+                      <div className="flex-1 pb-2">
+                        <h3
+                          className="text-2xl mb-1 font-bold"
+                          style={{ color: "var(--app-text)" }}
+                        >
+                          {selectedVideo.channelName}
+                        </h3>
+                        <p
+                          className="text-sm mb-2"
+                          style={{ color: "var(--app-text-muted)" }}
+                        >
+                          {channels.find(c => c.id === selectedVideo.channelId)?.description || "Technology tutorials"}
+                        </p>
+                        <div className="flex items-center gap-4 text-sm">
+                          <span style={{ color: "var(--app-text)" }}>
+                            {channels.find(c => c.id === selectedVideo.channelId)?.subscribers.toLocaleString() || "50,000"} subscribers
+                          </span>
+                          <span style={{ color: "var(--app-text-muted)" }}>•</span>
+                          <span style={{ color: "var(--app-text)" }}>
+                            Playlist: {selectedVideo.playlistName || "N/A"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Comments Section */}
+                <div
+                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/8 border border-white/30 shadow-xl"
+                  style={{
+                    backgroundColor: "var(--app-card-bg)",
+                    border: "1px solid var(--app-card-border)",
+                    boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                  }}
+                >
+                  <h3
+                    className="text-lg mb-4"
+                    style={{ color: "var(--app-text)" }}
+                  >
+                    Comments ({selectedVideo.comments?.length || 0})
+                  </h3>
+
+                  {/* Comment Form */}
+                  <CommentForm onSubmit={handleCommentSubmit} />
+
+                  {/* Comments List */}
+                  <div className="mt-6 space-y-4">
+                    {selectedVideo.comments &&
+                    selectedVideo.comments.length > 0 ? (
+                      selectedVideo.comments.map((comment) => (
+                        <Comment
+                          key={comment.id}
+                          comment={comment}
+                          onLike={handleCommentLike}
+                          isLiked={commentLikes[comment.id] || false}
+                          onReply={handleReplySubmit}
+                        />
+                      ))
+                    ) : (
+                      <div
+                        className="text-center py-8"
+                        style={{ color: "var(--app-text-muted)" }}
+                      >
+                        No comments yet. Be the first to comment!
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Likes Section */}
+                <div
+                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/8 border border-white/30 shadow-xl"
+                  style={{
+                    backgroundColor: "var(--app-card-bg)",
+                    border: "1px solid var(--app-card-border)",
+                    boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h3
+                      className="text-lg"
+                      style={{ color: "var(--app-text)" }}
                     >
-                      Playlist: {selectedVideo.playlistName}
-                    </p>
+                      Likes ({selectedVideo.likes?.length || 0})
+                    </h3>
+                    <button
+                      onClick={handleVideoLike}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                        videoLikes[selectedVideo.id]
+                          ? "bg-red-500/20 text-red-400 border border-red-500/50"
+                          : "bg-gradient-to-br from-white/10 to-white/5 text-white border border-white/40 hover:bg-white/20"
+                      }`}
+                    >
+                      <span className="w-4 h-4">
+                        {videoLikes[selectedVideo.id] ? (
+                          <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                          </svg>
+                        ) : (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                          </svg>
+                        )}
+                      </span>
+                      <span>
+                        {videoLikes[selectedVideo.id] ? "Liked" : "Like"}
+                      </span>
+                    </button>
                   </div>
+
+                  <LikesList likes={selectedVideo.likes || []} />
                 </div>
               </div>
 
               {/* Stats Sidebar */}
               <div className="space-y-6">
                 <div
-                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 shadow-xl"
+                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/8 border border-white/30 shadow-xl"
                   style={{
                     backgroundColor: "var(--app-card-bg)",
                     border: "1px solid var(--app-card-border)",
+                    boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                   }}
                 >
                   <h3
@@ -352,10 +693,11 @@ export default function VideosPage() {
                 </div>
 
                 <div
-                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 shadow-xl"
+                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/8 border border-white/30 shadow-xl"
                   style={{
                     backgroundColor: "var(--app-card-bg)",
                     border: "1px solid var(--app-card-border)",
+                    boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                   }}
                 >
                   <h3
@@ -376,10 +718,11 @@ export default function VideosPage() {
                 </div>
 
                 <div
-                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 shadow-xl"
+                  className="rounded-xl p-6 backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/8 border border-white/30 shadow-xl"
                   style={{
                     backgroundColor: "var(--app-card-bg)",
                     border: "1px solid var(--app-card-border)",
+                    boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                   }}
                 >
                   <h3

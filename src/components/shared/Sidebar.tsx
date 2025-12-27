@@ -41,7 +41,7 @@ export const Sidebar = () => {
     { id: "playlists", label: "Playlists", icon: List, href: "/playlists" },
     { id: "videos", label: "Videos", icon: Play, href: "/videos" },
     { id: "payments", label: "Payments", icon: Wallet, href: "/payments" },
-    { id: "reports", label: "Reports", icon: AlertTriangle, href: "/reports" },
+    { id: "abuse-reports", label: "Abuse Reports", icon: AlertTriangle, href: "/reports" },
     { id: "settings", label: "Settings", icon: Settings, href: "/settings" },
   ];
 

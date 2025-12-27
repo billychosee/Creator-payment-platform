@@ -18,14 +18,14 @@ export const zimbabweColors = {
     primary:
       "bg-gradient-to-r from-green-600 to-yellow-500 hover:from-green-700 hover:to-yellow-600",
     secondary:
-      "bg-gradient-to-r from-red-600 to-yellow-500 hover:from-red-700 hover:to-yellow-600",
+      "bg-gradient-to-r from-yellow-600 to-green-500 hover:from-yellow-700 hover:to-green-600",
     accent:
-      "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
+      "bg-gradient-to-r from-green-600 to-yellow-500 hover:from-green-700 hover:to-yellow-600",
     outline:
       "border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white",
     ghost: "text-green-600 hover:bg-green-50",
     premium:
-      "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700",
+      "bg-gradient-to-r from-yellow-600 to-green-500 hover:from-yellow-700 hover:to-green-600",
   },
 
   semantic: {

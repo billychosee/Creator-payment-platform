@@ -84,12 +84,32 @@ export const TransactionTable = ({
               }}
               className="px-3 py-2 border border-border rounded-lg text-sm bg-background text-foreground dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 h-10"
             >
-              <option value="all" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">All Types</option>
-              <option value="donation" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">Donation</option>
-              <option value="payment_link" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">Payment Link</option>
-              <option value="payment_request" className="bg-background text-foreground dark:bg-gray-800 dark:text-white">Payment Request</option>
+              <option
+                value="all"
+                className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+              >
+                All Types
+              </option>
+              <option
+                value="donation"
+                className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+              >
+                Donation
+              </option>
+              <option
+                value="payment_link"
+                className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+              >
+                Payment Link
+              </option>
+              <option
+                value="payment_request"
+                className="bg-background text-foreground dark:bg-gray-800 dark:text-white"
+              >
+                Payment Request
+              </option>
             </select>
-            <Button variant="outline" size="sm">
+            <Button variant="gradient" size="sm">
               <Search size={16} />
               Export CSV
             </Button>
@@ -204,18 +224,18 @@ export const TransactionTable = ({
                 </p>
                 <div className="flex gap-2">
                   <Button
-                    variant="outline"
+                    variant="gradient"
                     size="sm"
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                   >
                     <ChevronLeft size={16} />
                   </Button>
-                  <Button variant="outline" size="sm" disabled>
+                  <Button variant="gradient" size="sm" disabled>
                     {currentPage} / {totalPages}
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="gradient"
                     size="sm"
                     onClick={() =>
                       setCurrentPage((p) => Math.min(totalPages, p + 1))
@@ -233,4 +253,3 @@ export const TransactionTable = ({
     </Card>
   );
 };
-

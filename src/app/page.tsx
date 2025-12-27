@@ -4,7 +4,7 @@ import { ArrowRight, Zap, Users, BarChart3 } from "lucide-react";
 
 export default function Home() {
   const currentYear = new Date().getFullYear();
-  
+
   return (
     <div className="min-h-screen bg-background">
       <nav className="border-b border-border bg-card/50 backdrop-blur">
@@ -14,10 +14,10 @@ export default function Home() {
           </div>
           <div className="flex gap-3">
             <Link href="/login">
-              <Button variant="outline">Login</Button>
+              <Button variant="gradient">Login</Button>
             </Link>
             <Link href="/signup">
-              <Button variant="primary">Get Started</Button>
+              <Button variant="gradient">Get Started</Button>
             </Link>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function Home() {
               Start Free <ArrowRight size={20} />
             </Button>
           </Link>
-          <Button variant="outline" size="lg">
+          <Button variant="gradient" size="lg">
             View Demo
           </Button>
         </div>
@@ -80,7 +80,9 @@ export default function Home() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
                   <Icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {feature.title}
+                </h3>
                 <p className="text-muted-foreground">{feature.description}</p>
               </div>
             );
@@ -89,7 +91,9 @@ export default function Home() {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center space-y-6">
-        <h2 className="text-3xl font-bold text-foreground">Ready to get paid?</h2>
+        <h2 className="text-3xl font-bold text-foreground">
+          Ready to get paid?
+        </h2>
         <p className="text-lg text-muted-foreground">
           Join hundreds of creators monetizing their influence
         </p>
@@ -108,4 +112,3 @@ export default function Home() {
     </div>
   );
 }
-

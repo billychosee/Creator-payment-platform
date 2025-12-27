@@ -12,7 +12,7 @@ export default function Home() {
             <img src="/Tese-Logo.svg" alt="Tese" className="h-14" />
           </div>
           <div className="flex gap-3">
-            <Button variant="outline">Login</Button>
+            <Button variant="gradient">Login</Button>
             <Link href="/signup">
               <Button>Get Started</Button>
             </Link>
@@ -37,7 +37,7 @@ export default function Home() {
               Start Free <ArrowRight size={20} />
             </Button>
           </Link>
-          <Button variant="outline" size="lg">
+          <Button variant="gradient" size="lg">
             View Demo
           </Button>
         </div>
@@ -107,4 +107,3 @@ export default function Home() {
     </div>
   );
 }
-

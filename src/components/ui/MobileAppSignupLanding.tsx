@@ -57,7 +57,7 @@ export const MobileAppSignupLanding = () => {
           {/* Back to Login */}
           <div className="space-y-3">
             <Button
-              variant="outline"
+              variant="gradient"
               onClick={() => router.push("/login")}
               className="w-full"
             >

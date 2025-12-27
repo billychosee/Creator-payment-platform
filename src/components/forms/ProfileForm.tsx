@@ -182,7 +182,7 @@ export const ProfileForm = ({ onSuccess }: ProfileFormProps) => {
                 className="hidden"
               />
               <Button
-                variant="outline"
+                variant="gradient"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploadingImage}
                 className="gap-2"

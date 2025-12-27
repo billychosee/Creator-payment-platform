@@ -45,7 +45,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       premium: `${buttons.premium} text-white active:scale-95 shadow-lg hover:shadow-xl`,
       destructive: `bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white active:scale-95 shadow-lg hover:shadow-xl`,
       glass: `backdrop-blur-sm border border-white/20 bg-gradient-to-br from-white/10 to-white/5 text-white hover:border-white/40 hover:shadow-xl hover:shadow-white/20 active:scale-95`,
-      gradient: `bg-gradient-to-br from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white active:scale-95 shadow-lg hover:shadow-xl`,
+      gradient: `bg-gradient-to-br from-green-600 to-yellow-600 hover:from-green-700 hover:to-yellow-700 text-white active:scale-95 shadow-lg hover:shadow-xl`,
     };
 
     const sizes = {

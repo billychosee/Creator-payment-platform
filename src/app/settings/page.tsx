@@ -233,7 +233,7 @@ export default function SettingsPage() {
                         </CardTitle>
                         <Button
                           onClick={() => setIsEditingProfile(true)}
-                          variant="outline"
+                          variant="gradient"
                           className="gap-2"
                         >
                           <User size={16} />
@@ -317,7 +317,7 @@ export default function SettingsPage() {
                         </CardTitle>
                         <Button
                           onClick={() => setIsEditingProfile(false)}
-                          variant="outline"
+                          variant="gradient"
                           className="gap-2"
                         >
                           <Eye size={16} />
@@ -344,7 +344,7 @@ export default function SettingsPage() {
                             />
                             <Button
                               onClick={() => fileInputRef.current?.click()}
-                              variant="primary"
+                              variant="gradient"
                               className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full"
                               type="button"
                             >
@@ -360,7 +360,7 @@ export default function SettingsPage() {
                               className="hidden"
                             />
                             <Button
-                              variant="outline"
+                              variant="gradient"
                               onClick={() => fileInputRef.current?.click()}
                               className="gap-2"
                             >
@@ -429,7 +429,7 @@ export default function SettingsPage() {
                         </Button>
                         <Button
                           onClick={() => setIsEditingProfile(false)}
-                          variant="outline"
+                          variant="gradient"
                           className="flex-1"
                         >
                           Cancel
@@ -449,7 +449,7 @@ export default function SettingsPage() {
                     <p className="text-sm text-muted-foreground">
                       Permanently delete your account and all associated data.
                     </p>
-                    <Button variant="destructive">Delete Account</Button>
+                    <Button variant="gradient">Delete Account</Button>
                   </CardContent>
                 </Card>
               </div>
@@ -658,7 +658,7 @@ export default function SettingsPage() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Add an extra layer of security to your account
                     </p>
-                    <Button variant="outline" className="w-full">
+                    <Button variant="gradient" className="w-full">
                       Enable 2FA
                     </Button>
                   </div>
@@ -742,7 +742,7 @@ export default function SettingsPage() {
                               </div>
                             </div>
                             <Button
-                              variant="outline"
+                              variant="gradient"
                               size="sm"
                               onClick={removeDocument}
                             >
@@ -784,7 +784,7 @@ export default function SettingsPage() {
                         <p className="text-sm text-muted-foreground mb-4">
                           Drag and drop your document here, or click to browse
                         </p>
-                        <Button variant="outline" type="button">
+                        <Button variant="gradient" type="button">
                           Choose File
                         </Button>
                       </div>

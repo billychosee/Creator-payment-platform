@@ -130,7 +130,11 @@ export default function PaymentsPage() {
   );
 }
 
-function PaymentLinksContent({ setShowPaymentLinkModal }: { setShowPaymentLinkModal: (show: boolean) => void }) {
+function PaymentLinksContent({
+  setShowPaymentLinkModal,
+}: {
+  setShowPaymentLinkModal: (show: boolean) => void;
+}) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
@@ -167,7 +171,6 @@ function PaymentLinksContent({ setShowPaymentLinkModal }: { setShowPaymentLinkMo
     },
   ];
 
-
   return (
     <div className="space-y-6">
       {/* Hero Section */}
@@ -191,7 +194,7 @@ function PaymentLinksContent({ setShowPaymentLinkModal }: { setShowPaymentLinkMo
               Create Now
             </Button>
             <Button
-              variant="outline"
+              variant="gradient"
               className="flex-1 gap-2"
               onClick={() => router.push("/payments/payment-request")}
             >
@@ -236,7 +239,7 @@ function PaymentLinksContent({ setShowPaymentLinkModal }: { setShowPaymentLinkMo
               </select>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" className="gap-2">
+              <Button variant="gradient" className="gap-2">
                 <Download size={16} />
                 Export CSV
               </Button>
@@ -257,7 +260,9 @@ function PaymentLinksContent({ setShowPaymentLinkModal }: { setShowPaymentLinkMo
                 placeholder="Start Date"
                 className="flex-1"
               />
-              <span className="text-muted-foreground whitespace-nowrap">to</span>
+              <span className="text-muted-foreground whitespace-nowrap">
+                to
+              </span>
               <Input
                 type="date"
                 value={endDate}
@@ -315,11 +320,7 @@ function PaymentLinksContent({ setShowPaymentLinkModal }: { setShowPaymentLinkMo
                     </td>
                     <td className="py-4 px-4">
                       <div className="relative group">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="gap-2"
-                        >
+                        <Button variant="gradient" size="sm" className="gap-2">
                           <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
                           <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
                           <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
@@ -327,21 +328,21 @@ function PaymentLinksContent({ setShowPaymentLinkModal }: { setShowPaymentLinkMo
                         <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                           <div className="py-2">
                             <button
-                              onClick={() => router.push(`/payments/payment-link?link=${link.id}`)}
+                              onClick={() =>
+                                router.push(
+                                  `/payments/payment-link?link=${link.id}`
+                                )
+                              }
                               className="w-full px-4 py-2 text-left hover:bg-muted/50 text-sm flex items-center gap-2"
                             >
                               <Eye size={14} />
                               View
                             </button>
-                            <button
-                              className="w-full px-4 py-2 text-left hover:bg-muted/50 text-sm flex items-center gap-2"
-                            >
+                            <button className="w-full px-4 py-2 text-left hover:bg-muted/50 text-sm flex items-center gap-2">
                               <Edit size={14} />
                               Edit
                             </button>
-                            <button
-                              className="w-full px-4 py-2 text-left hover:bg-muted/50 text-sm flex items-center gap-2 text-red-600"
-                            >
+                            <button className="w-full px-4 py-2 text-left hover:bg-muted/50 text-sm flex items-center gap-2 text-red-600">
                               <Trash2 size={14} />
                               Delete
                             </button>

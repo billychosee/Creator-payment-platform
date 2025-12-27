@@ -32,17 +32,20 @@ export default function ProfilePage() {
 
   const handleEditSuccess = () => {
     setIsEditing(false);
-    setProfileRefreshKey(prev => prev + 1);
+    setProfileRefreshKey((prev) => prev + 1);
   };
 
   const handleShareProfile = () => {
     if (currentUser) {
       const shareUrl = `${window.location.origin}/creator/${currentUser.username}`;
-      navigator.clipboard.writeText(shareUrl).then(() => {
-        alert("Profile link copied to clipboard!");
-      }).catch(() => {
-        alert(`Profile URL: ${shareUrl}`);
-      });
+      navigator.clipboard
+        .writeText(shareUrl)
+        .then(() => {
+          alert("Profile link copied to clipboard!");
+        })
+        .catch(() => {
+          alert(`Profile URL: ${shareUrl}`);
+        });
     }
   };
 
@@ -74,7 +77,7 @@ export default function ProfilePage() {
           {!isEditing && (
             <Button
               onClick={() => setIsEditing(true)}
-              variant="outline"
+              variant="gradient"
               className="px-6"
             >
               Edit Profile
@@ -90,11 +93,14 @@ export default function ProfilePage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-6">
                     <img
-                      src={currentUser.profileImage || "/placeholder-avatar.png"}
+                      src={
+                        currentUser.profileImage || "/placeholder-avatar.png"
+                      }
                       alt="Profile"
                       className="w-24 h-24 rounded-full object-cover border-2 border-border"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/placeholder-avatar.png";
+                        (e.target as HTMLImageElement).src =
+                          "/placeholder-avatar.png";
                       }}
                     />
                     <div className="flex-1">
@@ -108,7 +114,7 @@ export default function ProfilePage() {
                       )}
                       {!currentUser.tagline && currentUser.bio && (
                         <p className="text-muted-foreground text-lg">
-                          {currentUser.bio.split(' ').slice(0, 3).join(' ')}
+                          {currentUser.bio.split(" ").slice(0, 3).join(" ")}
                         </p>
                       )}
                     </div>
@@ -120,77 +126,94 @@ export default function ProfilePage() {
                     <p className="text-sm font-medium text-muted-foreground mb-3">
                       About
                     </p>
-                    <p className="text-foreground leading-relaxed">{currentUser.bio}</p>
+                    <p className="text-foreground leading-relaxed">
+                      {currentUser.bio}
+                    </p>
                   </div>
                 )}
 
-                {currentUser.socialLinks && Object.keys(currentUser.socialLinks).length > 0 && (
-                  <div className="pt-6 border-t border-border">
-                    <p className="text-sm font-medium text-muted-foreground mb-4">
-                      Social Links
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {Object.entries(currentUser.socialLinks).map(
-                        ([platform, handle]) => {
-                          if (!handle) return null;
-                          
-                          let url = "";
-                          let displayHandle = handle;
-                          
-                          if (handle.startsWith("http")) {
-                            url = handle;
-                          } else {
-                            // Generate appropriate URLs for different platforms
-                            switch (platform.toLowerCase()) {
-                              case "twitter":
-                                url = `https://twitter.com/${handle.replace("@", "")}`;
-                                break;
-                              case "instagram":
-                                url = `https://instagram.com/${handle.replace("@", "")}`;
-                                break;
-                              case "tiktok":
-                                url = `https://tiktok.com/${handle.replace("@", "")}`;
-                                break;
-                              case "youtube":
-                                url = `https://youtube.com/${handle}`;
-                                break;
-                              case "twitch":
-                                url = `https://twitch.tv/${handle}`;
-                                break;
-                              case "linkedin":
-                                url = `https://linkedin.com/in/${handle}`;
-                                break;
-                              default:
-                                url = handle;
+                {currentUser.socialLinks &&
+                  Object.keys(currentUser.socialLinks).length > 0 && (
+                    <div className="pt-6 border-t border-border">
+                      <p className="text-sm font-medium text-muted-foreground mb-4">
+                        Social Links
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {Object.entries(currentUser.socialLinks).map(
+                          ([platform, handle]) => {
+                            if (!handle) return null;
+
+                            let url = "";
+                            let displayHandle = handle;
+
+                            if (handle.startsWith("http")) {
+                              url = handle;
+                            } else {
+                              // Generate appropriate URLs for different platforms
+                              switch (platform.toLowerCase()) {
+                                case "twitter":
+                                  url = `https://twitter.com/${handle.replace(
+                                    "@",
+                                    ""
+                                  )}`;
+                                  break;
+                                case "instagram":
+                                  url = `https://instagram.com/${handle.replace(
+                                    "@",
+                                    ""
+                                  )}`;
+                                  break;
+                                case "tiktok":
+                                  url = `https://tiktok.com/${handle.replace(
+                                    "@",
+                                    ""
+                                  )}`;
+                                  break;
+                                case "youtube":
+                                  url = `https://youtube.com/${handle}`;
+                                  break;
+                                case "twitch":
+                                  url = `https://twitch.tv/${handle}`;
+                                  break;
+                                case "linkedin":
+                                  url = `https://linkedin.com/in/${handle}`;
+                                  break;
+                                default:
+                                  url = handle;
+                              }
                             }
+
+                            return (
+                              <a
+                                key={platform}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors group"
+                              >
+                                <span className="font-medium capitalize">
+                                  {platform}
+                                </span>
+                                <span className="text-muted-foreground group-hover:text-foreground">
+                                  {displayHandle}
+                                </span>
+                                <ExternalLink
+                                  size={14}
+                                  className="ml-auto text-muted-foreground group-hover:text-foreground"
+                                />
+                              </a>
+                            );
                           }
-                          
-                          return (
-                            <a
-                              key={platform}
-                              href={url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors group"
-                            >
-                              <span className="font-medium capitalize">{platform}</span>
-                              <span className="text-muted-foreground group-hover:text-foreground">
-                                {displayHandle}
-                              </span>
-                              <ExternalLink size={14} className="ml-auto text-muted-foreground group-hover:text-foreground" />
-                            </a>
-                          );
-                        }
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 <div className="pt-6 border-t border-border">
                   <Button
                     onClick={handleShareProfile}
                     className="w-full"
-                    variant="secondary"
+                    variant="gradient"
                   >
                     Share Profile
                   </Button>
@@ -205,7 +228,9 @@ export default function ProfilePage() {
                   Creator ID
                 </p>
                 <div className="bg-secondary/30 p-4 rounded-lg">
-                  <p className="font-mono text-sm break-all">{currentUser.id}</p>
+                  <p className="font-mono text-sm break-all">
+                    {currentUser.id}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -214,10 +239,7 @@ export default function ProfilePage() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Edit Profile</h2>
-              <Button
-                variant="outline"
-                onClick={() => setIsEditing(false)}
-              >
+              <Button variant="gradient" onClick={() => setIsEditing(false)}>
                 Cancel
               </Button>
             </div>
@@ -228,4 +250,3 @@ export default function ProfilePage() {
     </DashboardLayout>
   );
 }
-

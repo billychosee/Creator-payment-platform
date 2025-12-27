@@ -140,7 +140,7 @@ export const ResetPasswordForm = ({
               </Button>
 
               <Button
-                variant="ghost"
+                variant="gradient"
                 onClick={handleBackToLogin}
                 className="w-full"
               >
@@ -257,7 +257,7 @@ export const ResetPasswordForm = ({
 
           <div className="space-y-3">
             <Button
-              variant="ghost"
+              variant="gradient"
               onClick={handleBackToLogin}
               className="w-full"
             >

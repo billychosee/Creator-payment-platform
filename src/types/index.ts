@@ -123,6 +123,8 @@ export interface Video {
   status: "active" | "abuseReported" | "blocked";
   createdAt: Date;
   updatedAt: Date;
+  comments?: Comment[];
+  likes?: VideoLike[];
 }
 
 export interface TopViewedVideo {
@@ -148,7 +150,7 @@ export interface Payment {
   createdAt: Date;
 }
 
-export interface Report {
+export interface AbuseReport {
   id: string;
   userId: string;
   title: string;
@@ -192,6 +194,7 @@ export interface Comment {
   likes: number;
   createdAt: Date;
   updatedAt: Date;
+  replies?: Comment[];
 }
 
 export interface VideoLike {
